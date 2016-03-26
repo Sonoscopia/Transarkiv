@@ -22,7 +22,7 @@ function Player(x_, y_) {
   this.fileName = filenames[this.fileNumber];
   //carregar o som - -  aqui devia dar para utilizar uma função callback para mostrar quando está a carregar
 
-  this.sound = loadSound('sounds/' + filenames[this.fileNumber]);
+  this.sound = loadSound(path + filenames[this.fileNumber]);
   this.amp = new p5.Amplitude();
   this.amp.setInput(this.sound);
   this.level = 0;

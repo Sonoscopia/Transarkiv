@@ -26,7 +26,7 @@ function Fader(x_, y_, v_) {
     }
   }
   
-  this.getValue(){
+  this.getValue = function(){
     return(this.value);
   }
 
