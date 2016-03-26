@@ -15,13 +15,16 @@ function Player(x_, y_) {
   this.next_y = this.y + this.size / 2;
   this.next_size = 20;
   //sinal loading
-  this.loading_x = this.x - this.size/2;
-  this.loading_y = this.y - this.size/2;
+  this.loading_x = this.x - this.size / 2;
+  this.loading_y = this.y - this.size / 2;
 
   this.fileNumber = 0;
   this.fileName = filenames[this.fileNumber];
   //carregar o som - -  aqui devia dar para utilizar uma função callback para mostrar quando está a carregar
-  this.sound = loadSound('sounds/'+ filenames[this.fileNumber]);
+  this.sound = loadSound('sounds/' + filenames[this.fileNumber]);
+  this.amp = new p5.Amplitude();
+  this.amp.setInput(this.sound);
+  this.level = 0;
 
   println('Player ready');
 
@@ -29,21 +32,24 @@ function Player(x_, y_) {
     //botão next random file
     fill(222, 222, 222);
     ellipse(this.x + this.size / 2, this.y + this.size / 2, this.next_size, this.next_size);
-    
+
     //botão principal
     if (this.playing) {
       fill(this.color_playing);
     } else {
       fill(this.color_stopped);
     }
-    ellipse(this.x, this.y, this.size, this.size);
-    
+    //Amplitude
+    this.level = this.amp.getLevel();
+    this.level = this.level * 50;
+    ellipse(this.x, this.y, this.size + this.level, this.size + this.level);
+
     //nome do ficheiro
     fill(166, 166, 166);
-    text(this.fileName, this.x + this.size/2 + 15, this.y + this.size/2+ 5);
+    text(this.fileName, this.x + this.size / 2 + 15, this.y + this.size / 2 + 5);
     //print('-- isLoaded: '+ this.sound.isLoaded + ' - - - ');
     this.loaded = this.sound.isLoaded;
-    
+
     //sinal loading
     if (this.loaded) {
       fill(33, 255, 55, 155);
@@ -52,7 +58,7 @@ function Player(x_, y_) {
       fill(255);
       ellipse(this.loading_x, this.loading_y, 20, 20);
     }
-    
+
   }
 
 
@@ -68,7 +74,7 @@ function Player(x_, y_) {
         this.sound.play();
       }
     }
-    
+
     //detetar clique no botão next random
     d = int(dist(this.next_x, this.next_y, mouseX, mouseY));
     if (d < this.next_size) {
@@ -82,8 +88,8 @@ function Player(x_, y_) {
     this.fileNumber = int(random(filenames.length));
     this.fileName = filenames[this.fileNumber];
     this.sound = loadSound(path + filenames[this.fileNumber]);
-    
-    print(this.fileNumber +': ' + filenames[this.fileNumber]);
+    this.amp.setInput(this.sound);
+    print(this.fileNumber + ': ' + filenames[this.fileNumber]);
     //print(this.loaded);
   }
 
