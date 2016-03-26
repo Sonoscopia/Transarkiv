@@ -18,6 +18,7 @@ function Player(x_, y_) {
   //sinal loading
   this.loading_x = this.x - this.size / 2;
   this.loading_y = this.y - this.size / 2;
+  
 
   // SoundFile - loadSound() Callbacks 
   this.fileSuccess = function() {
@@ -37,11 +38,11 @@ function Player(x_, y_) {
   this.fileName = filenames[this.fileNumber];
   //carregar o som - -  aqui devia dar para utilizar uma função callback para mostrar quando está a carregar
   this.sound = loadSound('sounds/' + filenames[this.fileNumber], this.fileLoading(), this.fileError(), this.fileSuccess());
+  
   this.amp = new p5.Amplitude();
   this.amp.setInput(this.sound);
   this.level = 0;
-  this.loading_x = this.x - this.size / 2;
-  this.loading_y = this.y - this.size / 2;
+  
 
   println('Player ready');
 
@@ -110,7 +111,7 @@ function Player(x_, y_) {
     this.loaded = false;
     this.fileNumber = int(random(filenames.length));
     this.fileName = filenames[this.fileNumber];
-    this.sound = loadSound(path + filenames[this.fileNumber], this.fileLoading(), this.fileError(), this.fileSuccess());
+    this.sound = loadSound('sounds/' + filenames[this.fileNumber], this.fileLoading(), this.fileError(), this.fileSuccess());
     this.amp.setInput(this.sound);
     print(this.fileNumber + ': ' + filenames[this.fileNumber]);
     //print(this.loaded);
