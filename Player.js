@@ -6,7 +6,7 @@ function Player(x_, y_) {
   this.size = 80;
   this.playing = false; //
   this.loaded = false;
-  this.enablePlay = false; 
+  this.enablePlay = false;
 
   this.color_stopped = color(200, 199, 199, 111);
   this.color_loading = color(222, 211, 55, 222);
@@ -20,15 +20,15 @@ function Player(x_, y_) {
   this.loading_y = this.y - this.size / 2;
 
   // SoundFile - loadSound() Callbacks 
-  this.fileSuccess = function(){
+  this.fileSuccess = function() {
     this.enablePlay = true;
     println("success");
   }
-  this.fileError = function(){
-    this.enablePlay = false; 
+  this.fileError = function() {
+    this.enablePlay = false;
     println("error");
   }
-  this.fileLoading = function(){
+  this.fileLoading = function() {
     this.enablePlay = false;
     println("loading...");
   }
@@ -36,12 +36,12 @@ function Player(x_, y_) {
   this.fileNumber = 0;
   this.fileName = filenames[this.fileNumber];
   //carregar o som - -  aqui devia dar para utilizar uma função callback para mostrar quando está a carregar
-  this.sound = loadSound('sounds/'+ filenames[this.fileNumber], this.fileLoading(), this.fileError(), this.fileSuccess());
+  this.sound = loadSound('sounds/' + filenames[this.fileNumber], this.fileLoading(), this.fileError(), this.fileSuccess());
   this.amp = new p5.Amplitude();
   this.amp.setInput(this.sound);
   this.level = 0;
-  this.loading_x = this.x - this.size/2;
-  this.loading_y = this.y - this.size/2;
+  this.loading_x = this.x - this.size / 2;
+  this.loading_y = this.y - this.size / 2;
 
   println('Player ready');
 
@@ -90,7 +90,7 @@ function Player(x_, y_) {
         this.playing = true;
         this.sound.play();
       }
-      
+
       println("loaded " + this.loaded);
     }
 
@@ -103,7 +103,10 @@ function Player(x_, y_) {
   }
 
   this.selectRandom = function() {
-    this.sound.stop();
+    if (this.playing) {
+      this.sound.stop();
+    }
+    this.playing = false;
     this.loaded = false;
     this.fileNumber = int(random(filenames.length));
     this.fileName = filenames[this.fileNumber];
@@ -112,5 +115,5 @@ function Player(x_, y_) {
     print(this.fileNumber + ': ' + filenames[this.fileNumber]);
     //print(this.loaded);
   }
-  
+
 }
