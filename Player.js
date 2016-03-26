@@ -48,7 +48,7 @@ function Player(x_, y_) {
     fill(166, 166, 166);
     text(this.fileName, this.x + this.size / 2 + 15, this.y + this.size / 2 + 5);
     //print('-- isLoaded: '+ this.sound.isLoaded + ' - - - ');
-    this.loaded = this.sound.isLoaded;
+    this.loaded = this.sound.isLoaded();
 
     //sinal loading
     if (this.loaded) {
