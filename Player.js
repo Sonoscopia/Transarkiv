@@ -82,7 +82,7 @@ function Player(x_, y_) {
   this.clicked = function() {
     //detetar clique no botão principal
     var d = int(dist(this.x, this.y, mouseX, mouseY));
-    if (d < this.size / 2 && this.enablePlay == true) {
+    if (d < this.size / 2 && this.enablePlay === true) {
       if (this.playing) {
         this.playing = false;
         this.sound.stop();
