@@ -52,8 +52,8 @@ function Player(x_, y_) {
 
     //sinal loading
     if (this.loaded) {
-      fill(33, 255, 55, 155);
-      ellipse(20, 20, 20, 20);
+      fill(33, 255, 55, 55);
+      ellipse(this.loading_x, this.loading_y, 20, 20);
     } else {
       fill(255);
       ellipse(this.loading_x, this.loading_y, 20, 20);
