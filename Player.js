@@ -84,6 +84,7 @@ function Player(x_, y_) {
   }
 
   this.selectRandom = function() {
+    this.sound.stop();
     this.loaded = false;
     this.fileNumber = int(random(filenames.length));
     this.fileName = filenames[this.fileNumber];
