@@ -1,8 +1,11 @@
 
 var filenames = [];
-var player1;
+var player1, player2;
 var som;
-var path = 'sounds/';
+var vol = 1;
+var masterFader;
+var waveform, spectrum, fft;
+var fft;
 
 function preload(){
   fileNames(); // array filenames[] (precisa de ser iniciado em preload)
@@ -13,7 +16,8 @@ function setup() {
   
   player1 = new Player(150, 150); //novo player
   player2 = new Player(350, 170); //novo player
-  //print(path);
+  //masterFader = new Fader(200, 200, 1);
+  fft = new p5.FFT();
   
 }
 
@@ -22,6 +26,12 @@ function draw() {
 
   player1.display();
   player2.display();
+  displaySpectrum();
+  displayWave();
+  //masterFader.display();
+  
+  //vol = masterFader.getValue();
+  //masterVolume(vol);
   
 }
 
@@ -29,3 +39,46 @@ function mousePressed(){
   player1.clicked();
   player2.clicked();
 }
+
+function detectMouse(_x, _y, _w, _h) {
+    if (mouseX > _x && mouseX < _x + _w && mouseY > _y && mouseY < _y + _h) {
+      return true;
+    } else return false;
+  }
+
+function displayWave() {
+    wave_init_x = 20;
+    wave_init_y = 20;
+    wave_size = [200, 80];
+    wavecolor = color(200, 255, 11);
+    
+    waveform = fft.waveform();
+    //print(waveform);
+    noFill();
+    beginShape();
+    stroke(wavecolor);
+    strokeWeight(1);
+    for (var i = 0; i < waveform.length; i++) {
+      var wave_x = map(i, 0, waveform.length, wave_init_x, wave_init_x + wave_size[0]);
+      var wave_y = map(waveform[i], -1, 1, wave_init_y, wave_init_y + wave_size[1]);
+      vertex(wave_x, wave_y);
+    }
+    endShape();
+  }
+
+  function displaySpectrum() {
+    spectrum = fft.analyze();
+    spectrum_init_x = 20;
+    spectrum_init_y = 20;
+    spectrum_size = [200, 80];
+    //noStroke();
+    //stroke(this.spectrumcolor); // spectrum is green
+    for (var i = 0; i < spectrum.length; i++) {
+      var spectrum_x = map(i, 0, spectrum.length, 0, spectrum_size[0]);
+      spectrum_x += spectrum_init_x;
+      var spectrum_h = map(-spectrum[i], 0, 255, 0, spectrum_size[1]);
+      spectrum_h += spectrum_init_y + spectrum_size[1];
+      stroke(spectrum[i]);
+      line(spectrum_x, spectrum_init_y + spectrum_size[1], spectrum_x, spectrum_h);
+    }
+  }
