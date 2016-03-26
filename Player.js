@@ -5,9 +5,7 @@ function Player(x_, y_) {
   this.y = y_;
   this.size = 80;
   this.playing = false; //
-  this.loaded = false;
-  this.enablePlay = false;
-
+  
   this.color_stopped = color(200, 199, 199, 111);
   this.color_loading = color(222, 211, 55, 222);
   this.color_playing = color(111, 211, 55, 222);
@@ -19,30 +17,16 @@ function Player(x_, y_) {
   this.loading_x = this.x - this.size / 2;
   this.loading_y = this.y - this.size / 2;
 
-  // SoundFile - loadSound() Callbacks 
-  this.fileSuccess = function() {
-    this.enablePlay = true;
-    println("success");
-  }
-  this.fileError = function() {
-    this.enablePlay = false;
-    println("error");
-  }
-  this.fileLoading = function() {
-    this.enablePlay = false;
-    println("loading...");
-  }
-
   this.fileNumber = 0;
   this.fileName = filenames[this.fileNumber];
   //carregar o som - -  aqui devia dar para utilizar uma função callback para mostrar quando está a carregar
-  this.sound = loadSound('sounds/' + filenames[this.fileNumber], this.fileLoading(), this.fileError(), this.fileSuccess());
+  this.sound = loadSound('sounds/' + filenames[this.fileNumber]);
   this.amp = new p5.Amplitude();
   this.amp.setInput(this.sound);
   this.level = 0;
   this.loading_x = this.x - this.size / 2;
   this.loading_y = this.y - this.size / 2;
-
+  
   println('Player ready');
 
   this.display = function() {
@@ -65,10 +49,10 @@ function Player(x_, y_) {
     fill(166, 166, 166);
     text(this.fileName, this.x + this.size / 2 + 15, this.y + this.size / 2 + 5);
     //print('-- isLoaded: '+ this.sound.isLoaded + ' - - - ');
-    this.loaded = this.sound.isLoaded();
+    
 
     //sinal loading
-    if (this.loaded) {
+    if (this.sound.isLoaded()) {
       fill(33, 255, 55, 55);
       ellipse(this.loading_x, this.loading_y, 20, 20);
     } else {
@@ -82,7 +66,7 @@ function Player(x_, y_) {
   this.clicked = function() {
     //detetar clique no botão principal
     var d = int(dist(this.x, this.y, mouseX, mouseY));
-    if (d < this.size / 2 && this.enablePlay === true) {
+    if (d < this.size / 2 && this.sound.isLoaded()) {
       if (this.playing) {
         this.playing = false;
         this.sound.stop();
@@ -90,8 +74,6 @@ function Player(x_, y_) {
         this.playing = true;
         this.sound.play();
       }
-
-      println("loaded " + this.loaded);
     }
 
     //detetar clique no botão next random
@@ -107,13 +89,10 @@ function Player(x_, y_) {
       this.sound.stop();
     }
     this.playing = false;
-    this.loaded = false;
     this.fileNumber = int(random(filenames.length));
     this.fileName = filenames[this.fileNumber];
-    this.sound = loadSound(path + filenames[this.fileNumber], this.fileLoading(), this.fileError(), this.fileSuccess());
+    this.sound = loadSound(path + filenames[this.fileNumber]);
     this.amp.setInput(this.sound);
     print(this.fileNumber + ': ' + filenames[this.fileNumber]);
-    //print(this.loaded);
   }
-
 }
