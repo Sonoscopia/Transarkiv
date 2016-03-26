@@ -2,7 +2,7 @@
 var filenames = [];
 var player1;
 var som;
-var path = 'sounds/';
+var path = 'https://github.com/Sonoscopia/Transarkiv/tree/master/sounds/';
 
 function preload(){
   fileNames(); // array filenames[] (precisa de ser iniciado em preload)
