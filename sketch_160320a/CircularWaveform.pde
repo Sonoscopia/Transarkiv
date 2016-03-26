@@ -8,6 +8,13 @@ class CircularWaveform{
   int var1 = 100; 
   int var2 = 100;
   
+  
+  
+  
+  
+  
+  
+  
   // CONSTRUCTOR
   CircularWaveform(String file, int bufsize){
     
