@@ -12,7 +12,7 @@ function setup() {
   createCanvas(800, 400);
   
   player1 = new Player(150, 150); //novo player
-  player2 = new Player(250, 170); //novo player
+  player2 = new Player(350, 170); //novo player
   //print(path);
   
 }
