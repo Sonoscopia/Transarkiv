@@ -52,7 +52,7 @@ function Player(x_, y_) {
     ellipse(this.x + this.size / 2, this.y + this.size / 2, this.next_size, this.next_size);
 
     //botão principal
-    if (this.playing) {
+    if (this.sound.isPlaying()){//this.playing) {
       fill(this.color_playing);
     } else {
       fill(this.color_stopped);
@@ -83,12 +83,12 @@ function Player(x_, y_) {
   this.clicked = function() {
     //detetar clique no botão principal
     var d = int(dist(this.x, this.y, mouseX, mouseY));
-    if (d < this.size / 2 && this.enablePlay == true) {
-      if (this.playing) {
-        this.playing = false;
+    if (d < this.size / 2 && this.enablePlay === true) {
+      if (this.sound.isPlaying()) {
+        //this.playing = false;
         this.sound.stop();
       } else {
-        this.playing = true;
+        //this.playing = true;
         this.sound.play();
       }
 
@@ -104,10 +104,10 @@ function Player(x_, y_) {
   }
 
   this.selectRandom = function() {
-    if (this.playing) {
+    if (this.sound.isPlaying()) {
       this.sound.stop();
     }
-    this.playing = false;
+    //this.playing = false;
     this.loaded = false;
     this.fileNumber = int(random(filenames.length));
     this.fileName = filenames[this.fileNumber];
