@@ -12,7 +12,7 @@ function preload() {
 
 function setup() {
   var canvas = createCanvas(900, 400);
-  canvas.parent(p5canvas);
+  canvas.parent("p5canvas");
 
   player1 = new Player(150, 150); //novo player
   player2 = new Player(350, 170); //novo player
