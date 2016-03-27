@@ -13,7 +13,8 @@ function preload(){
 }
 
 function setup() {
-  createCanvas(800, 400);
+  var canvas = createCanvas(900, 400);
+  canvas.parent(p5canvas);
   
   player1 = new Player(150, 150); //novo player
   player2 = new Player(350, 170); //novo player
@@ -48,9 +49,11 @@ function detectMouse(_x, _y, _w, _h) {
   }
 
 function displayWave() {
-    wave_init_x = 20;
-    wave_init_y = 20;
-    wave_size = [200, 80];
+  wave_size = [400, 80];
+    wave_init_x = width/2-wave_size[0]/2;
+    wave_init_y = height-100;
+    
+    
     wavecolor = color(200, 255, 11);
     
     waveform = fft.waveform();
@@ -69,17 +72,18 @@ function displayWave() {
 
   function displaySpectrum() {
     spectrum = fft.analyze();
-    spectrum_init_x = 20;
-    spectrum_init_y = 20;
-    spectrum_size = [200, 80];
-    //noStroke();
-    //stroke(this.spectrumcolor); // spectrum is green
+    spectrum_size = [400, 100];
+    spectrum_init_x = width/2-spectrum_size[0]/2;
+    spectrum_init_y = height-100;
+    
+    
     for (var i = 0; i < spectrum.length; i++) {
-      var spectrum_x = map(i, 0, spectrum.length, 0, spectrum_size[0]);
+      var spectrum_x = map(i, 0, spectrum.length, 0, spectrum_size[0]+100);
       spectrum_x += spectrum_init_x;
       var spectrum_h = map(-spectrum[i], 0, 255, 0, spectrum_size[1]);
       spectrum_h += spectrum_init_y + spectrum_size[1];
       stroke(spectrum[i]);
       line(spectrum_x, spectrum_init_y + spectrum_size[1], spectrum_x, spectrum_h);
+
     }
   }
