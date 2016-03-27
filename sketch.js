@@ -5,6 +5,7 @@ var vol = 1;
 //var masterFader;
 var waveform, spectrum, fft;
 var fft;
+var path = 'sounds/';
 
 function preload() {
   fileNames(); // array filenames[] (precisa de ser iniciado em preload)
