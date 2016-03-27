@@ -1,18 +1,5 @@
 
 body {
-<<<<<<< HEAD
-    background-color: lightblue;
-}
-
-h1 {
-    color: navy;
-    margin-left: 100px;
-}
-
-#phonoplayer {
-  margin-left: 30px;
-  
-=======
     background-color: black;
 }
 
@@ -25,6 +12,5 @@ h1 {
  #p5canvas {
   text-align:center;
 
->>>>>>> Rui
 }
 
