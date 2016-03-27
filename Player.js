@@ -68,15 +68,11 @@ function Player(x_, y_) {
   this.clicked = function() {
     //detetar clique no botão principal
     var d = int(dist(this.x, this.y, mouseX, mouseY));
-<<<<<<< HEAD
-    if (d < this.size / 2 && this.sound.isLoaded()) {
-      if (this.playing) {
-        this.playing = false;
-=======
+
     if (d < this.size / 2 && this.enablePlay === true) {
       if (this.sound.isPlaying()) {
         //this.playing = false;
->>>>>>> Rui
+
         this.sound.stop();
       } else {
         //this.playing = true;
@@ -96,12 +92,9 @@ function Player(x_, y_) {
     if (this.sound.isPlaying()) {
       this.sound.stop();
     }
-<<<<<<< HEAD
-    this.playing = false;
-=======
-    //this.playing = false;
+
     this.loaded = false;
->>>>>>> Rui
+
     this.fileNumber = int(random(filenames.length));
     this.fileName = filenames[this.fileNumber];
 
