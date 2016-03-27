@@ -5,7 +5,10 @@ function Player(x_, y_) {
   this.y = y_;
   this.size = 80;
   this.playing = false; //
-  
+
+  this.loaded = false;
+  this.enablePlay = false;
+ 
   this.color_stopped = color(200, 199, 199, 111);
   this.color_loading = color(222, 211, 55, 222);
   this.color_playing = color(111, 211, 55, 222);
