@@ -15,8 +15,8 @@ function setup() {
   var canvas = createCanvas(900, 400);
   canvas.parent("p5canvas");
 
-  player1 = new Player(150, 150); //novo player
-  player2 = new Player(350, 170); //novo player
+  player1 = new Player(200, 150); //novo player
+  player2 = new Player(550, 170); //novo player
   //masterFader = new Fader(200, 200, 1);
   fft = new p5.FFT();
 
@@ -24,7 +24,7 @@ function setup() {
 
 function draw() {
   background(55);
-
+  noStroke();
   player1.display();
   player2.display();
   displaySpectrum();
