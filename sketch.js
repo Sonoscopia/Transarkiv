@@ -77,14 +77,12 @@ function displaySpectrum() {
   var spectrum_init_x = width / 2 - spectrum_size[0] / 2;
   var spectrum_init_y = height - 100;
 
-
-  for (var i = 0; i < spectrum.length; i++) {
-    var spectrum_x = map(i, 0, spectrum.length, 0, spectrum_size[0] + 100);
+  for (var i = 0; i < spectrum.length/2; i++) {
+    var spectrum_x = map(i, 0, spectrum.length/2, 0, spectrum_size[0]);
     spectrum_x += spectrum_init_x;
     var spectrum_h = map(-spectrum[i], 0, 255, 0, spectrum_size[1]);
     spectrum_h += spectrum_init_y + spectrum_size[1];
     stroke(spectrum[i]);
     line(spectrum_x, spectrum_init_y + spectrum_size[1], spectrum_x, spectrum_h);
-
   }
 }
