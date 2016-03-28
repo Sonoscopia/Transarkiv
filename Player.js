@@ -7,8 +7,8 @@ function Player(x_, y_) {
   this.playing = false; //
 
   this.color_stopped = color(200, 199, 199, 111);
-  this.color_loading = color(222, 211, 55, 222);
-  this.color_playing = color(111, 211, 55, 222);
+  this.color_loading = color(33, 33, 33, 222);
+  this.color_playing = color(233, 233, 233, 222);
   //botão next random file
   this.next_x = this.x + this.size / 2;
   this.next_y = this.y + this.size / 2;
@@ -55,11 +55,11 @@ function Player(x_, y_) {
 
     //sinal loading
     if (this.sound.isLoaded()) {
-      fill(33, 255, 55, 55);
-      ellipse(this.loading_x, this.loading_y, 20, 20);
+      //fill(33, 255, 55, 55);
+      //ellipse(this.x, this.loading_y, 20, 20);
     } else {
-      fill(255);
-      ellipse(this.loading_x, this.loading_y, 20, 20);
+      fill(this.color_loading);
+      ellipse(this.x, this.y, this.size, this.size);
     }
 
   }
@@ -71,11 +71,8 @@ function Player(x_, y_) {
 
     if (d < this.size / 2 && this.sound.isLoaded()) {
       if (this.sound.isPlaying()) {
-        //this.playing = false;
-
         this.sound.stop();
       } else {
-        //this.playing = true;
         this.sound.play();
       }
     }
