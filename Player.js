@@ -6,9 +6,6 @@ function Player(x_, y_) {
   this.size = 80;
   this.playing = false; //
 
-  this.loaded = false;
-  this.enablePlay = false;
- 
   this.color_stopped = color(200, 199, 199, 111);
   this.color_loading = color(222, 211, 55, 222);
   this.color_playing = color(111, 211, 55, 222);
@@ -72,7 +69,7 @@ function Player(x_, y_) {
     //detetar clique no botão principal
     var d = int(dist(this.x, this.y, mouseX, mouseY));
 
-    if (d < this.size / 2 && this.enablePlay === true) {
+    if (d < this.size / 2 && this.sound.isLoaded()) {
       if (this.sound.isPlaying()) {
         //this.playing = false;
 
@@ -95,8 +92,6 @@ function Player(x_, y_) {
     if (this.sound.isPlaying()) {
       this.sound.stop();
     }
-
-    this.loaded = false;
 
     this.fileNumber = int(random(filenames.length));
     this.fileName = filenames[this.fileNumber];
