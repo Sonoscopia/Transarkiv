@@ -1,7 +1,7 @@
 
 var filenames = [];
 var player1, player2;
-var som;
+var som; // is this variable in use ????
 var vol = 1;
 var masterFader;
 var waveform, spectrum, fft;
