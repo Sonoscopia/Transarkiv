@@ -1,11 +1,11 @@
 var filenames = [];
+var path = 'sounds/';
 var player1, player2;
-var som; // is this variable in use ????
 var vol = 1;
-//var masterFader;
+var masterFader;
 var waveform, spectrum, fft;
 var fft;
-var path = 'sounds/';
+
 
 function preload() {
   fileNames(); // array filenames[] (precisa de ser iniciado em preload)
@@ -17,7 +17,7 @@ function setup() {
 
   player1 = new Player(200, 150); //novo player
   player2 = new Player(550, 170); //novo player
-  //masterFader = new Fader(200, 200, 1);
+  masterFader = new Fader(700, height-110, 0.8);
   fft = new p5.FFT();
 
 }
@@ -29,17 +29,20 @@ function draw() {
   player2.display();
   displaySpectrum();
   displayWave();
-  //masterFader.display();
 
-  //vol = masterFader.getValue();
-  //masterVolume(vol);
+  vol = masterFader.getValue();
+  masterVolume(vol);
+  masterFader.display();
 
 }
 
 function mousePressed() {
   player1.clicked();
   player2.clicked();
-  //masterFader.clicked();
+  masterFader.clicked();
+}
+function mouseReleased(){
+  masterFader.released();
 }
 
 function detectMouse(_x, _y, _w, _h) {
