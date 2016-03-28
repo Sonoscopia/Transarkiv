@@ -1,15 +1,11 @@
 var filenames = [];
 var player1, player2;
-var som;
-<<<<<<< HEAD
-var path = 'https://github.com/Sonoscopia/Transarkiv/tree/master/sounds/';
-=======
+var som; // is this variable in use ????
 var vol = 1;
 //var masterFader;
 var waveform, spectrum, fft;
 var fft;
 var path = 'sounds/';
->>>>>>> master
 
 function preload() {
   fileNames(); // array filenames[] (precisa de ser iniciado em preload)
