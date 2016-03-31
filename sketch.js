@@ -6,7 +6,8 @@ var path = 'sounds/';
 var player_count = 5;
 var players = []; //array de objetos da classe 'Player'
 var vol = 1;
-var masterFader;
+var masterFader, autoplay, autoplay_toggle;
+
 var waveform, spectrum, fft;
 var fft;
 var tog;
@@ -22,12 +23,12 @@ function setup() {
   fft = new p5.FFT();
   //criar os players
   for (var i = 0; i < player_count; i++) {
-    players[i] = new Player(i*(width/player_count)+50, random(height-200)+100); //novo player
+    players[i] = new Player(i * (width / player_count) + 50, random(height - 200) + 100); //novo player
   }
 
   masterFader = new Fader(width - 60, height - 130, 30, 120, 0.8); //controlo de volume geral
-
-  tog = new Toggle(200, 200);
+  autoplay_toggle = new Toggle(width - 150, height - 50, 20);
+  autoplay_toggle.setLabel('Autoplay', 'Autoplay');
 }
 
 function draw() {
@@ -37,7 +38,10 @@ function draw() {
   for (var i = 0; i < player_count; i++) {
     players[i].display();
     players[i].move();
-    players[i].autoPlay();
+    //autoplay = getValue(autoplay_toggle);
+    if (autoplay_toggle.getValue()) {
+      players[i].autoPlay();
+    }
   }
   displaySpectrum();
   displayWave();
@@ -45,9 +49,9 @@ function draw() {
   vol = masterFader.getValue();
   masterVolume(vol);
   masterFader.display();
-  tog.display();
-  
-  
+  autoplay_toggle.display();
+
+
 }
 
 function mousePressed() {
@@ -56,6 +60,7 @@ function mousePressed() {
   }
 
   masterFader.clicked();
+  autoplay_toggle.clicked();
 }
 
 function mouseReleased() {
