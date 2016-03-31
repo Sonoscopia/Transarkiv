@@ -7,5 +7,5 @@ function fileNames() {
   filenames[3] = 'sino.mp3';
   filenames[4] = 'arcada.mp3';
   
-  print('filenames ready');
+  //print('filenames ready');
 }
