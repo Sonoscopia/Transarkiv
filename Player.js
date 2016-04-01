@@ -51,9 +51,6 @@ function Player(x_, y_) {
     if (this.time > 30) {
       this.autoPlay_toggle = true
     }
-    //print(this.time);
-    //Autoplay
-    //this.autoPlay();
 
     if (this.mouseLock) {
       this.x = mouseX;
@@ -120,7 +117,14 @@ function Player(x_, y_) {
 
     //Texto informativo
     if (this.hover) {
-      text(filenames[this.fileNumber], 40, height - 100);
+      noStroke();
+      var text_x = 20;
+      var text_y = height - 70;
+      fill(0, 111);
+      rect(text_x-5, text_y - 15, 150, 60);
+      fill(188);
+      text('File: ' + filenames[this.fileNumber], text_x, text_y);
+      text('Duration: '+ nf(this.sound.duration(),3, 2 ), text_x, text_y + 15);
     }
 
 
