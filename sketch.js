@@ -3,7 +3,7 @@ var files_count;
 
 var path = 'sounds/';
 
-var player_count = 5;
+var player_count = 3;
 var players = []; //array de objetos da classe 'Player'
 var vol = 1;
 var masterFader, move_toggle, autoplay_toggle;
@@ -31,6 +31,7 @@ function setup() {
   move_toggle.setLabel('Move', 'Move');
   autoplay_toggle = new Toggle(width - 150, height - 50, 20);
   autoplay_toggle.setLabel('Autoplay', 'Autoplay');
+  
 }
 
 function draw() {
