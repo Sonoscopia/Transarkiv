@@ -4,8 +4,8 @@ function Toggle(x_, y_, s_) {
   this.x = x_;
   this.y = y_;
   this.size = s_;
-  this.color_On = color(222, 111, 111);
-  this.color_Off = color(111, 111, 111);
+  this.color_On = color(222, 222, 222, 222);
+  this.color_Off = color(222, 222, 222, 111);
   this.color = this.color_Off;
   this.on = false;
   this.mode = 'RECT';
@@ -50,7 +50,6 @@ function Toggle(x_, y_, s_) {
         return true;
       } else return false;
     } else if (this.mode === 'CIRC') {
-
       var d = dist(mouseX, mouseY, this.x + this.size / 2, this.y + this.size / 2);
       if (d < this.size / 2) {
         return true;
