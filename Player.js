@@ -22,6 +22,13 @@ function Player(x_, y_) {
   //botão next random file
   this.next = new Toggle(this.x + this.size / 2, this.y - this.size / 2, 15);
   this.next.setMode('CIRC');
+  //circular handler and indicator - Volume
+  this.volControl = new cHandler(this.x, this.y, 15);
+  this.volControl.setValueY(0.9);
+  this.volControl.setLabel('vol');
+  this.volIndicator = new cLevel(this.x - this.size, this.y, this.size+30);
+  this.volIndicator.setRange(90);
+  this.volIndicator.setAngle(145);
 
   //sinal loading
   this.loading_x = this.x - this.size / 2;
@@ -42,9 +49,10 @@ function Player(x_, y_) {
   this.loading_y = this.y - this.size / 2;
   this.currentTime = 0;
   this.ct = 0;
-  
+
   this.playFor = int(random(10, this.sound.duration() * 10));
   //int(random(10, this.sound.duration()) * 0.01); // With Autoplay, play this file for how long (milliseconds)
+
 
   this.display = function() {
     this.time = int(millis() * 0.01);
@@ -65,6 +73,7 @@ function Player(x_, y_) {
     }
 
     //Amplitude
+    this.sound.setVolume(this.volControl.getValueY());
     this.level = this.amp.getLevel();
     this.level = this.level * 50;
     //botão principal
@@ -81,17 +90,25 @@ function Player(x_, y_) {
     ellipse(this.x, this.y, this.size + this.level, this.size + this.level);
 
     //botão Play
-    this.playToggle.setPos(this.x - this.size / 2, this.y + this.size / 2);
-    this.playToggle.display();
+    //this.playToggle.setPos(this.x - this.size / 2, this.y + this.size / 2);
+    //this.playToggle.display();
     //nome do ficheiro
     fill(166, 166, 166);
     textAlign('LEFT', 'CENTER');
     text(this.fileName, this.x - this.size / 2 + 25, this.y + this.size / 2 + 10);
 
     //botão next random file
-    this.next.setPos(this.x + this.size / 2, this.y - this.size / 2);
+    this.next.setPos(this.x+this.size/2+5, this.y - this.size / 2);
     this.next.display();
 
+    //controlador de volume
+    this.volControl.setPos(this.x+this.size/2+5, this.y+this.size/2-20);
+    this.volControl.display();
+
+    //Indicador de volume
+    this.volIndicator.setPos(this.x, this.y);
+    this.volIndicator.setValue(this.volControl.getValueY());
+    this.volIndicator.display();
 
     //Barra de transporte
     this.arcSize = this.size;
@@ -121,10 +138,10 @@ function Player(x_, y_) {
       var text_x = 20;
       var text_y = height - 70;
       fill(0, 111);
-      rect(text_x-5, text_y - 15, 150, 60);
+      rect(text_x - 5, text_y - 15, 150, 60);
       fill(188);
       text('File: ' + filenames[this.fileNumber], text_x, text_y);
-      text('Duration: '+ nf(this.sound.duration(),3, 2 ), text_x, text_y + 15);
+      text('Duration: ' + nf(this.sound.duration(), 3, 2), text_x, text_y + 15);
     }
 
 
@@ -170,7 +187,7 @@ function Player(x_, y_) {
           } else {
             this.sound.play();
           }
-          this.playFor = int(random(10, this.sound.duration()*10));
+          this.playFor = int(random(10, this.sound.duration() * 10));
         }
       }
     }
@@ -191,6 +208,7 @@ function Player(x_, y_) {
     }
     //botão Play
     this.playToggle.clicked();
+    this.volControl.clicked();
 
     //detetar clique no botão next random
     this.next.clicked();
@@ -201,6 +219,7 @@ function Player(x_, y_) {
   }
   this.released = function() {
     this.mouseLock = false;
+    this.volControl.released();
   }
 
   this.selectRandom = function() {
