@@ -1,7 +1,7 @@
 // 'Player' class
 
 function Player(x_, y_) {
-  this.x = x_;
+  this.x = playAreaPos[0] + x_;
   this.y = y_;
   this.size = 50;
   this.speed = [random(-0.2, 0.2), random(-0.2, 0.2)];
@@ -95,7 +95,7 @@ function Player(x_, y_) {
     //nome do ficheiro
     fill(166, 166, 166);
     textAlign('LEFT', 'CENTER');
-    text(this.fileName, this.x - this.size / 2 + 25, this.y + this.size / 2 + 10);
+    text(this.fileName, this.x - this.size/2, this.y + this.size / 2 + 15);
 
     //botão next random file
     this.next.setPos(this.x+this.size/2+5, this.y - this.size / 2);
@@ -136,12 +136,16 @@ function Player(x_, y_) {
     if (this.hover) {
       noStroke();
       var text_x = 20;
-      var text_y = height - 70;
+      var text_y = 100;
+      var lineSpace = 15;
       fill(0, 111);
-      rect(text_x - 5, text_y - 15, 150, 60);
+      //rect(text_x - 5, text_y - 15, 200, 300);
       fill(188);
-      text('File: ' + filenames[this.fileNumber], text_x, text_y);
-      text('Duration: ' + nf(this.sound.duration(), 3, 2), text_x, text_y + 15);
+      text('PROJECT INFO', text_x, text_y);
+      text('Info about the project here...', text_x, text_y + lineSpace);
+      text('FILE INFO', text_x, text_y + lineSpace * 7);
+      text('File: ' + filenames[this.fileNumber], text_x, text_y + lineSpace * 8);
+      text('Duration: ' + nf(this.sound.duration(), 3, 2)+ 's', text_x, text_y + lineSpace * 9);
     }
 
 
