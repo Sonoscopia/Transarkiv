@@ -6,7 +6,7 @@ var path = 'sounds/';
 var player_count = 5;
 var players = []; //array de objetos da classe 'Player'
 var vol = 1;
-var masterFader, autoplay, autoplay_toggle;
+var masterFader, move_toggle, autoplay_toggle;
 
 var waveform, spectrum, fft;
 var fft;
@@ -27,6 +27,8 @@ function setup() {
   }
 
   masterFader = new Fader(width - 60, height - 130, 30, 120, 0.8); //controlo de volume geral
+  move_toggle = new Toggle(width - 150, height - 80, 20);
+  move_toggle.setLabel('Move', 'Move');
   autoplay_toggle = new Toggle(width - 150, height - 50, 20);
   autoplay_toggle.setLabel('Autoplay', 'Autoplay');
 }
@@ -37,8 +39,9 @@ function draw() {
 
   for (var i = 0; i < player_count; i++) {
     players[i].display();
-    players[i].move();
-    //autoplay = getValue(autoplay_toggle);
+    if (move_toggle.getValue()) {
+      players[i].move();
+    }
     if (autoplay_toggle.getValue()) {
       players[i].autoPlay();
     }
@@ -49,9 +52,8 @@ function draw() {
   vol = masterFader.getValue();
   masterVolume(vol);
   masterFader.display();
+  move_toggle.display();
   autoplay_toggle.display();
-
-
 }
 
 function mousePressed() {
@@ -60,6 +62,7 @@ function mousePressed() {
   }
 
   masterFader.clicked();
+  move_toggle.clicked();
   autoplay_toggle.clicked();
 }
 
