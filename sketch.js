@@ -1,29 +1,29 @@
+
+
 var filenames = [];
 var files_count;
-
 var path = 'sounds/';
-
 var player_count = 3;
 var players = []; //array de objetos da classe 'Player'
+var playAreaPos = [250, 500];
 var vol = 1;
 var masterFader, move_toggle, autoplay_toggle;
 
 var waveform, spectrum, fft;
 var fft;
-var tog;
 
 function preload() {
   fileNames(); // array filenames[] (precisa de ser iniciado em preload)
 }
 
 function setup() {
-  var canvas = createCanvas(800, 500);
+  var canvas = createCanvas(900, 600);
   canvas.parent("p5canvas");
 
   fft = new p5.FFT();
   //criar os players
   for (var i = 0; i < player_count; i++) {
-    players[i] = new Player(i * (width / player_count) + 50, random(height - 200) + 100); //novo player
+    players[i] = new Player(i * (500 / player_count) + playAreaPos[0], random(300)); //novo player
   }
 
   masterFader = new Fader(width - 60, height - 130, 30, 120, 0.8); //controlo de volume geral
@@ -37,7 +37,11 @@ function setup() {
 function draw() {
   background(33);
   noStroke();
-
+  fill(0, 111);
+  rect(0, 0, playAreaPos[0], height);
+  rect(0, height-150, width, 150);
+  //rect(15, 85, 200, 300);
+  
   for (var i = 0; i < player_count; i++) {
     players[i].display();
     if (move_toggle.getValue()) {
@@ -48,7 +52,7 @@ function draw() {
     }
   }
   displaySpectrum();
-  displayWave();
+  //displayWave();
 
   vol = masterFader.getValue();
   masterVolume(vol);
@@ -103,7 +107,7 @@ function displayWave() {
 function displaySpectrum() {
   var spectrum = fft.analyze();
   var spectrum_size = [400, 100];
-  var spectrum_init_x = width / 2 - spectrum_size[0] / 2;
+  var spectrum_init_x = 300;
   var spectrum_init_y = height - 100;
 
   for (var i = 0; i < spectrum.length / 2; i++) {
