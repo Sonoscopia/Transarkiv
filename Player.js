@@ -3,7 +3,7 @@
 function Player(x_, y_) {
   this.x = playAreaPos[0] + x_;
   this.y = y_;
-  this.size = 50;
+  this.size = 55;
   this.speed = [random(-0.2, 0.2), random(-0.2, 0.2)];
   this.time = 0;
   this.lapse = 50; //5 seconds
@@ -111,13 +111,13 @@ function Player(x_, y_) {
     this.volIndicator.display();
 
     //Barra de transporte
-    this.arcSize = this.size;
+    this.arcSize = this.size + this.level;
     this.rad = radians(90);
     strokeWeight(1);
     noFill();
     stroke(55, 111);
     arc(this.x, this.y, this.arcSize, this.arcSize, this.rad, this.rad + radians(359));
-    strokeWeight(5);
+    strokeWeight(3);
     this.currentTime = this.sound.currentTime();
     this.ct = map(this.currentTime, 0, this.sound.duration(), 0, radians(359));
     stroke(this.color_transport);
