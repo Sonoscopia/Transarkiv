@@ -17,8 +17,14 @@ function Player(x_, y_) {
   this.color_playing = color(233, 133);
   this.color_transport = color(255, 155);
   //botão Play
-  this.playToggle = new Toggle(this.x - this.size / 2, this.y + this.size / 2, 15);
-  this.playToggle.setMode('CIRC');
+  //this.playToggle = new Toggle(this.x + this.size / 2 + 5, this.y - this.size / 2, 15);
+  //this.playToggle.setMode('CIRC');
+  //this.playToggle.setLabel('Play', 'Play');
+  // botão 'move'
+  this.moveButtonPos = [this.size / 2 + 5, this.size / 2 + 20];
+  this.moveButton = new cHandler(this.x + this.moveButtonPos[0],this.y - this.moveButtonPos[1], 15);
+  this.moveButton.setLabel('move', 'move');
+  
   //botão next random file
   this.next = new Toggle(this.x + this.size / 2, this.y - this.size / 2, 15);
   this.next.setMode('CIRC');
@@ -26,17 +32,15 @@ function Player(x_, y_) {
   this.volControl = new cHandler(this.x, this.y, 15);
   this.volControl.setValueY(0.9);
   this.volControl.setLabel('vol');
-  this.volIndicator = new cLevel(this.x - this.size, this.y, this.size+30);
+  this.volIndicator = new cLevel(this.x - this.size, this.y, this.size + 30);
   this.volIndicator.setRange(90);
   this.volIndicator.setAngle(145);
-
   //sinal loading
   this.loading_x = this.x - this.size / 2;
   this.loading_y = this.y - this.size / 2;
 
   this.fileNumber = int(random(3));
   this.fileName = filenames[this.fileNumber];
-
   //carregar o som - -  aqui devia dar para utilizar uma função callback para mostrar quando está a carregar
   this.sound = loadSound(path + filenames[this.fileNumber]);
   if (this.sound.isLoaded()) {
@@ -59,10 +63,11 @@ function Player(x_, y_) {
     if (this.time > 30) {
       this.autoPlay_toggle = true
     }
-
-    if (this.mouseLock) {
-      this.x = mouseX;
-      this.y = mouseY;
+    
+    //move object
+    if (this.moveButton.getValue()) {
+      this.x = mouseX - this.moveButtonPos[0] - 5;
+      this.y = mouseY + this.moveButtonPos[1] - 20;
     }
     //detect mouse hover
     this.h_dist = int(dist(this.x, this.y, mouseX, mouseY));
@@ -76,6 +81,7 @@ function Player(x_, y_) {
     this.sound.setVolume(this.volControl.getValueY());
     this.level = this.amp.getLevel();
     this.level = this.level * 50;
+
     //botão principal
     if (this.sound.isPlaying()) { //this.playing) {
       fill(this.color_playing);
@@ -90,19 +96,24 @@ function Player(x_, y_) {
     ellipse(this.x, this.y, this.size + this.level, this.size + this.level);
 
     //botão Play
-    //this.playToggle.setPos(this.x - this.size / 2, this.y + this.size / 2);
+    //this.playToggle.setPos(this.x + this.size / 2 + 5, this.y - this.size / 2);
     //this.playToggle.display();
+
+    //botão Move
+    this.moveButton.setPos(this.x + this.size / 2 + 5, this.y - this.size / 2);
+    this.moveButton.display();
+
     //nome do ficheiro
     fill(166, 166, 166);
     textAlign('LEFT', 'CENTER');
-    text(this.fileName, this.x - this.size/2, this.y + this.size / 2 + 15);
+    text(this.fileName, this.x - this.size / 2, this.y + this.size / 2 + 15);
 
     //botão next random file
-    this.next.setPos(this.x+this.size/2+5, this.y - this.size / 2);
-    this.next.display();
+    //this.next.setPos(this.x+this.size/2+5, this.y - this.size / 2);
+    //this.next.display();
 
     //controlador de volume
-    this.volControl.setPos(this.x+this.size/2+5, this.y+this.size/2-20);
+    this.volControl.setPos(this.x + this.size / 2 + 5, this.y + this.size / 2 - 20);
     this.volControl.display();
 
     //Indicador de volume
@@ -145,7 +156,7 @@ function Player(x_, y_) {
       text('Info about the project here...', text_x, text_y + lineSpace);
       text('FILE INFO', text_x, text_y + lineSpace * 7);
       text('File: ' + filenames[this.fileNumber], text_x, text_y + lineSpace * 8);
-      text('Duration: ' + nf(this.sound.duration(), 3, 2)+ 's', text_x, text_y + lineSpace * 9);
+      text('Duration: ' + nf(this.sound.duration(), 3, 2) + 's', text_x, text_y + lineSpace * 9);
     }
 
 
@@ -211,7 +222,19 @@ function Player(x_, y_) {
       }
     }
     //botão Play
-    this.playToggle.clicked();
+    //this.playToggle.clicked();
+    this.moveButton.clicked();
+    if(this.moveButton.getValue()){
+      this.x = this.moveButton.getValueX();
+      this.y = this.moveButton.getValueY();
+    }
+    /*
+    if (this.playToggle.getValue()) {
+      this.sound.play();
+    } else {
+      this.sound.stop();
+    }*/
+
     this.volControl.clicked();
 
     //detetar clique no botão next random
@@ -224,6 +247,7 @@ function Player(x_, y_) {
   this.released = function() {
     this.mouseLock = false;
     this.volControl.released();
+    this.moveButton.released();
   }
 
   this.selectRandom = function() {
