@@ -29,6 +29,7 @@ function cHandler(x_, y_, s_) {
     }
     noStroke();
     fill(this.color);
+    textAlign(LEFT, CENTER);
     text(this.label, this.x+this.size+5, this.y+this.size/2);
     
     fill(this.color);
@@ -86,6 +87,9 @@ function cHandler(x_, y_, s_) {
   }
   this.getValueY = function() {
     return (this.value_y);
+  }
+  this.getValue = function(){
+    return(this.mouseLock);
   }
 
   this.setValueX = function(val_) {

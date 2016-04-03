@@ -3,7 +3,7 @@
 var filenames = [];
 var files_count;
 var path = 'sounds/';
-var player_count = 3;
+var player_count = 4;
 var players = []; //array de objetos da classe 'Player'
 var playAreaPos = [250, 500];
 var vol = 1;
@@ -23,7 +23,7 @@ function setup() {
   fft = new p5.FFT();
   //criar os players
   for (var i = 0; i < player_count; i++) {
-    players[i] = new Player(i * (500 / player_count) + playAreaPos[0], random(300)); //novo player
+    players[i] = new Player(i * (500 / player_count) + 100, random(100, 300)); //novo player
   }
 
   masterFader = new Fader(width - 60, height - 130, 30, 120, 0.8); //controlo de volume geral
