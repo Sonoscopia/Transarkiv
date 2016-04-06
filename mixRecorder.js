@@ -13,6 +13,7 @@ function mixRecorder(x_, y_, s_) { // TA: constructor (pos x,pos y, size, input 
   
   this.run = function() { // TA: display button
     // DISPLAY
+    push();
     noStroke();
     ellipseMode(CORNER);
     if(this.isRecording){
@@ -39,6 +40,7 @@ function mixRecorder(x_, y_, s_) { // TA: constructor (pos x,pos y, size, input 
         this.recordStop();
       }
     }
+    pop();
   }
   
   this.detectMouse = function(_x, _y, _s) {
