@@ -59,6 +59,7 @@ function Player(x_, y_) {
 
 
   this.display = function() {
+    push();
     this.time = int(millis() * 0.01);
     if (this.time > 30) {
       this.autoPlay_toggle = true
@@ -100,7 +101,7 @@ function Player(x_, y_) {
     if (this.hover) {
       fill(this.color_hover);
     }
-
+    
     noStroke();
     ellipse(this.x, this.y, this.size + this.level, this.size + this.level);
 
@@ -116,7 +117,7 @@ function Player(x_, y_) {
     fill(166, 166, 166);
     textAlign('LEFT', 'CENTER');
     text(this.fileName.slice(0, this.fileName.length-4) , this.x - this.size / 2, this.y + this.size / 2 + 15);
-
+  
     //botão next random file
     //this.next.setPos(this.x+this.size/2+5, this.y - this.size / 2);
     //this.next.display();
@@ -124,12 +125,12 @@ function Player(x_, y_) {
     //controlador de volume
     
     this.volControl.setPos(this.x + this.size / 2 + 5, this.y + this.size / 2 - 20);
-    this.volControl.display();
+    //this.volControl.display();
     
     //Indicador de volume
     this.volIndicator.setPos(this.x, this.y);
     this.volIndicator.setValue(this.volControl.getValueY());
-    this.volIndicator.display();
+    //this.volIndicator.display();
     
     
     //Barra de transporte
@@ -170,7 +171,7 @@ function Player(x_, y_) {
       text('Duration: ' + nf(this.sound.duration(), 3, 2) + 's', text_x, text_y + lineSpace * 9);
     }
 
-
+    pop();
   }
 
   this.move = function() {
