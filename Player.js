@@ -77,11 +77,20 @@ function Player(x_, y_) {
       this.hover = false;
     }
 
-    //Amplitude
+    //Amplitude (Rui)
+    /*
     this.sound.setVolume(this.volControl.getValueY());
     this.level = this.amp.getLevel();
     this.level = this.level * 50;
-
+    */
+    
+    // TA: Amplitude
+    this.sound.setVolume(1.0 - this.y/600);
+    this.level = this.amp.getLevel();
+    this.level = this.level * 50;
+    // TA: Pan
+    this.sound.pan(this.x/900*2-1);
+    
     //botão principal
     if (this.sound.isPlaying()) { //this.playing) {
       fill(this.color_playing);
@@ -113,14 +122,16 @@ function Player(x_, y_) {
     //this.next.display();
 
     //controlador de volume
+    
     this.volControl.setPos(this.x + this.size / 2 + 5, this.y + this.size / 2 - 20);
     this.volControl.display();
-
+    
     //Indicador de volume
     this.volIndicator.setPos(this.x, this.y);
     this.volIndicator.setValue(this.volControl.getValueY());
     this.volIndicator.display();
-
+    
+    
     //Barra de transporte
     this.arcSize = this.size + this.level;
     this.rad = radians(90);
