@@ -31,6 +31,7 @@ function cFader(x_, y_, s1_, s2_, v_) {
     } else {
       this.color = this.color_off;
     }
+    push();
     fill(this.color);
     ellipseMode(CORNER);
     ellipse(this.x, this.y, this.size, this.size);
@@ -59,6 +60,7 @@ function cFader(x_, y_, s1_, s2_, v_) {
     arc(this.fader_x, this.fader_y, this.faderSize, this.faderSize, this.angle_start, this.angle_start + this.angle);
 
     //print('value: '+this.value + ' - angulo: ' + this.angle + ' - range: ' + this.range);
+    pop();
   }
 
   this.clicked = function() {

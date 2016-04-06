@@ -17,6 +17,7 @@ function cLevel(x_, y_, s_) {
 
 
   this.display = function() {
+    push();
     noFill();
     ellipseMode(CENTER);
     strokeWeight(this.strokeWeight);
@@ -32,8 +33,9 @@ function cLevel(x_, y_, s_) {
     stroke(this.color);
     
     arc(this.x, this.y, this.size, this.size, this.angle_start, this.angle_start + this.angle);
-
+  
     //print('value: '+this.value + ' - angulo: ' + this.angle + ' - range: ' + this.range);
+    pop();
   }
 
 
