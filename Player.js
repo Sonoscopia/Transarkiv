@@ -106,7 +106,7 @@ function Player(x_, y_) {
     //nome do ficheiro
     fill(166, 166, 166);
     textAlign('LEFT', 'CENTER');
-    text(this.fileName, this.x - this.size / 2, this.y + this.size / 2 + 15);
+    text(this.fileName.slice(0, this.fileName.length-4) , this.x - this.size / 2, this.y + this.size / 2 + 15);
 
     //botão next random file
     //this.next.setPos(this.x+this.size/2+5, this.y - this.size / 2);
