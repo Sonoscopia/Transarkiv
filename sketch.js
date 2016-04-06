@@ -8,6 +8,7 @@ var players = []; //array de objetos da classe 'Player'
 var playAreaPos = [250, 500];
 var vol = 1;
 var masterFader, move_toggle, autoplay_toggle;
+var mixRecorder; 
 
 var waveform, spectrum, fft;
 var fft;
@@ -32,6 +33,8 @@ function setup() {
   autoplay_toggle = new Toggle(width - 150, height - 50, 20);
   autoplay_toggle.setLabel('Autoplay', 'Autoplay');
   
+  mixRecorder = new mixRecorder(width - 150, height - 20, 20); // TA: instantiate mixRecorder class 
+  smooth(); // TA: added smooth 
 }
 
 function draw() {
@@ -59,6 +62,8 @@ function draw() {
   masterFader.display();
   move_toggle.display();
   autoplay_toggle.display();
+  
+  mixRecorder.run(); // TA: display mixRecorder button and run recorder function
 }
 
 function mousePressed() {
@@ -69,6 +74,7 @@ function mousePressed() {
   masterFader.clicked();
   move_toggle.clicked();
   autoplay_toggle.clicked();
+  mixRecorder.clicked(); // TA: user interaction
 }
 
 function mouseReleased() {
