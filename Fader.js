@@ -12,6 +12,7 @@ function Fader(x_, y_, w_, h_, value_) {
   this.mouseLock = false;
 
   this.display = function() {
+    push();
     noStroke();
     //background
     fill(222, 222, 222, 111);
@@ -27,7 +28,8 @@ function Fader(x_, y_, w_, h_, value_) {
     this.knob_y = map(this.value, 1, 0, this.y, this.y + this.size[1]-this.knobSize);
     fill(222, 222, 222, 222);
     rect(this.x, this.knob_y, this.size[0], this.knobSize);
-
+    
+    pop();
   }
 
   this.clicked = function() {

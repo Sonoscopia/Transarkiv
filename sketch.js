@@ -98,6 +98,7 @@ function displayWave() {
 
   var waveform = fft.waveform();
   //print(waveform);
+  push();
   noFill();
   beginShape();
   stroke(wavecolor);
@@ -108,6 +109,7 @@ function displayWave() {
     vertex(wave_x, wave_y);
   }
   endShape();
+  pop();
 }
 
 function displaySpectrum() {
@@ -121,8 +123,10 @@ function displaySpectrum() {
     spectrum_x += spectrum_init_x;
     var spectrum_h = map(-spectrum[i], 0, 255, 0, spectrum_size[1]);
     spectrum_h += spectrum_init_y + spectrum_size[1];
+    push();
     strokeWeight(1);
     stroke(spectrum[i]);
     line(spectrum_x, spectrum_init_y + spectrum_size[1], spectrum_x, spectrum_h);
+    pop();
   }
 }

@@ -29,12 +29,14 @@ function Player(x_, y_) {
   this.next = new Toggle(this.x + this.size / 2, this.y - this.size / 2, 15);
   this.next.setMode('CIRC');
   //circular handler and indicator - Volume
+  /*
   this.volControl = new cHandler(this.x, this.y, 15);
   this.volControl.setValueY(0.9);
   this.volControl.setLabel('vol');
   this.volIndicator = new cLevel(this.x - this.size, this.y, this.size + 30);
   this.volIndicator.setRange(90);
   this.volIndicator.setAngle(145);
+  */
   //sinal loading
   this.loading_x = this.x - this.size / 2;
   this.loading_y = this.y - this.size / 2;
@@ -59,6 +61,7 @@ function Player(x_, y_) {
 
 
   this.display = function() {
+    push();
     this.time = int(millis() * 0.01);
     if (this.time > 30) {
       this.autoPlay_toggle = true
@@ -77,11 +80,20 @@ function Player(x_, y_) {
       this.hover = false;
     }
 
-    //Amplitude
+    //Amplitude (Rui)
+    /*
     this.sound.setVolume(this.volControl.getValueY());
     this.level = this.amp.getLevel();
     this.level = this.level * 50;
-
+    */
+    
+    // TA: Amplitude
+    this.sound.setVolume(1.0 - this.y/600);
+    this.level = this.amp.getLevel();
+    this.level = this.level * 50;
+    // TA: Pan
+    this.sound.pan(this.x/900*2-1);
+    
     //botão principal
     if (this.sound.isPlaying()) { //this.playing) {
       fill(this.color_playing);
@@ -91,7 +103,7 @@ function Player(x_, y_) {
     if (this.hover) {
       fill(this.color_hover);
     }
-
+    
     noStroke();
     ellipse(this.x, this.y, this.size + this.level, this.size + this.level);
 
@@ -106,21 +118,23 @@ function Player(x_, y_) {
     //nome do ficheiro
     fill(166, 166, 166);
     textAlign('LEFT', 'CENTER');
-    text(this.fileName, this.x - this.size / 2, this.y + this.size / 2 + 15);
-
+    text(this.fileName.slice(0, this.fileName.length-4) , this.x - this.size / 2, this.y + this.size / 2 + 15);
+  
     //botão next random file
     //this.next.setPos(this.x+this.size/2+5, this.y - this.size / 2);
     //this.next.display();
 
     //controlador de volume
+    /*
     this.volControl.setPos(this.x + this.size / 2 + 5, this.y + this.size / 2 - 20);
     this.volControl.display();
-
+    
     //Indicador de volume
     this.volIndicator.setPos(this.x, this.y);
     this.volIndicator.setValue(this.volControl.getValueY());
     this.volIndicator.display();
-
+    */
+    
     //Barra de transporte
     this.arcSize = this.size + this.level;
     this.rad = radians(90);
@@ -159,7 +173,7 @@ function Player(x_, y_) {
       text('Duration: ' + nf(this.sound.duration(), 3, 2) + 's', text_x, text_y + lineSpace * 9);
     }
 
-
+    pop();
   }
 
   this.move = function() {
@@ -235,7 +249,7 @@ function Player(x_, y_) {
       this.sound.stop();
     }*/
 
-    this.volControl.clicked();
+    //this.volControl.clicked();
 
     //detetar clique no botão next random
     this.next.clicked();
@@ -246,7 +260,7 @@ function Player(x_, y_) {
   }
   this.released = function() {
     this.mouseLock = false;
-    this.volControl.released();
+    //this.volControl.released();
     this.moveButton.released();
   }
 
