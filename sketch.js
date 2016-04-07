@@ -17,6 +17,7 @@ var playAreaPos = [menuWidth, 0];
 
 var spectrum_size, spectrum_init_x, spectrum_init_y;
 
+var debugZoneByColor = false; //TA: paint zones with basic colors so that we can clearly see them when developing
 /************************* PRELOAD ***************************/ 
 function preload() {
   fileNames(); // array filenames[] (precisa de ser iniciado em preload)
@@ -95,13 +96,22 @@ function draw() {
   
   //TA: footer
   push();
-  fill(0, 0, 255);
+  if(debugZoneByColor)
+    fill(0, 0, 255);
+  else
+    fill(12);
   rect(0, height-footerHeight, width, footerHeight); 
   //TA: menu (left)
-  fill(255, 0, 0);
+  if(debugZoneByColor)
+    fill(255, 0, 0);
+  else
+    fill(12);
   rect(0, 0, menuWidth, height-footerHeight);
   //TA: mix area
-  fill(0, 255, 0);
+  if(debugZoneByColor)
+    fill(0, 255, 0);
+  else
+    fill(36);
   rect(menuWidth, 0, width, height-footerHeight);
   pop();
 
