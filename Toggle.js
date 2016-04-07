@@ -16,7 +16,7 @@ function Toggle(x_, y_, s_) {
   this.display = function() {
     push();
 
-    //noStroke();
+    noStroke();
     if (this.on) {
       this.color = this.color_On;
       this.displayLabel(true);

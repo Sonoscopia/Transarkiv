@@ -8,6 +8,7 @@ function Fader(x_, y_, w_, h_, value_) {
   this.knob_x = this.x;
   this.knob_y = this.y;
   this.knobSize = 10;
+  this.mode = 'V'; // MODE = V/H (vertical/horizontal)
 
   this.mouseLock = false;
 
@@ -22,13 +23,22 @@ function Fader(x_, y_, w_, h_, value_) {
     if (this.mouseLock && mouseIsPressed) {
       this.setValue();
     }
-    if (this.detectMouse(this.x, this.y, this.size[0], this.size[1]) && mouseIsPressed) {
-      this.setValue();
+    if (this.mode === 'V'){
+      if (this.detectMouse(this.x, this.y, this.size[0], this.size[1]) && mouseIsPressed) {
+        this.setValue();
+      }
+      this.knob_y = map(this.value, 1, 0, this.y, this.y + this.size[1]-this.knobSize);
+      fill(222, 222, 222, 222);
+      rect(this.x, this.knob_y, this.size[0], this.knobSize);
     }
-    this.knob_y = map(this.value, 1, 0, this.y, this.y + this.size[1]-this.knobSize);
-    fill(222, 222, 222, 222);
-    rect(this.x, this.knob_y, this.size[0], this.knobSize);
-    
+    if (this.mode === 'H'){
+      if (this.detectMouse(this.x, this.y, this.size[0], this.size[1]) && mouseIsPressed) {
+        this.setValue();
+      }
+      this.knob_x = map(this.value, 0, 1, this.x, this.x + this.size[0]-this.knobSize);
+      fill(222, 222, 222, 222);
+      rect(this.knob_x, this.y, this.knobSize, this.size[1]);
+    }
     pop();
   }
 
@@ -47,13 +57,19 @@ function Fader(x_, y_, w_, h_, value_) {
   }
 
   this.setValue = function() {
-    this.value = map(mouseY, this.y, this.y + this.size[1], 1, 0);
+    if (this.mode === 'V'){
+      this.value = map(mouseY, this.y, this.y + this.size[1], 1, 0);
+    }
+    if (this.mode === 'H'){
+      this.value = map(mouseX, this.x, this.x + this.size[0], 0, 1);
+    }
     if (this.value > 1) {
       this.value = 1;
     }
     if (this.value < 0) {
       this.value = 0;
     }
+    println(this.value)
   }
 
   this.detectMouse = function(_x, _y, _w, _h) {
