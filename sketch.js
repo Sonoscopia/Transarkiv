@@ -5,7 +5,6 @@ var files_count;
 var path = 'sounds/';
 var player_count = 4;
 var players = []; //array de objetos da classe 'Player'
-var playAreaPos = [250, 500];
 var vol = 1;
 var masterFader, move_toggle, autoplay_toggle;
 var mixRecorder; 
@@ -13,12 +12,23 @@ var mixRecorder;
 var waveform, spectrum, fft;
 var fft;
 
+var menuWidth = 150, footerHeight = 100;
+var minWindowWidth = 640, minWindowHeight = 480;
+var playAreaPos = [menuWidth, 0];
+
+
 function preload() {
   fileNames(); // array filenames[] (precisa de ser iniciado em preload)
 }
 
 function setup() {
-  var canvas = createCanvas(900, 600);
+  var canvas;
+  if(windowWidth > minWindowWidth && windowHeight > minWindowHeight){
+    canvas = createCanvas(windowWidth, windowHeight);
+  }
+  else{
+    canvas = createCanvas(minWindowWidth, minWindowHeight);    
+  }
   canvas.parent("p5canvas");
 
   fft = new p5.FFT();
@@ -37,13 +47,32 @@ function setup() {
   smooth(); // TA: added smooth 
 }
 
+function windowResized() {
+  if(windowWidth > minWindowWidth && windowHeight > minWindowHeight){
+    resizeCanvas(windowWidth, windowHeight);
+  }
+}
+
+
 function draw() {
   background(33);
   noStroke();
-  fill(0, 111);
-  rect(0, 0, playAreaPos[0], height);
-  rect(0, height-150, width, 150);
-  //rect(15, 85, 200, 300);
+  //stroke(0, 0, 255);
+  //fill(0, 111);
+  //rect(0, 0, playAreaPos[0], height);
+  
+  //TA: footer
+  push();
+  fill(0, 0, 255);
+  rect(0, height-footerHeight, width, footerHeight); 
+  //TA: menu (left)
+  fill(255, 0, 0);
+  rect(0, 0, menuWidth, height-footerHeight);
+  //TA: mix area
+  fill(0, 255, 0);
+  rect(menuWidth, 0, width, height-footerHeight);
+  pop();
+
   
   for (var i = 0; i < player_count; i++) {
     players[i].display();
