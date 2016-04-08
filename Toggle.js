@@ -14,7 +14,9 @@ function Toggle(x_, y_, s_) {
   this.label = this.label_off;
 
   this.display = function() {
-    //noStroke();
+    push();
+
+    noStroke();
     if (this.on) {
       this.color = this.color_On;
       this.displayLabel(true);
@@ -22,6 +24,7 @@ function Toggle(x_, y_, s_) {
       this.color = this.color_Off;
       this.displayLabel(false);
     }
+    
     fill(this.color);
 
     if (this.mode === 'RECT') {
@@ -31,6 +34,7 @@ function Toggle(x_, y_, s_) {
       ellipse(this.x, this.y, this.size, this.size);
       ellipseMode(CENTER);
     }
+    pop();
   }
 
   this.clicked = function() {

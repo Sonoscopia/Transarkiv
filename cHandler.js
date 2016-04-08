@@ -27,6 +27,7 @@ function cHandler(x_, y_, s_) {
     } else {
       this.color = this.color_off;
     }
+    push();
     noStroke();
     fill(this.color);
     textAlign(LEFT, CENTER);
@@ -59,6 +60,7 @@ function cHandler(x_, y_, s_) {
     }
     
     //print('value: '+this.value);
+    pop();
   }
 
   this.clicked = function() {
