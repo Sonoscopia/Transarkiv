@@ -10,7 +10,6 @@ function Player(x_, y_) {
   this.autoPlay_toggle = false;
   this.mouseLock = false;
   this.hover = false;
-  this.isMenu = false; //TA: variable to define if Player is an object on the left menu or in the MixZone
 
   this.color_stopped = color(200, 111);
   this.color_hover = color(222, 222);
@@ -128,10 +127,12 @@ function Player(x_, y_) {
     this.moveButton.display();
 
     //nome do ficheiro
+    /*
     fill(166, 166, 166);
     textAlign('LEFT', 'CENTER');
     text(this.fileName.slice(0, this.fileName.length-4) , this.x - this.size / 2, this.y + this.size / 2 + 15);
-  
+    */
+    
     //botão next random file
     //this.next.setPos(this.x+this.size/2+5, this.y - this.size / 2);
     //this.next.display();
