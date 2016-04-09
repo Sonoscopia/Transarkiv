@@ -38,6 +38,9 @@ function Player(x_, y_) {
   this.filterIndicator = new cRangeSlider(this.x - this.size, this.y, this.size + 30);
   this.filterIndicator.setRange(90);
   this.filterIndicator.setAngle(145);
+  //this.bpFilter = new p5.BandPass();
+  this.hpFilter = new p5.HighPass();
+  this.lpFilter = new p5.LowPass();
   
   //sinal loading
   this.loading_x = this.x - this.size / 2;
@@ -50,6 +53,13 @@ function Player(x_, y_) {
   if (this.sound.isLoaded()) {
     print('sound is Loaded!!!!!!');
   }
+  this.sound.disconnect();
+  this.lpFilter.disconnect();
+  this.lpFilter.connect(this.hpFilter);
+  this.sound.connect(this.lpFilter);
+  this.lpFilter.res(10);
+  this.hpFilter.res(10);
+  //this.sound.start();
   this.amp = new p5.Amplitude();
   this.amp.setInput(this.sound);
   this.level = 0;
@@ -127,7 +137,6 @@ function Player(x_, y_) {
     //this.next.display();
 
     //controlador de volume
-    
     this.filterControl.setPos(this.x + this.size / 2 + 5, this.y + this.size / 2 - 20);
     this.filterControl.display();
     
@@ -136,6 +145,9 @@ function Player(x_, y_) {
     this.filterIndicator.setValueXY(this.filterControl.getValueX(), this.filterControl.getValueY());
     this.filterIndicator.display();
     
+    this.hpFilter.freq(map(this.filterIndicator.value_min, 0, 1, 60, 16000));
+    
+    this.lpFilter.freq(map(this.filterIndicator.value_max, 0, 1, 60, 16000));
     
     //Barra de transporte
     this.arcSize = this.size + this.level;
