@@ -142,7 +142,7 @@ function Player(x_, y_) {
     
     //Indicador de volume
     this.filterIndicator.setPos(this.x, this.y);
-    this.filterIndicator.setValueXY(this.filterControl.getValueX(), this.filterControl.getValueY());
+    this.filterIndicator.setValueXY(this.filterControl.getValueY(), this.filterControl.getValueX());
     this.filterIndicator.display();
     
     this.hpFilter.freq(map(this.filterIndicator.value_min, 0, 1, 60, 16000));
