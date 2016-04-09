@@ -1,56 +1,71 @@
-/************************* VARIABLES *************************/ 
-var filenames = [];
+/************************* VARIABLES *************************/
+
 var files_count;
-var path = 'sounds/';
+var path_sounds = [];
+var cat1_files = [];
+var cat2_files = [];
+var cat3_files = [];
+var cat4_files = [];
 var player_count = 4;
 var players = []; //array de objetos da classe 'Player'
 var vol = 1;
 var masterFader, move_toggle, autoplay_toggle;
-var mixRecorder; 
+var mixRecorder;
 
 var waveform, spectrum, fft;
 var fft;
 
-var menuWidth = 150, footerHeight = 100;
-var minWindowWidth = 640, minWindowHeight = 480;
+var menuWidth = 150,
+  footerHeight = 100;
+var minWindowWidth = 640,
+  minWindowHeight = 480;
 var playAreaPos = [menuWidth, 0];
 
 var spectrum_size, spectrum_init_x, spectrum_init_y;
 
 var debugZoneByColor = false; //TA: paint zones with basic colors so that we can clearly see them when developing
-/************************* PRELOAD ***************************/ 
+
+var categories = ['ambient', 'rhythmic', 'detail', 'voice'];
+var cat_colors = [4];
+
+
+/************************* PRELOAD ***************************/
 function preload() {
   fileNames(); // array filenames[] (precisa de ser iniciado em preload)
 }
 
-/************************* SETUP *****************************/ 
+/************************* SETUP *****************************/
 function setup() {
   var canvas;
-  if(windowWidth > minWindowWidth){
+  if (windowWidth > minWindowWidth) {
     canvas = createCanvas(windowWidth, minWindowHeight);
-  }
-  else{
+  } else {
     canvas = createCanvas(minWindowWidth, minWindowHeight);
   }
-  if(windowHeight > minWindowHeight){
+  if (windowHeight > minWindowHeight) {
     canvas = createCanvas(width, windowHeight);
+  } else {
+    canvas = createCanvas(width, minWindowHeight);
   }
-  else{
-    canvas = createCanvas(width, minWindowHeight); 
-  }
-  
   canvas.parent("p5canvas");
 
   fft = new p5.FFT();
+
+  cat_colors[0] = color(255, 0, 0, 255);
+  cat_colors[1] = color(0, 255, 0, 255);
+  cat_colors[2] = color(0, 0, 255, 255);
+  cat_colors[3] = color(255, 255, 0, 255);
+
+
   //criar os players
   for (var i = 0; i < player_count; i++) {
-    players[i] = new Player(i * (500 / player_count) + 100, random(100, 300)); //novo player
+    players[i] = new Player(i * (500 / player_count) + 100, random(100, 300), int(random(4))); //novo player
   }
-  
+
   //TA: footer UI (fader buttons and spectroscope)
   masterFader = new Fader(width - 190, height - 60, 150, 20, 0.8); //TA: hFader(x pos, y pos, width, height, value)
   masterFader.mode = 'H';
-  mixRecorder = new mixRecorder(masterFader.x - 20 - 60, masterFader.y , 20); // TA: mixRecorder(x pos, y pos, size) 
+  mixRecorder = new mixRecorder(masterFader.x - 20 - 60, masterFader.y, 20); // TA: mixRecorder(x pos, y pos, size) 
   move_toggle = new Toggle(mixRecorder.x - 20 - 70, masterFader.y, 20); // TA: Toggle(x pos, y pos, size) 
   move_toggle.setLabel('AutoMove', 'AutoMove');
   autoplay_toggle = new Toggle(move_toggle.x - 20 - 65, masterFader.y, 20); // TA: Toggle(x pos, y pos, size) 
@@ -62,21 +77,21 @@ function setup() {
   smooth(); // TA: added smooth 
 }
 
-/************************* RESIZE ****************************/ 
+/************************* RESIZE ****************************/
 function windowResized() {
   //TA: resize width
-  if(windowWidth > minWindowWidth && windowHeight > minWindowHeight){ 
+  if (windowWidth > minWindowWidth && windowHeight > minWindowHeight) {
     resizeCanvas(windowWidth, height); //TA: reset canvas size
-    masterFader.x = width-190; //TA: reposition masterFader 
+    masterFader.x = width - 190; //TA: reposition masterFader 
     mixRecorder.x = masterFader.x - mixRecorder.size - 60; //TA: reposition rec button
     move_toggle.x = mixRecorder.x - move_toggle.size - 70; //TA: reposition AutoMove button
     autoplay_toggle.x = move_toggle.x - autoplay_toggle.size - 65; //TA: reposition AutoPlay button
     spectrum_size[0] = autoplay_toggle.x - 30; //TA: reposition spectroscope
   }
   //TA: resize height
-  if(windowHeight > minWindowHeight){
+  if (windowHeight > minWindowHeight) {
     resizeCanvas(width, windowHeight); //TA: reset canvas size
-    masterFader.y = height-60; //TA: reposition masterFader
+    masterFader.y = height - 60; //TA: reposition masterFader
     mixRecorder.y = masterFader.y; //TA: reposition rec button
     move_toggle.y = masterFader.y; //TA: reposition AutoMove button
     autoplay_toggle.y = masterFader.y; //TA: reposition AutoPlay button
@@ -86,36 +101,36 @@ function windowResized() {
   // for example: the window might have reached the minimum width but the height might still be resized
 }
 
-/************************* DRAW ******************************/ 
+/************************* DRAW ******************************/
 function draw() {
   background(33);
   noStroke();
   //stroke(0, 0, 255);
   //fill(0, 111);
   //rect(0, 0, playAreaPos[0], height);
-  
+
   //TA: footer
   push();
-  if(debugZoneByColor)
+  if (debugZoneByColor)
     fill(0, 0, 255);
   else
     fill(12);
-  rect(0, height-footerHeight, width, footerHeight); 
+  rect(0, height - footerHeight, width, footerHeight);
   //TA: menu (left)
-  if(debugZoneByColor)
+  if (debugZoneByColor)
     fill(255, 0, 0);
   else
     fill(12);
-  rect(0, 0, menuWidth, height-footerHeight);
+  rect(0, 0, menuWidth, height - footerHeight);
   //TA: mix area
-  if(debugZoneByColor)
+  if (debugZoneByColor)
     fill(0, 255, 0);
   else
     fill(36);
-  rect(menuWidth, 0, width, height-footerHeight);
+  rect(menuWidth, 0, width, height - footerHeight);
   pop();
 
-  
+
   for (var i = 0; i < player_count; i++) {
     players[i].display();
     if (move_toggle.getValue()) {
@@ -133,11 +148,15 @@ function draw() {
   masterFader.display();
   move_toggle.display();
   autoplay_toggle.display();
-  
+
   mixRecorder.run(); // TA: display mixRecorder button and run recorder function
+  
+  
+  //Categories Menu
+  
 }
 
-/************************* MOUSE UI **************************/ 
+/************************* MOUSE UI **************************/
 function mousePressed() {
   for (var i = 0; i < player_count; i++) {
     players[i].clicked();
@@ -162,7 +181,7 @@ function detectMouse(_x, _y, _w, _h) {
   } else return false;
 }
 
-/************************* SCOPE *****************************/ 
+/************************* SCOPE *****************************/
 function displayWave() {
   var wave_size = [400, 80];
   var wave_init_x = width / 2 - wave_size[0] / 2;
@@ -185,10 +204,10 @@ function displayWave() {
   pop();
 }
 
-/************************* SPECTRUM **************************/ 
+/************************* SPECTRUM **************************/
 function displaySpectrum() {
   var spectrum = fft.analyze();
-  
+
   for (var i = 0; i < spectrum.length / 2; i++) {
     var spectrum_x = map(i, 0, spectrum.length / 2, 0, spectrum_size[0]);
     spectrum_x += spectrum_init_x;
