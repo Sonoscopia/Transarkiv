@@ -51,7 +51,7 @@ function setup() {
   //TA: footer UI (fader buttons and spectroscope)
   masterFader = new Fader(width - 190, height - 60, 150, 20, 0.8); //TA: hFader(x pos, y pos, width, height, value)
   masterFader.mode = 'H';
-  mixRecorder = new mixRecorder(masterFader.x - 20 - 60, masterFader.y , 20); // TA: mixRecorder(x pos, y pos, size) 
+  mixRecorder = new mixRecorder(masterFader.x - 30 - 60, masterFader.y , 20); // TA: mixRecorder(x pos, y pos, size) 
   move_toggle = new Toggle(mixRecorder.x - 20 - 70, masterFader.y, 20); // TA: Toggle(x pos, y pos, size) 
   move_toggle.setLabel('AutoMove', 'AutoMove');
   autoplay_toggle = new Toggle(move_toggle.x - 20 - 65, masterFader.y, 20); // TA: Toggle(x pos, y pos, size) 
@@ -69,7 +69,7 @@ function windowResized() {
   if(windowWidth > minWindowWidth && windowHeight > minWindowHeight){ 
     resizeCanvas(windowWidth, height); //TA: reset canvas size
     masterFader.x = width-190; //TA: reposition masterFader 
-    mixRecorder.x = masterFader.x - mixRecorder.size - 60; //TA: reposition rec button
+    mixRecorder.x = masterFader.x - mixRecorder.size - 70; //TA: reposition rec button
     move_toggle.x = mixRecorder.x - move_toggle.size - 70; //TA: reposition AutoMove button
     autoplay_toggle.x = move_toggle.x - autoplay_toggle.size - 65; //TA: reposition AutoPlay button
     spectrum_size[0] = autoplay_toggle.x - 30; //TA: reposition spectroscope
