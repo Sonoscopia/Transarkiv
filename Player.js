@@ -24,6 +24,8 @@ function Player(x_, y_) {
   this.moveButtonPos = [this.size / 2 + 5, this.size / 2 + 20];
   this.moveButton = new cHandler(this.x + this.moveButtonPos[0],this.y - this.moveButtonPos[1], 15);
   this.moveButton.setLabel('move', 'move');
+  this.moveButton.setIcon('pics/delete_icon_2.png');
+  this.moveButton.setIconOffset(0.5, 1);
   
   //botão next random file
   this.next = new Toggle(this.x + this.size / 2, this.y - this.size / 2, 15);

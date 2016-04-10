@@ -13,7 +13,10 @@ function cHandler(x_, y_, s_) {
   this.color = this.color_off;
 
   this.label = '';
-
+  this.icon;
+  this.icon_x = 0; //icon position offset
+  this.icon_y = 0; 
+  
   this.mouseLock = false;
   this.lastMouseY = 0;
   this.lastMouseY = 0;
@@ -36,6 +39,10 @@ function cHandler(x_, y_, s_) {
     fill(this.color);
     ellipseMode(CORNER);
     ellipse(this.x, this.y, this.size, this.size);
+    if (this.icon){ // draw button icon
+      image(this.icon, this.x+this.icon_x, this.y+this.icon_y);
+    }
+    
     //set value
     if (this.mouseLock) {
       var mouseMove_x = mouseX - this.lastMouseX;
@@ -132,6 +139,13 @@ function cHandler(x_, y_, s_) {
   }
   this.setRange = function(r_) {
     this.range = radians(r_);
+  }
+  this.setIcon = function(file_){ // set image at this.x & this.y
+    this.icon = loadImage(file_);
+  }
+  this.setIconOffset = function(x_, y_){ // set image plus XY offset
+    this.icon_x = x_;
+    this.icon_y = y_;
   }
 
 }
