@@ -10,6 +10,7 @@ function Player(x_, y_, c_) {
   this.autoPlay_toggle = false;
   this.mouseLock = false;
   this.hover = false;
+  this.isMenu = false; //TA: variable to define if Player is an object on the left menu or in the MixZone
 
   this.category = c_;
   this.path_sounds = path_sounds[this.category];
@@ -56,15 +57,19 @@ function Player(x_, y_, c_) {
   //botão next random file
   this.next = new Toggle(this.x + this.size / 2, this.y - this.size / 2, 15);
   this.next.setMode('CIRC');
-  //circular handler and indicator - Volume
-  /*
-  this.volControl = new cHandler(this.x, this.y, 15);
-  this.volControl.setValueY(0.9);
-  this.volControl.setLabel('vol');
-  this.volIndicator = new cLevel(this.x - this.size, this.y, this.size + 30);
-  this.volIndicator.setRange(90);
-  this.volIndicator.setAngle(145);
-  */
+  
+  //circular handler and indicator - Filter
+  this.filterControl = new cHandler(this.x, this.y, 15);
+  this.filterControl.setValueY(0.5);
+  this.filterControl.setValueX(0.2);
+  this.filterControl.setLabel('filter');
+  this.filterIndicator = new cRangeSlider(this.x - this.size, this.y, this.size + 30);
+  this.filterIndicator.setRange(90);
+  this.filterIndicator.setAngle(145);
+  //this.bpFilter = new p5.BandPass();
+  this.hpFilter = new p5.HighPass();
+  this.lpFilter = new p5.LowPass();
+  
   //sinal loading
   this.loading_x = this.x - this.size / 2;
   this.loading_y = this.y - this.size / 2;
@@ -79,6 +84,13 @@ function Player(x_, y_, c_) {
   if (this.sound.isLoaded()) {
     //print('sound is Loaded!!!!!!');
   }
+  this.sound.disconnect();
+  this.lpFilter.disconnect();
+  this.lpFilter.connect(this.hpFilter);
+  this.sound.connect(this.lpFilter);
+  this.lpFilter.res(10);
+  this.hpFilter.res(10);
+  //this.sound.start();
   this.amp = new p5.Amplitude();
   this.amp.setInput(this.sound);
   this.level = 0;
@@ -149,16 +161,19 @@ function Player(x_, y_, c_) {
     //this.next.display();
 
     //controlador de volume
-    /*
-      this.volControl.setPos(this.x + this.size / 2 + 5, this.y + this.size / 2 - 20);
-      this.volControl.display();
-      
-      //Indicador de volume
-      this.volIndicator.setPos(this.x, this.y);
-      this.volIndicator.setValue(this.volControl.getValueY());
-      this.volIndicator.display();
-      */
 
+    this.filterControl.setPos(this.x + this.size / 2 + 5, this.y + this.size / 2 - 20);
+    this.filterControl.display();
+    
+    //Indicador de volume
+    this.filterIndicator.setPos(this.x, this.y);
+    this.filterIndicator.setValueXY(this.filterControl.getValueX(), this.filterControl.getValueY());
+    this.filterIndicator.display();
+    
+    this.hpFilter.freq(map(this.filterIndicator.value_min, 0, 1, 60, 16000));
+    
+    this.lpFilter.freq(map(this.filterIndicator.value_max, 0, 1, 60, 16000));
+    
     //Barra de transporte
     this.arcSize = this.size + this.level;
     this.rad = radians(90);
@@ -268,14 +283,13 @@ function Player(x_, y_, c_) {
       this.y = this.moveButton.getValueY();
     }*/
 
-    //this.volControl.clicked();
+    this.filterControl.clicked();
 
 
   }
   this.released = function() {
     this.mouseLock = false;
-    //this.volControl.released();
-    //this.moveButton.released();
+    this.filterControl.released();
   }
 
   this.selectRandom = function() {
