@@ -44,25 +44,22 @@ function Player(x_, y_, c_) {
   this.color_transport = color(255, 155);
   this.color_transportBg = this.color;
   //botão Play
-  this.playButtonOffset = [this.size / 2 + 15, - 10];
-  this.playToggle = new Toggle(this.x + this.playButtonOffset[0], this.y + this.playButtonOffset[1], 15);
+  this.playButtonOffset = [this.size / 2 + 8, -this.size/2];
+  this.playToggle = new Toggle(this.x + this.playButtonOffset[0], this.y + this.playButtonOffset[1], 17);
   this.playToggle.setMode('CIRC');
   this.playToggle.setLabel('P', 'P');
   // botão 'remove'
-  this.removeButtonOffset = [this.size / 2 + 10, - this.size/2 - 5];
-  this.removeButton = new Toggle(this.x + this.removeButtonOffset[0], this.y + this.removeButtonOffset[1], 15);
+  this.removeButtonOffset = [this.size / 2 + 8, this.size/2-5];
+  this.removeButton = new Toggle(this.x + this.removeButtonOffset[0], this.y + this.removeButtonOffset[1], 13);
   this.removeButton.setMode('CIRC');
   this.removeButton.setLabel('x', 'x');
-
-  //botão next random file
-  this.next = new Toggle(this.x + this.size / 2, this.y - this.size / 2, 15);
-  this.next.setMode('CIRC');
   
   //circular handler and indicator - Filter
-  this.filterControl = new cHandler(this.x, this.y, 15);
+  this.filterControlOffset = [this.size/2 + 15, 0];
+  this.filterControl = new cHandler(this.x + this.filterControlOffset[0], this.y + this.filterControlOffset[1], 15);
   this.filterControl.setValueY(0.5);
   this.filterControl.setValueX(0.2);
-  this.filterControl.setLabel('filter');
+  this.filterControl.setLabel('F');
   this.filterIndicator = new cRangeSlider(this.x - this.size, this.y, this.size + 30);
   this.filterIndicator.setRange(90);
   this.filterIndicator.setAngle(145);
@@ -156,22 +153,14 @@ function Player(x_, y_, c_) {
     //textAlign('LEFT', 'CENTER');
     //text(this.fileName.slice(0, this.fileName.length - 4), this.x - this.size / 2, this.y + this.size / 2 + 15);
 
-    //botão next random file
-    //this.next.setPos(this.x+this.size/2+5, this.y - this.size / 2);
-    //this.next.display();
-
-    //controlador de volume
-
-    this.filterControl.setPos(this.x + this.size / 2 + 5, this.y + this.size / 2 - 20);
+    //filtro
+    this.filterControl.setPos(this.x + this.filterControlOffset[0], this.y + this.filterControlOffset[1]);
     this.filterControl.display();
-    
-    //Indicador de volume
     this.filterIndicator.setPos(this.x, this.y);
     this.filterIndicator.setValueXY(this.filterControl.getValueX(), this.filterControl.getValueY());
     this.filterIndicator.display();
     
     this.hpFilter.freq(map(this.filterIndicator.value_min, 0, 1, 60, 16000));
-    
     this.lpFilter.freq(map(this.filterIndicator.value_max, 0, 1, 60, 16000));
     
     //Barra de transporte
@@ -200,17 +189,17 @@ function Player(x_, y_, c_) {
     //Texto informativo
     if (this.hover) {
       noStroke();
-      var text_x = 20;
-      var text_y = 100;
+      var text_x = 160;
+      var text_y = height - 160;
       var lineSpace = 15;
       fill(0, 111);
       //rect(text_x - 5, text_y - 15, 200, 300);
       fill(188);
-      text('PROJECT INFO', text_x, text_y);
-      text('Info about the project here...', text_x, text_y + lineSpace);
-      text('FILE INFO', text_x, text_y + lineSpace * 7);
-      text('File: ' + cat1_files[this.fileNumber], text_x, text_y + lineSpace * 8);
-      text('Duration: ' + nf(this.sound.duration(), 3, 2) + 's', text_x, text_y + lineSpace * 9);
+      //text('PROJECT INFO', text_x, text_y);
+      //text('Info about the project here...', text_x, text_y + lineSpace);
+      text('FILE INFO', text_x, text_y + lineSpace * 1);
+      text('File: ' + cat1_files[this.fileNumber], text_x, text_y + lineSpace * 2);
+      text('Duration: ' + nf(this.sound.duration(), 3, 2) + 's', text_x, text_y + lineSpace * 3);
     }
 
     pop();
