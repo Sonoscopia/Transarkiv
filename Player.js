@@ -10,6 +10,7 @@ function Player(x_, y_) {
   this.autoPlay_toggle = false;
   this.mouseLock = false;
   this.hover = false;
+  this.loop = true; // by default loop is ON
 
   this.color_stopped = color(200, 111);
   this.color_hover = color(222, 222);
@@ -255,7 +256,8 @@ function Player(x_, y_) {
       if (this.sound.isPlaying()) {
         this.sound.stop();
       } else {
-        this.sound.play();
+        if(this.loop) this.sound.loop();
+        else this.sound.play();
       }
     }
     //botão Play
