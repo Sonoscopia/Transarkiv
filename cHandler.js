@@ -147,5 +147,4 @@ function cHandler(x_, y_, s_) {
     this.icon_x = x_;
     this.icon_y = y_;
   }
-
 }

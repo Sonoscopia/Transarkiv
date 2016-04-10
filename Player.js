@@ -24,9 +24,9 @@ function Player(x_, y_) {
   this.moveButtonPos = [this.size / 2 + 5, this.size / 2 + 20];
   this.moveButton = new cHandler(this.x + this.moveButtonPos[0],this.y - this.moveButtonPos[1], 15);
   this.moveButton.setLabel('move', 'move');
-  this.moveButton.setIcon('pics/delete_icon_2.png');
-  this.moveButton.setIconOffset(0.5, 1);
-  
+  this.moveButton.setIcon('pics/move_icon.png');
+  this.moveButton.setIconOffset(-3.5, -4);
+
   //botão next random file
   this.next = new Toggle(this.x + this.size / 2, this.y - this.size / 2, 15);
   this.next.setMode('CIRC');
@@ -36,6 +36,8 @@ function Player(x_, y_) {
   this.filterControl.setValueY(0.5);
   this.filterControl.setValueX(0.2);
   this.filterControl.setLabel('filter');
+  this.filterControl.setIcon('pics/filter_icon.png');
+  this.filterControl.setIconOffset(-1.5, 1.5);
   this.filterIndicator = new cRangeSlider(this.x - this.size, this.y, this.size + 30);
   this.filterIndicator.setRange(90);
   this.filterIndicator.setAngle(145);
