@@ -84,8 +84,9 @@ function Player(x_, y_) {
     
     //move object
     if (this.moveButton.getValue()) {
-      this.x = mouseX - this.moveButtonPos[0] - 5;
-      this.y = mouseY + this.moveButtonPos[1] - 20;
+      //Constrain movement to playAreaPos
+      this.x = constrain(mouseX - this.moveButtonPos[0] - 5, playAreaPos[0]+this.size, playAreaPos[2]-this.size);
+      this.y = constrain(mouseY + this.moveButtonPos[1] - 20, playAreaPos[1]+this.size, playAreaPos[3]-this.size/2);
     }
     //detect mouse hover
     this.h_dist = int(dist(this.x, this.y, mouseX, mouseY));
@@ -218,6 +219,9 @@ function Player(x_, y_) {
       }
       this.lapse = int(random(15)) + 15;
     }
+    // Constrain movement to playAreaPos
+    this.x = constrain(this.x, playAreaPos[0]+this.size, playAreaPos[2]-this.size);
+    this.y = constrain(this.y, playAreaPos[1]+this.size, playAreaPos[3]-this.size/2);
 
   }
 

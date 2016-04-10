@@ -13,8 +13,7 @@ var fft;
 
 var menuWidth = 150, footerHeight = 100;
 var minWindowWidth = 640, minWindowHeight = 480;
-var playAreaPos = [menuWidth, 0];
-
+var playAreaPos;
 var spectrum_size, spectrum_init_x, spectrum_init_y;
 
 var debugZoneByColor = false; //TA: paint zones with basic colors so that we can clearly see them when developing
@@ -38,8 +37,10 @@ function setup() {
   else{
     canvas = createCanvas(width, minWindowHeight); 
   }
-  
   canvas.parent("p5canvas");
+
+  playAreaPos = [menuWidth, 0, width, height-footerHeight];
+
 
   fft = new p5.FFT();
   //criar os players
@@ -72,6 +73,7 @@ function windowResized() {
     move_toggle.x = mixRecorder.x - move_toggle.size - 70; //TA: reposition AutoMove button
     autoplay_toggle.x = move_toggle.x - autoplay_toggle.size - 65; //TA: reposition AutoPlay button
     spectrum_size[0] = autoplay_toggle.x - 30; //TA: reposition spectroscope
+    playAreaPos = [menuWidth, 0, width, height-footerHeight];
   }
   //TA: resize height
   if(windowHeight > minWindowHeight){
@@ -81,6 +83,7 @@ function windowResized() {
     move_toggle.y = masterFader.y; //TA: reposition AutoMove button
     autoplay_toggle.y = masterFader.y; //TA: reposition AutoPlay button
     spectrum_init_y = height - footerHeight; //TA: reposition spectroscope
+    playAreaPos = [menuWidth, 0, width, height-footerHeight];
   }
   //NOTE: width & height resizing must be separated !!!
   // for example: the window might have reached the minimum width but the height might still be resized
