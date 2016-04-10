@@ -24,7 +24,7 @@ function Toggle(x_, y_, s_) {
       this.color = this.color_Off;
       this.displayLabel(false);
     }
-    
+
     fill(this.color);
 
     if (this.mode === 'RECT') {
@@ -32,7 +32,6 @@ function Toggle(x_, y_, s_) {
     } else if (this.mode === 'CIRC') {
       ellipseMode(CORNER);
       ellipse(this.x, this.y, this.size, this.size);
-      ellipseMode(CENTER);
     }
     pop();
   }
@@ -66,14 +65,20 @@ function Toggle(x_, y_, s_) {
     } else {
       this.label = this.label_off;
     }
+    push();
     fill(this.color);
     textAlign(LEFT, CENTER);
-    text(this.label, this.x + this.size + 5, this.y + this.size/2);
+    pop();
+    text(this.label, this.x + this.size + 5, this.y + this.size / 2);
   }
 
   // Getters & Setters //////////////////////
   this.getValue = function() {
     return this.on;
+  }
+
+  this.setValue = function(v_) {
+    this.on = v_;
   }
 
   this.setPos = function(x_, y_) {

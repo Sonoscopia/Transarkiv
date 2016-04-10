@@ -43,13 +43,15 @@ function Player(x_, y_, c_) {
   this.color_transport = color(255, 155);
   this.color_transportBg = this.color;
   //botão Play
-  //this.playToggle = new Toggle(this.x + this.size / 2 + 5, this.y - this.size / 2, 15);
-  //this.playToggle.setMode('CIRC');
-  //this.playToggle.setLabel('Play', 'Play');
-  // botão 'move'
-  this.moveButtonPos = [this.size / 2 + 5, this.size / 2 + 20];
-  this.moveButton = new cHandler(this.x + this.moveButtonPos[0], this.y - this.moveButtonPos[1], 15);
-  this.moveButton.setLabel('move', 'move');
+  this.playButtonOffset = [this.size / 2 + 15, - 10];
+  this.playToggle = new Toggle(this.x + this.playButtonOffset[0], this.y + this.playButtonOffset[1], 15);
+  this.playToggle.setMode('CIRC');
+  this.playToggle.setLabel('P', 'P');
+  // botão 'remove'
+  this.removeButtonOffset = [this.size / 2 + 10, - this.size/2 - 5];
+  this.removeButton = new Toggle(this.x + this.removeButtonOffset[0], this.y + this.removeButtonOffset[1], 15);
+  this.removeButton.setMode('CIRC');
+  this.removeButton.setLabel('x', 'x');
 
   //botão next random file
   this.next = new Toggle(this.x + this.size / 2, this.y - this.size / 2, 15);
@@ -75,7 +77,7 @@ function Player(x_, y_, c_) {
   print(this.path_sounds + this.cat_files[this.fileNumber]);
 
   if (this.sound.isLoaded()) {
-    print('sound is Loaded!!!!!!');
+    //print('sound is Loaded!!!!!!');
   }
   this.amp = new p5.Amplitude();
   this.amp.setInput(this.sound);
@@ -97,9 +99,9 @@ function Player(x_, y_, c_) {
     }
 
     //move object
-    if (this.moveButton.getValue()) {
-      this.x = mouseX - this.moveButtonPos[0] - 5;
-      this.y = mouseY + this.moveButtonPos[1] - 20;
+    if (this.mouseLock) {
+      this.x = mouseX;
+      this.y = mouseY;
     }
     //detect mouse hover
     this.h_dist = int(dist(this.x, this.y, mouseX, mouseY));
@@ -109,13 +111,6 @@ function Player(x_, y_, c_) {
       this.hover = false;
     }
 
-    //Amplitude (Rui)
-    /*
-    this.sound.setVolume(this.volControl.getValueY());
-    this.level = this.amp.getLevel();
-    this.level = this.level * 50;
-    */
-
     // TA: Amplitude
     this.sound.setVolume(1.0 - this.y / 600);
     this.level = this.amp.getLevel();
@@ -124,7 +119,7 @@ function Player(x_, y_, c_) {
     this.sound.pan(this.x / 900 * 2 - 1);
 
     //botão principal
-    if (this.sound.isPlaying()) { //this.playing) {
+    if (this.sound.isPlaying()) {
       fill(this.color_playing);
     } else {
       fill(this.color_stopped);
@@ -137,17 +132,17 @@ function Player(x_, y_, c_) {
     ellipse(this.x, this.y, this.size + this.level, this.size + this.level);
 
     //botão Play
-    //this.playToggle.setPos(this.x + this.size / 2 + 5, this.y - this.size / 2);
-    //this.playToggle.display();
+    this.playToggle.setPos(this.x + this.playButtonOffset[0], this.y + this.playButtonOffset[1]);
+    this.playToggle.display();
 
-    //botão Move
-    this.moveButton.setPos(this.x + this.size / 2 + 5, this.y - this.size / 2);
-    this.moveButton.display();
+    //botão Remove
+    this.removeButton.setPos(this.x + this.removeButtonOffset[0], this.y + this.removeButtonOffset[1]);
+    this.removeButton.display();
 
     //nome do ficheiro
-    fill(166, 166, 166);
-    textAlign('LEFT', 'CENTER');
-    text(this.fileName.slice(0, this.fileName.length - 4), this.x - this.size / 2, this.y + this.size / 2 + 15);
+    //fill(166, 166, 166);
+    //textAlign('LEFT', 'CENTER');
+    //text(this.fileName.slice(0, this.fileName.length - 4), this.x - this.size / 2, this.y + this.size / 2 + 15);
 
     //botão next random file
     //this.next.setPos(this.x+this.size/2+5, this.y - this.size / 2);
@@ -177,7 +172,7 @@ function Player(x_, y_, c_) {
     this.ct = map(this.currentTime, 0, this.sound.duration(), 0, radians(359));
     stroke(this.color_transport);
     arc(this.x, this.y, this.arcSize, this.arcSize, this.rad, this.rad + this.ct);
-    pop();
+    
     //sinal loading
     if (this.sound.isLoaded()) {
       //fill(33, 255, 55, 55);
@@ -258,51 +253,40 @@ function Player(x_, y_, c_) {
     if (d < this.size / 2) {
       this.mouseLock = true;
     }
-    if (d < this.size / 2 && this.sound.isLoaded()) {
-      if (this.sound.isPlaying()) {
-        this.sound.stop();
-      } else {
-        this.sound.play();
-      }
-    }
+
     //botão Play
-    //this.playToggle.clicked();
-    this.moveButton.clicked();
-    if (this.moveButton.getValue()) {
-      this.x = this.moveButton.getValueX();
-      this.y = this.moveButton.getValueY();
-    }
-    /*
+    this.playToggle.clicked();
     if (this.playToggle.getValue()) {
       this.sound.play();
     } else {
       this.sound.stop();
+    }
+    
+    this.removeButton.clicked();
+    /*if (this.moveButton.getValue()) {
+      this.x = this.moveButton.getValueX();
+      this.y = this.moveButton.getValueY();
     }*/
 
     //this.volControl.clicked();
 
-    //detetar clique no botão next random
-    this.next.clicked();
-    d = int(dist(this.next_x, this.next_y, mouseX, mouseY));
-    if (d < this.next_size) {
-      this.selectRandom();
-    }
+
   }
   this.released = function() {
     this.mouseLock = false;
     //this.volControl.released();
-    this.moveButton.released();
+    //this.moveButton.released();
   }
 
   this.selectRandom = function() {
     if (this.sound.isPlaying()) {
       this.sound.stop();
     }
-    this.fileNumber = int(random(filenames.length));
-    this.fileName = filenames[this.fileNumber];
-    this.sound = loadSound(path + filenames[this.fileNumber]);
+    this.fileNumber = int(random(cat_files.length));
+    this.fileName = cat_files[this.fileNumber];
+    this.sound = loadSound(path + cat_files[this.fileNumber]);
     this.amp.setInput(this.sound);
-    print(this.fileNumber + ': ' + filenames[this.fileNumber]);
+    print(this.fileNumber + ': ' + cat_files[this.fileNumber]);
   }
 
   this.setCategory = function(cat_) {

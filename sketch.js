@@ -28,6 +28,8 @@ var debugZoneByColor = false; //TA: paint zones with basic colors so that we can
 var categories = ['ambient', 'rhythmic', 'detail', 'voice'];
 var cat_colors = [4];
 
+var cat1_button, cat2_button, cat3_button, cat4_button;
+
 
 /************************* PRELOAD ***************************/
 function preload() {
@@ -50,11 +52,9 @@ function setup() {
   canvas.parent("p5canvas");
 
   fft = new p5.FFT();
-
-  cat_colors[0] = color(255, 0, 0, 255);
-  cat_colors[1] = color(0, 255, 0, 255);
-  cat_colors[2] = color(0, 0, 255, 255);
-  cat_colors[3] = color(255, 255, 0, 255);
+  
+  //Categories Left Menu
+  categories_menu_setup();
 
 
   //criar os players
@@ -153,6 +153,7 @@ function draw() {
   
   
   //Categories Menu
+  categories_menu();
   
 }
 
@@ -161,6 +162,7 @@ function mousePressed() {
   for (var i = 0; i < player_count; i++) {
     players[i].clicked();
   }
+  categories_menu_clicked();
 
   masterFader.clicked();
   move_toggle.clicked();

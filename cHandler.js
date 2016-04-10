@@ -8,8 +8,8 @@ function cHandler(x_, y_, s_) {
   this.value_x = 0;
   this.value_y = 0;
 
-  this.color_on = color(255, 211);
-  this.color_off = color(255, 111);
+  this.color_on = color(222, 222, 222, 222);
+  this.color_off = color(255, 255, 255, 111);
   this.color = this.color_off;
 
   this.label = '';
@@ -27,14 +27,16 @@ function cHandler(x_, y_, s_) {
     } else {
       this.color = this.color_off;
     }
+    
     push();
+    
     noStroke();
     fill(this.color);
     textAlign(LEFT, CENTER);
     text(this.label, this.x+this.size+5, this.y+this.size/2);
     
     fill(this.color);
-    ellipseMode(CORNER);
+    ellipseMode(CENTER);
     ellipse(this.x, this.y, this.size, this.size);
     //set value
     if (this.mouseLock) {
@@ -59,7 +61,6 @@ function cHandler(x_, y_, s_) {
       this.lastMouseY = mouseY;
     }
     
-    //print('value: '+this.value);
     pop();
   }
 
