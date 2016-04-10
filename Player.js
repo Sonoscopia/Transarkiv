@@ -104,11 +104,11 @@ function Player(x_, y_) {
     */
     
     // TA: Amplitude
-    this.sound.setVolume(1.0 - this.y/600);
+    this.sound.setVolume(1.0 - (this.y+this.size/2)/(playAreaPos[3]-playAreaPos[1]));
     this.level = this.amp.getLevel();
     this.level = this.level * 50;
     // TA: Pan
-    this.sound.pan(this.x/900*2-1);
+    this.sound.pan(this.x/(playAreaPos[2]-playAreaPos[0])*2-1);
     
     //botão principal
     if (this.sound.isPlaying()) { //this.playing) {
