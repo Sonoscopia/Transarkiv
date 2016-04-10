@@ -12,7 +12,10 @@ function Toggle(x_, y_, s_) {
   this.label_on = '';
   this.label_off = '';
   this.label = this.label_off;
-
+  this.icon;
+  this.icon_x = 0; //icon position offset
+  this.icon_y = 0;
+  
   this.display = function() {
     push();
 
@@ -33,6 +36,9 @@ function Toggle(x_, y_, s_) {
       ellipseMode(CORNER);
       ellipse(this.x, this.y, this.size, this.size);
       ellipseMode(CENTER);
+    }
+    if (this.icon){ // draw button icon
+      image(this.icon, this.x+this.icon_x, this.y+this.icon_y);
     }
     pop();
   }
@@ -95,5 +101,12 @@ function Toggle(x_, y_, s_) {
   this.setLabel = function(label_on_, label_off_) {
     this.label_on = label_on_;
     this.label_off = label_off_;
+  }
+  this.setIcon = function(file_){ // set image at this.x & this.y
+    this.icon = loadImage(file_);
+  }
+  this.setIconOffset = function(x_, y_){ // set image plus XY offset
+    this.icon_x = x_;
+    this.icon_y = y_;
   }
 }

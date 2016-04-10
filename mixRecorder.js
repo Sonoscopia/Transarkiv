@@ -4,8 +4,8 @@ function mixRecorder(x_, y_, s_) { // TA: constructor (pos x,pos y, size, input 
   this.size = s_;
 
   this.isRecording = false; 
-  this.inactiveColor = color(255, 102, 102); // TA: button color when not recording
-  this.activeColor = color(255, 0, 0); // TA: button color when recording
+  this.inactiveColor = color(222, 222, 222, 111); // TA: button color when not recording
+  this.activeColor = color(255, 102, 102); // TA: button color when recording
   this.labelColor = color(222, 222, 222, 111); // TA: text label color
   
   this.recorder = new p5.SoundRecorder(); // TA: instantiate a sound recorder 
@@ -52,6 +52,9 @@ function mixRecorder(x_, y_, s_) { // TA: constructor (pos x,pos y, size, input 
   this.displayLabel = function() {
     fill(this.labelColor);
     textAlign(LEFT, CENTER);
+    if(this.isRecording)
+    text('Stop&Save', this.x + this.size + 5, this.y + this.size/2);
+    else
     text('Record', this.x + this.size + 5, this.y + this.size/2);
   }
   
