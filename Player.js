@@ -44,18 +44,18 @@ function Player(x_, y_, c_) {
   this.color_transport = color(255, 155);
   this.color_transportBg = this.color;
   //botão Play
-  this.playButtonOffset = [this.size / 2 + 8, -this.size/2];
+  this.playButtonOffset = [this.size / 2 + 3, -this.size/2 - 8];
   this.playToggle = new Toggle(this.x + this.playButtonOffset[0], this.y + this.playButtonOffset[1], 17);
   this.playToggle.setMode('CIRC');
   this.playToggle.setLabel('P', 'P');
   // botão 'remove'
-  this.removeButtonOffset = [this.size / 2 + 8, this.size/2-5];
+  this.removeButtonOffset = [this.size / 2 + 3, this.size/2-10];
   this.removeButton = new Toggle(this.x + this.removeButtonOffset[0], this.y + this.removeButtonOffset[1], 13);
   this.removeButton.setMode('CIRC');
   this.removeButton.setLabel('x', 'x');
   
   //circular handler and indicator - Filter
-  this.filterControlOffset = [this.size/2 + 15, 0];
+  this.filterControlOffset = [this.size/2 + 17, 0];
   this.filterControl = new cHandler(this.x + this.filterControlOffset[0], this.y + this.filterControlOffset[1], 15);
   this.filterControl.setValueY(0.5);
   this.filterControl.setValueX(0.2);
