@@ -33,15 +33,12 @@ function cRangeSlider(x_, y_, s_) {
     // Circular (fixed) line
     stroke(0, 211);
     arc(this.x, this.y, this.size, this.size, this.angle_start, this.angle_start + this.range);
-    
-    
-    
+
     this.angle = this.value * this.range;
     // Circular (moving) range representation 
     stroke(this.color);
     arc(this.x, this.y, this.size, this.size, this.angle_start + this.value_min*this.range, this.angle_start + this.value_max*this.range);
 
-    //print('value: '+this.value + ' - angulo: ' + this.angle + ' - range: ' + this.range);
     pop();
   }
 
