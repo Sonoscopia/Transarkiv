@@ -10,7 +10,7 @@ function Player(x_, y_, c_) {
   this.autoPlay_toggle = false;
   this.mouseLock = false;
   this.hover = false;
-  this.isMenu = false; //TA: variable to define if Player is an object on the left menu or in the MixZone
+  this.loop = true; // by default loop is ON
 
   this.category = c_;
   this.path_sounds = path_sounds[this.category];
@@ -43,6 +43,7 @@ function Player(x_, y_, c_) {
   this.color_playing = color(233, 133);
   this.color_transport = color(255, 155);
   this.color_transportBg = this.color;
+  
   //botão Play
   this.playButtonOffset = [this.size / 2 + 3, -this.size/2 - 8];
   this.playToggle = new Toggle(this.x + this.playButtonOffset[0], this.y + this.playButtonOffset[1], 17);
@@ -53,13 +54,18 @@ function Player(x_, y_, c_) {
   this.removeButton = new Toggle(this.x + this.removeButtonOffset[0], this.y + this.removeButtonOffset[1], 13);
   this.removeButton.setMode('CIRC');
   this.removeButton.setLabel('x', 'x');
+
   
   //circular handler and indicator - Filter
   this.filterControlOffset = [this.size/2 + 17, 0];
   this.filterControl = new cHandler(this.x + this.filterControlOffset[0], this.y + this.filterControlOffset[1], 15);
   this.filterControl.setValueY(0.5);
   this.filterControl.setValueX(0.2);
-  this.filterControl.setLabel('F');
+
+  this.filterControl.setLabel('filter');
+  this.filterControl.setIcon('pics/filter_icon.png');
+  this.filterControl.setIconOffset(-1.5, 1.5);
+
   this.filterIndicator = new cRangeSlider(this.x - this.size, this.y, this.size + 30);
   this.filterIndicator.setRange(90);
   this.filterIndicator.setAngle(145);
@@ -108,10 +114,14 @@ function Player(x_, y_, c_) {
     }
 
     //move object
+    
     if (this.mouseLock) {
-      this.x = mouseX;
-      this.y = mouseY;
+      //Constrain movement to playAreaPos
+      this.x = constrain(mouseX - 5, playAreaPos[0]+this.size, playAreaPos[2]-this.size);
+      this.y = constrain(mouseY - 20, playAreaPos[1]+this.size, playAreaPos[3]-this.size/2);
+
     }
+    
     //detect mouse hover
     this.h_dist = int(dist(this.x, this.y, mouseX, mouseY));
     if (this.h_dist < this.size / 2) {
@@ -121,11 +131,11 @@ function Player(x_, y_, c_) {
     }
 
     // TA: Amplitude
-    this.sound.setVolume(1.0 - this.y / 600);
+    this.sound.setVolume(1.0 - (this.y+this.size/2)/(playAreaPos[3]-playAreaPos[1]));
     this.level = this.amp.getLevel();
     this.level = this.level * 50;
     // TA: Pan
-    this.sound.pan(this.x / 900 * 2 - 1);
+    this.sound.pan(this.x/(playAreaPos[2]-playAreaPos[0])*2-1);
 
     //botão principal
     if (this.sound.isPlaying()) {
@@ -149,9 +159,7 @@ function Player(x_, y_, c_) {
     this.removeButton.display();
 
     //nome do ficheiro
-    //fill(166, 166, 166);
-    //textAlign('LEFT', 'CENTER');
-    //text(this.fileName.slice(0, this.fileName.length - 4), this.x - this.size / 2, this.y + this.size / 2 + 15);
+
 
     //filtro
     this.filterControl.setPos(this.x + this.filterControlOffset[0], this.y + this.filterControlOffset[1]);
@@ -228,6 +236,9 @@ function Player(x_, y_, c_) {
       }
       this.lapse = int(random(15)) + 15;
     }
+    // Constrain movement to playAreaPos
+    this.x = constrain(this.x, playAreaPos[0]+this.size, playAreaPos[2]-this.size);
+    this.y = constrain(this.y, playAreaPos[1]+this.size, playAreaPos[3]-this.size/2);
 
   }
 
@@ -257,6 +268,16 @@ function Player(x_, y_, c_) {
     if (d < this.size / 2) {
       this.mouseLock = true;
     }
+
+    /*if (d < this.size / 2 && this.sound.isLoaded()) {
+      if (this.sound.isPlaying()) {
+        this.sound.stop();
+      } else {
+        if(this.loop) this.sound.loop();
+        else this.sound.play();
+      }
+    }*/
+
 
     //botão Play
     this.playToggle.clicked();

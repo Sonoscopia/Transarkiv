@@ -17,11 +17,9 @@ var menuLineSpace = 50;
 var waveform, spectrum, fft;
 var fft;
 
-var menuWidth = 150,
-  footerHeight = 100;
-var minWindowWidth = 640,
-  minWindowHeight = 480;
-var playAreaPos = [menuWidth, 0];
+var menuWidth = 150, footerHeight = 100;
+var minWindowWidth = 640, minWindowHeight = 480;
+var playAreaPos;
 
 var spectrum_size, spectrum_init_x, spectrum_init_y;
 
@@ -51,7 +49,11 @@ function setup() {
   } else {
     canvas = createCanvas(width, minWindowHeight);
   }
+
   canvas.parent("p5canvas");
+
+  playAreaPos = [menuWidth, 0, width, height-footerHeight];
+
 
   fft = new p5.FFT();
 
@@ -67,7 +69,9 @@ function setup() {
   //TA: footer UI (fader buttons and spectroscope)
   masterFader = new Fader(width - 190, height - 60, 150, 20, 0.8); //TA: hFader(x pos, y pos, width, height, value)
   masterFader.mode = 'H';
-  mixRecorder = new mixRecorder(masterFader.x - 20 - 60, masterFader.y, 20); // TA: mixRecorder(x pos, y pos, size) 
+
+  mixRecorder = new mixRecorder(masterFader.x - 30 - 60, masterFader.y , 20); // TA: mixRecorder(x pos, y pos, size) 
+
   move_toggle = new Toggle(mixRecorder.x - 20 - 70, masterFader.y, 20); // TA: Toggle(x pos, y pos, size) 
   move_toggle.setLabel('AutoMove', 'AutoMove');
   autoplay_toggle = new Toggle(move_toggle.x - 20 - 65, masterFader.y, 20); // TA: Toggle(x pos, y pos, size) 
@@ -84,11 +88,14 @@ function windowResized() {
   //TA: resize width
   if (windowWidth > minWindowWidth && windowHeight > minWindowHeight) {
     resizeCanvas(windowWidth, height); //TA: reset canvas size
-    masterFader.x = width - 190; //TA: reposition masterFader 
-    mixRecorder.x = masterFader.x - mixRecorder.size - 60; //TA: reposition rec button
+
+    masterFader.x = width-190; //TA: reposition masterFader 
+    mixRecorder.x = masterFader.x - mixRecorder.size - 70; //TA: reposition rec button
+
     move_toggle.x = mixRecorder.x - move_toggle.size - 70; //TA: reposition AutoMove button
     autoplay_toggle.x = move_toggle.x - autoplay_toggle.size - 65; //TA: reposition AutoPlay button
     spectrum_size[0] = autoplay_toggle.x - 30; //TA: reposition spectroscope
+    playAreaPos = [menuWidth, 0, width, height-footerHeight];
   }
   //TA: resize height
   if (windowHeight > minWindowHeight) {
@@ -98,6 +105,7 @@ function windowResized() {
     move_toggle.y = masterFader.y; //TA: reposition AutoMove button
     autoplay_toggle.y = masterFader.y; //TA: reposition AutoPlay button
     spectrum_init_y = height - footerHeight; //TA: reposition spectroscope
+    playAreaPos = [menuWidth, 0, width, height-footerHeight];
   }
   //NOTE: width & height resizing must be separated !!!
   // for example: the window might have reached the minimum width but the height might still be resized
