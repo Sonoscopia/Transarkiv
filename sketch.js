@@ -11,6 +11,8 @@ var players = []; //array de objetos da classe 'Player'
 var vol = 1;
 var masterFader, move_toggle, autoplay_toggle;
 var mixRecorder;
+var menuPos = [20, 150];
+var menuLineSpace = 50;
 
 var waveform, spectrum, fft;
 var fft;
@@ -52,7 +54,7 @@ function setup() {
   canvas.parent("p5canvas");
 
   fft = new p5.FFT();
-  
+
   //Categories Left Menu
   categories_menu_setup();
 
@@ -150,11 +152,11 @@ function draw() {
   autoplay_toggle.display();
 
   mixRecorder.run(); // TA: display mixRecorder button and run recorder function
-  
-  
+
+
   //Categories Menu
   categories_menu();
-  
+
 }
 
 /************************* MOUSE UI **************************/
