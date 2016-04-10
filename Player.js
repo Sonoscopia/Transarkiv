@@ -114,12 +114,14 @@ function Player(x_, y_, c_) {
     }
 
     //move object
-    if (this.moveButton.getValue()) {
+    
+    if (this.mouseLock) {
       //Constrain movement to playAreaPos
-      this.x = constrain(mouseX - this.moveButtonPos[0] - 5, playAreaPos[0]+this.size, playAreaPos[2]-this.size);
-      this.y = constrain(mouseY + this.moveButtonPos[1] - 20, playAreaPos[1]+this.size, playAreaPos[3]-this.size/2);
+      this.x = constrain(mouseX - 5, playAreaPos[0]+this.size, playAreaPos[2]-this.size);
+      this.y = constrain(mouseY - 20, playAreaPos[1]+this.size, playAreaPos[3]-this.size/2);
 
     }
+    
     //detect mouse hover
     this.h_dist = int(dist(this.x, this.y, mouseX, mouseY));
     if (this.h_dist < this.size / 2) {
@@ -129,7 +131,6 @@ function Player(x_, y_, c_) {
     }
 
     // TA: Amplitude
-
     this.sound.setVolume(1.0 - (this.y+this.size/2)/(playAreaPos[3]-playAreaPos[1]));
     this.level = this.amp.getLevel();
     this.level = this.level * 50;

@@ -49,9 +49,6 @@ function setup() {
   } else {
     canvas = createCanvas(width, minWindowHeight);
   }
-  else{
-    canvas = createCanvas(width, minWindowHeight); 
-  }
 
   canvas.parent("p5canvas");
 
