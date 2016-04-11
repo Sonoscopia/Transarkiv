@@ -53,7 +53,7 @@ function Player(x_, y_, c_) {
   this.filterIndicator.setRange(90);
   this.filterIndicator.setAngle(135);
   
-  this.constrainPos = [playAreaPos[0]+this.size, playAreaPos[1]+this.size, playAreaPos[2]-this.size, playAreaPos[3]-this.size/2];
+  this.constrainPos = [];
   
   //sinal loading
   this.loading_x = this.x - this.size / 2;
@@ -89,6 +89,8 @@ function Player(x_, y_, c_) {
 
 
   this.display = function() {
+    this.constrainPos = [playAreaPos[0]+this.size, playAreaPos[1]+this.size, playAreaPos[2]-this.size, playAreaPos[3]-this.size/2];
+
     push();
     this.time = int(millis() * 0.01);
     if (this.time > 30) {
