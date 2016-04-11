@@ -58,7 +58,7 @@ function Player(x_, y_, c_) {
   this.loading_x = this.x - this.size / 2;
   this.loading_y = this.y - this.size / 2;
 
-  this.fileNumber = int(random(3));
+  this.fileNumber = int(random(filenames[this.category].length));
   this.fileName = filenames[this.category][this.fileNumber];
   //carregar o som - -  aqui devia dar para utilizar uma função callback para mostrar quando está a carregar
   this.sound = loadSound(path + category_path[this.category] + filenames[this.category][this.fileNumber]);

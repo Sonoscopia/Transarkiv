@@ -47,7 +47,7 @@ function setup() {
   fft = new p5.FFT();
   //criar os players
   for (var i = 0; i < player_count; i++) {
-    players[i] = new Player(i * (500 / player_count) + 100, random(100, 300), 0); //novo player (x, y, categoria)
+    players[i] = new Player(i * (500 / player_count) + 100, random(100, 300), int(random(4))); //novo player (x, y, categoria)
   }
   
   //TA: left menu UI
