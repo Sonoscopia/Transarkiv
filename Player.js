@@ -18,10 +18,6 @@ function Player(x_, y_, c_) {
   this.color_loading = color(33, 33, 33, 222);
   this.color_playing = color(233, 133);
   this.color_transport = color(255, 155);
-
-  //botão next random file
-  this.next = new Toggle(this.x + this.size / 2, this.y - this.size / 2, 15);
-  this.next.setMode('CIRC');
   
   // botão Play
   this.playButtonOffset = [this.size / 2 + 10, - 15 / 2]; // 15 = this.button.size
@@ -140,10 +136,6 @@ function Player(x_, y_, c_) {
     noStroke();
     ellipse(this.x, this.y, this.size + this.level, this.size + this.level);
     
-    //botão Play
-    //this.playToggle.setPos(this.x + this.size / 2 + 5, this.y - this.size / 2);
-    //this.playToggle.display();
-
     //nome do ficheiro
     /*
     fill(166, 166, 166);
@@ -151,9 +143,6 @@ function Player(x_, y_, c_) {
     text(this.fileName.slice(0, this.fileName.length-4) , this.x - this.size / 2, this.y + this.size / 2 + 15);
     */
     
-    //botão next random file
-    //this.next.setPos(this.x+this.size/2+5, this.y - this.size / 2);
-    //this.next.display();
     
     //botão Play
     this.playButton.setPos(this.x + this.playButtonOffset[0], this.y + this.playButtonOffset[1]);
@@ -272,27 +261,7 @@ function Player(x_, y_, c_) {
     if (d < this.size / 2) {
       this.mouseLock = true;
     }
-    /*
-    if (d < this.size / 2 && this.sound.isLoaded()) {
-      if (this.sound.isPlaying()) {
-        this.sound.stop();
-      } else {
-        if(this.loop) this.sound.loop();
-        else this.sound.play();
-      }
-    }
-    */
-    
-    //botão Play
-    //this.playToggle.clicked();
-    /*
-    this.moveButton.clicked();
-    if(this.moveButton.getValue()){
-      this.x = this.moveButton.getValueX();
-      this.y = this.moveButton.getValueY();
-    }
-    */
-    
+  
     this.playButton.clicked();
     if(this.playButton.toggle){
       if(this.loop) this.sound.loop();
@@ -302,14 +271,6 @@ function Player(x_, y_, c_) {
       if (this.sound.isPlaying())
       this.sound.stop();
     }
-    
-    
-    /*
-    if (this.playToggle.getValue()) {
-      this.sound.play();
-    } else {
-      this.sound.stop();
-    }*/
     
     this.deleteButton.clicked();
     if(this.deleteButton.getValue()){
@@ -324,13 +285,6 @@ function Player(x_, y_, c_) {
     }
     
     this.filterControl.clicked();
-
-    //detetar clique no botão next random
-    this.next.clicked();
-    d = int(dist(this.next_x, this.next_y, mouseX, mouseY));
-    if (d < this.next_size) {
-      this.selectRandom();
-    }
   }
   this.released = function() {
     this.mouseLock = false;
