@@ -148,11 +148,11 @@ function Player(x_, y_, c_) {
     //this.next.display();
     
     //botão Move
-    this.moveButton.setPos(this.x + this.size / 2 + 3, this.y - this.size / 2 - 6);
+    this.moveButton.setPos(this.x + this.size / 2 + 10, this.y - this.deleteButton.size / 2);
     this.moveButton.display();
     
     //botão Delete
-    this.deleteButton.setPos(this.x + this.size / 2 + 10, this.y - this.deleteButton.size / 2);
+    this.deleteButton.setPos(this.x + this.size / 2 + 3, this.y - this.size / 2 - 6);
     this.deleteButton.display();
     
     //botão Filter
