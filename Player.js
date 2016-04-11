@@ -18,48 +18,50 @@ function Player(x_, y_, c_) {
   this.color_loading = color(33, 33, 33, 222);
   this.color_playing = color(233, 133);
   this.color_transport = color(255, 155);
-  //botão Play
-  //this.playToggle = new Toggle(this.x + this.size / 2 + 5, this.y - this.size / 2, 15);
-  //this.playToggle.setMode('CIRC');
-  //this.playToggle.setLabel('Play', 'Play');
-  
+
   //botão next random file
   this.next = new Toggle(this.x + this.size / 2, this.y - this.size / 2, 15);
   this.next.setMode('CIRC');
   
-  // botão Move
-  this.playButtonPos = [this.size / 2 + 5, this.size / 2 + 20];
-  this.playButton = new cHandler(this.x + this.playButtonPos[0],this.y - this.playButtonPos[1], 15);
-  //this.playButton.setLabel('move', 'move');
+  // botão Play
+  this.playButtonOffset = [this.size / 2 + 10, - 15 / 2]; // 15 = this.button.size
+  this.playButton = new cHandler(this.x + this.playButtonOffset[0],this.y + this.playButtonOffset[1], 15);
+  //this.playButton.setLabel('play', 'stop');
   this.playButton.setIconOff('pics/stop_icon.png');
   this.playButton.setIconOn('pics/play_icon.png');
   this.playButton.setIconOffOffset(1.5, 1.5);
   this.playButton.setIconOnOffset(2, 2);
-  
+
   // botão Delete
-  this.deleteButton = new cHandler(this.x + this.size / 2 + 10, this.y - 15 / 2, 15);
+  this.deleteButtonOffset = [this.size / 2 + 3, - this.size / 2 - 6];
+  this.deleteButton = new cHandler(this.x + this.deleteButtonOffset[0], this.y + this.deleteButtonOffset[1], 15);
   //this.deleteButton.setLabel('delete', 'delete');
   this.deleteButton.setIcon('pics/delete_icon.png');
   this.deleteButton.setIconOffset(0.6, 1.1);
-  //circular handler and indicator - Filter
-  this.filterControl = new cHandler(this.x, this.y, 15);
+  
+  
+  //botão Filter
+  this.filterControlOffset = [this.size / 2 + 3, this.size / 2 - 10];
+  this.filterControl = new cHandler(this.x + this.filterControlOffset[0], this.y + this.filterControlOffset[1], 15);
   this.filterControl.setValueY(0.5);
   this.filterControl.setValueX(0.2);
   //this.filterControl.setLabel('filter');
   this.filterControl.setIcon('pics/filter_icon.png');
   this.filterControl.setIconOffset(-1.5, 1.5);
-  
+  // filter circular fader
   this.filterIndicator = new cRangeSlider(this.x - this.size, this.y, this.size + 30);
   this.filterIndicator.setRange(90);
   this.filterIndicator.setAngle(135);
   
-  this.hpFilter = new p5.HighPass();
-  this.lpFilter = new p5.LowPass();
+  this.constrainPos = [playAreaPos[0]+this.size, playAreaPos[1]+this.size, playAreaPos[2]-this.size, playAreaPos[3]-this.size/2];
   
   //sinal loading
   this.loading_x = this.x - this.size / 2;
   this.loading_y = this.y - this.size / 2;
-
+  // filters
+  this.hpFilter = new p5.HighPass();
+  this.lpFilter = new p5.LowPass();
+  // sampler
   this.fileNumber = int(random(filenames[this.category].length));
   this.fileName = filenames[this.category][this.fileNumber];
   //carregar o som - -  aqui devia dar para utilizar uma função callback para mostrar quando está a carregar
@@ -102,6 +104,12 @@ function Player(x_, y_, c_) {
     }
     */
     
+    if (this.mouseLock) {
+      //Constrain movement to playAreaPos
+      this.x = constrain(mouseX - 5, this.constrainPos[0], this.constrainPos[2]);
+      this.y = constrain(mouseY - 20, this.constrainPos[1], this.constrainPos[3]);
+
+    }
     //detect mouse hover
     this.h_dist = int(dist(this.x, this.y, mouseX, mouseY));
     if (this.h_dist < this.size / 2) {
@@ -109,13 +117,6 @@ function Player(x_, y_, c_) {
     } else {
       this.hover = false;
     }
-
-    //Amplitude (Rui)
-    /*
-    this.sound.setVolume(this.volControl.getValueY());
-    this.level = this.amp.getLevel();
-    this.level = this.level * 50;
-    */
     
     // TA: Amplitude
     this.sound.setVolume(1.0 - (this.y+this.size/2)/(playAreaPos[3]-playAreaPos[1]));
@@ -152,16 +153,16 @@ function Player(x_, y_, c_) {
     //this.next.setPos(this.x+this.size/2+5, this.y - this.size / 2);
     //this.next.display();
     
-    //botão Move
-    this.playButton.setPos(this.x + this.size / 2 + 10, this.y - this.deleteButton.size / 2);
+    //botão Play
+    this.playButton.setPos(this.x + this.playButtonOffset[0], this.y + this.playButtonOffset[1]);
     this.playButton.display();
     
     //botão Delete
-    this.deleteButton.setPos(this.x + this.size / 2 + 3, this.y - this.size / 2 - 6);
+    this.deleteButton.setPos(this.x + this.deleteButtonOffset[0], this.y + this.deleteButtonOffset[1]);
     this.deleteButton.display();
     
     //botão Filter
-    this.filterControl.setPos(this.x + this.size / 2 + 3, this.y + this.size / 2 - 10);
+    this.filterControl.setPos(this.x + this.filterControlOffset[0], this.y + this.filterControlOffset[1]);
     this.filterControl.display();
     
     //Indicador de volume
@@ -238,8 +239,8 @@ function Player(x_, y_, c_) {
       this.lapse = int(random(15)) + 15;
     }
     // Constrain movement to playAreaPos
-    this.x = constrain(this.x, playAreaPos[0]+this.size, playAreaPos[2]-this.size);
-    this.y = constrain(this.y, playAreaPos[1]+this.size, playAreaPos[3]-this.size/2);
+    this.x = constrain(this.x, this.constrainPos[0], this.constrainPos[2]);
+    this.y = constrain(this.y, this.constrainPos[1], this.constrainPos[3]);
 
   }
 
@@ -269,6 +270,7 @@ function Player(x_, y_, c_) {
     if (d < this.size / 2) {
       this.mouseLock = true;
     }
+    /*
     if (d < this.size / 2 && this.sound.isLoaded()) {
       if (this.sound.isPlaying()) {
         this.sound.stop();
@@ -277,6 +279,8 @@ function Player(x_, y_, c_) {
         else this.sound.play();
       }
     }
+    */
+    
     //botão Play
     //this.playToggle.clicked();
     /*
