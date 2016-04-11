@@ -102,6 +102,9 @@ function Toggle(x_, y_, s_) {
     this.x = x_;
     this.y = y_;
   }
+  this.setValue = function(v_){
+    this.on = v_;
+  }
   this.setSize = function(s_) {
     this.size = s_;
   }
