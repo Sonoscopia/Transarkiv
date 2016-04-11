@@ -22,17 +22,23 @@ function Player(x_, y_, c_) {
   //this.playToggle = new Toggle(this.x + this.size / 2 + 5, this.y - this.size / 2, 15);
   //this.playToggle.setMode('CIRC');
   //this.playToggle.setLabel('Play', 'Play');
-  // botão 'move'
+  
+  //botão next random file
+  this.next = new Toggle(this.x + this.size / 2, this.y - this.size / 2, 15);
+  this.next.setMode('CIRC');
+  
+  // botão Move
   this.moveButtonPos = [this.size / 2 + 5, this.size / 2 + 20];
   this.moveButton = new cHandler(this.x + this.moveButtonPos[0],this.y - this.moveButtonPos[1], 15);
   this.moveButton.setLabel('move', 'move');
   this.moveButton.setIcon('pics/move_icon.png');
   this.moveButton.setIconOffset(-3.5, -4);
-
-  //botão next random file
-  this.next = new Toggle(this.x + this.size / 2, this.y - this.size / 2, 15);
-  this.next.setMode('CIRC');
   
+  // botão Delete
+  this.deleteButton = new cHandler(this.x + this.size / 2 + 10, this.y - 15 / 2, 15);
+  this.deleteButton.setLabel('delete', 'delete');
+  this.deleteButton.setIcon('pics/delete_icon.png');
+  this.deleteButton.setIconOffset(0.6, 1.1);
   //circular handler and indicator - Filter
   this.filterControl = new cHandler(this.x, this.y, 15);
   this.filterControl.setValueY(0.5);
@@ -40,10 +46,11 @@ function Player(x_, y_, c_) {
   this.filterControl.setLabel('filter');
   this.filterControl.setIcon('pics/filter_icon.png');
   this.filterControl.setIconOffset(-1.5, 1.5);
+  
   this.filterIndicator = new cRangeSlider(this.x - this.size, this.y, this.size + 30);
   this.filterIndicator.setRange(90);
-  this.filterIndicator.setAngle(145);
-  //this.bpFilter = new p5.BandPass();
+  this.filterIndicator.setAngle(135);
+  
   this.hpFilter = new p5.HighPass();
   this.lpFilter = new p5.LowPass();
   
@@ -124,14 +131,10 @@ function Player(x_, y_, c_) {
     
     noStroke();
     ellipse(this.x, this.y, this.size + this.level, this.size + this.level);
-
+    
     //botão Play
     //this.playToggle.setPos(this.x + this.size / 2 + 5, this.y - this.size / 2);
     //this.playToggle.display();
-
-    //botão Move
-    this.moveButton.setPos(this.x + this.size / 2 + 5, this.y - this.size / 2);
-    this.moveButton.display();
 
     //nome do ficheiro
     /*
@@ -143,9 +146,17 @@ function Player(x_, y_, c_) {
     //botão next random file
     //this.next.setPos(this.x+this.size/2+5, this.y - this.size / 2);
     //this.next.display();
-
-    //controlador de volume
-    this.filterControl.setPos(this.x + this.size / 2 + 5, this.y + this.size / 2 - 20);
+    
+    //botão Move
+    this.moveButton.setPos(this.x + this.size / 2 + 3, this.y - this.size / 2 - 6);
+    this.moveButton.display();
+    
+    //botão Delete
+    this.deleteButton.setPos(this.x + this.size / 2 + 10, this.y - this.deleteButton.size / 2);
+    this.deleteButton.display();
+    
+    //botão Filter
+    this.filterControl.setPos(this.x + this.size / 2 + 3, this.y + this.size / 2 - 10);
     this.filterControl.display();
     
     //Indicador de volume
@@ -274,7 +285,8 @@ function Player(x_, y_, c_) {
     } else {
       this.sound.stop();
     }*/
-
+    
+    this.deleteButton.clicked();
     this.filterControl.clicked();
 
     //detetar clique no botão next random
@@ -288,6 +300,7 @@ function Player(x_, y_, c_) {
     this.mouseLock = false;
     this.filterControl.released();
     this.moveButton.released();
+    this.deleteButton.released();
   }
 
   this.selectRandom = function() {
