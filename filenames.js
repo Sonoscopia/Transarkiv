@@ -13,21 +13,21 @@ function fileNames() {
   filenames[3] = []; 
   
   // Category #1 - Ambient
-  filenames[0][0] = '0001 Magliocchi Filipe duo_CUT.mp3';
-  filenames[0][1] = '0002 20150227_RM_MV336_EditFinal_CUT.mp3';
-  filenames[0][2] = '0003 costa guimarães viegas_CUT.mp3';
+  filenames[0][0] = '0001_MagliocchiFilipeDuo.mp3';
+  filenames[0][1] = '0002_RM_MV336.mp3';
+  filenames[0][2] = '0003_CostaGuimaraesViegas.mp3';
 
   // Category #2 - Rhythmic
-  filenames[1][0] = '0001 20150207_RM_MV_3.34_GustavoC+HenriqueF+RAmado_CUT.mp3';
-  filenames[1][1] = '0002 20150207_RM_MV334_Montagem_F_CUT.mp3';
+  filenames[1][0] = '0001_MV_3_34_GustavoC_HenriqueF_RAmado.mp3';
+  filenames[1][1] = '0002_MV334_Montagem_F.mp3';
   
   // Category #3 - Detail
-  filenames[2][0] = '0001 abdul rosso CRA 14 març 2015_CUT.mp3';
-  filenames[2][1] = '0002 Théo Céccaldi.Marcelo dos Reis.Valentin Céccaldi.Luís Vicente - Improvisation #1 (excerpt)_CUT.mp3';
+  filenames[2][0] = '0001_AbdulRosso_CRA.mp3';
+  filenames[2][1] = '0002_TheoCeccaldi_MarceloReis_ValentinCeccaldi_LuisVicente_Improvisation#1_CUT.mp3';
   
   // Category #4 - Voice
-  filenames[2][0] = '0001 Frogs_CUT1.mp3';
-  filenames[2][1] = '0002 Frogs_CUT2.mp3';
+  filenames[3][0] = '0001_Frogs.mp3';
+  filenames[3][1] = '0002_Frogs.mp3';
   
   //print('filenames ready');
 }
