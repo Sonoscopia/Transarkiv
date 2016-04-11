@@ -1,5 +1,9 @@
-//
+// GLOBAL: This file holds global variables (similar to a stylesheet) and global functions
 
+
+
+
+// Sound Files 
 function fileNames() {
   category_path[0] = '01_Ambient/';
   category_path[1] = '02_Rhythmic/';
