@@ -12,6 +12,7 @@ var mixRecorder;
 var waveform, spectrum, fft;
 var fft;
 
+var menu, menu_x, menu_y, menu_leading = 40; 
 var menuWidth = 150, footerHeight = 100;
 var minWindowWidth = 640, minWindowHeight = 480;
 var playAreaPos;
@@ -41,13 +42,20 @@ function setup() {
   canvas.parent("p5canvas");
 
   playAreaPos = [menuWidth, 0, width, height-footerHeight];
-
+  
 
   fft = new p5.FFT();
   //criar os players
   for (var i = 0; i < player_count; i++) {
     players[i] = new Player(i * (500 / player_count) + 100, random(100, 300), 0); //novo player
   }
+  
+  //TA: left menu UI
+  menu_x = menuWidth/4;
+  menu_y = playAreaPos[3] / 2;
+  menu = new LeftMenu(menu_x, menu_y, menu_leading);
+  menu_y = playAreaPos[3] / 2 - (menu.fontsize + menu_leading) * 4 / 2;
+  menu.y = menu_y;
   
   //TA: footer UI (fader buttons and spectroscope)
   masterFader = new Fader(width - 190, height - 60, 150, 20, 0.8); //TA: hFader(x pos, y pos, width, height, value)
@@ -75,6 +83,8 @@ function windowResized() {
     autoplay_toggle.x = move_toggle.x - autoplay_toggle.size - 65; //TA: reposition AutoPlay button
     spectrum_size[0] = autoplay_toggle.x - 30; //TA: reposition spectroscope
     playAreaPos = [menuWidth, 0, width, height-footerHeight];
+    menu_x = menuWidth/4;
+    menu.x = menu_x;
   }
   //TA: resize height
   if(windowHeight > minWindowHeight){
@@ -85,6 +95,8 @@ function windowResized() {
     autoplay_toggle.y = masterFader.y; //TA: reposition AutoPlay button
     spectrum_init_y = height - footerHeight; //TA: reposition spectroscope
     playAreaPos = [menuWidth, 0, width, height-footerHeight];
+    menu_y = playAreaPos[3] / 2 - (menu.fontsize + menu_leading) * 4 / 2;
+    menu.y = menu_y;
   }
   //NOTE: width & height resizing must be separated !!!
   // for example: the window might have reached the minimum width but the height might still be resized
@@ -111,6 +123,9 @@ function draw() {
   else
     fill(12);
   rect(0, 0, menuWidth, height-footerHeight);
+  
+  menu.display();
+
   //TA: mix area
   if(debugZoneByColor)
     fill(0, 255, 0);
