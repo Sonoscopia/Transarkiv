@@ -164,9 +164,9 @@ function Player(x_, y_, c_) {
     this.filterIndicator.setValueXY(this.filterControl.getValueX(), this.filterControl.getValueY());
     this.filterIndicator.display();
     
-    this.hpFilter.freq(map(this.filterIndicator.value_min, 0, 1, 60, 16000));
+    this.hpFilter.freq(map(pow(this.filterIndicator.value_min+1,8), 1, 256, 60, 16000));
     
-    this.lpFilter.freq(map(this.filterIndicator.value_max, 0, 1, 60, 16000));
+    this.lpFilter.freq(map(pow(this.filterIndicator.value_max+1,8), 1, 256, 60, 16000));
     
     //Barra de transporte
     this.arcSize = this.size + this.level;
