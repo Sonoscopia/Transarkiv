@@ -287,6 +287,15 @@ function Player(x_, y_, c_) {
     }*/
     
     this.deleteButton.clicked();
+    if(this.deleteButton.getValue()){
+        var i = players.indexOf(this);
+        if(i != -1) {
+          this.sound.stop();
+          players.splice(i, 1);
+        }
+        player_count --;
+    }
+    
     this.filterControl.clicked();
 
     //detetar clique no botão next random
