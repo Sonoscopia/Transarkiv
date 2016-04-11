@@ -206,7 +206,20 @@ function Player(x_, y_, c_) {
       //text('PROJECT INFO', text_x, text_y);
       //text('Info about the project here...', text_x, text_y + lineSpace);
       text('FILE INFO', text_x, text_y + lineSpace * 1);
-      text('File: ' + cat1_files[this.fileNumber], text_x, text_y + lineSpace * 2);
+      
+      if(this.category === 0){
+        text('File: ' + cat1_files[this.fileNumber], text_x, text_y + lineSpace * 2);
+      }
+      if(this.category === 1){
+        text('File: ' + cat2_files[this.fileNumber], text_x, text_y + lineSpace * 2);
+      }
+      if(this.category === 2){
+        text('File: ' + cat3_files[this.fileNumber], text_x, text_y + lineSpace * 2);
+      }
+      if(this.category === 3){
+        text('File: ' + cat4_files[this.fileNumber], text_x, text_y + lineSpace * 2);
+      }
+      
       text('Duration: ' + nf(this.sound.duration(), 3, 2) + 's', text_x, text_y + lineSpace * 3);
     }
 
