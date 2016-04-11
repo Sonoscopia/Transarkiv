@@ -69,7 +69,7 @@ function Fader(x_, y_, w_, h_, value_) {
     if (this.value < 0) {
       this.value = 0;
     }
-    println(this.value)
+    //println(this.value)
   }
 
   this.detectMouse = function(_x, _y, _w, _h) {
