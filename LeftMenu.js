@@ -7,6 +7,12 @@ function LeftMenu(x_, y_, l_) { // constructor: XY top left corner and spacing
   this.leading = l_; // space between each category
   this.font;
   this.fontsize = 15; 
+  this.buttons = []; 
+  
+  for(i = 0; i < category_path.length; i++){ // create 'Add' (+) buttons
+    this.buttons[i] = new cHandler(this.x, this.y, 15);
+    this.buttons[i].setIcon('pics/add_icon.png');
+  }
   
   this.preload = function(f_){ // set font on preload (please!)
     this.font = loadFont(f_);
@@ -21,7 +27,21 @@ function LeftMenu(x_, y_, l_) { // constructor: XY top left corner and spacing
     textStyle(BOLD); // Text style (NORMAL, BOLD, ITALIC)
     for(i = 0; i < category_path.length; i++){
       text(category_path[i].slice(3, category_path[i].length-1), this.x, this.y + i * this.leading);
+      this.buttons[i].setPos(this.x+75, this.y + i * this.leading - 12); // offsetY of -12 found heuristically (note: find proper relation on future versions)
+      this.buttons[i].setIconOffset(0, -0.25);
+      this.buttons[i].display();
     }
     pop();
+  }
+  
+  this.clicked = function(){
+    for(i = 0; i < category_path.length; i++){
+      this.buttons[i].clicked();
+    }
+  }
+  this.released = function(){
+    for(i = 0; i < category_path.length; i++){
+      this.buttons[i].released();
+    }
   }
 }
