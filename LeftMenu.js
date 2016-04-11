@@ -37,11 +37,15 @@ function LeftMenu(x_, y_, l_) { // constructor: XY top left corner and spacing
   this.clicked = function(){
     for(i = 0; i < category_path.length; i++){
       this.buttons[i].clicked();
+      if(this.buttons[i].getValue()){
+        append(players, new Player(random(300, 400), random(200, 300), i));
+        player_count ++;
+      }
     }
   }
   this.released = function(){
     for(i = 0; i < category_path.length; i++){
-      this.buttons[i].released();
+     this.buttons[i].released();
     }
   }
 }

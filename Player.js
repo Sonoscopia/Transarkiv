@@ -307,9 +307,18 @@ function Player(x_, y_, c_) {
     if (this.sound.isPlaying()) {
       this.sound.stop();
     }
-    this.fileNumber = int(random(filenames.length));
-    this.fileName = filenames[this.fileNumber];
-    this.sound = loadSound(path + filenames[this.fileNumber]);
+    this.fileNumber = int(random(filenames[this.category].length));
+    filenames[this.category][this.fileNumber];
+    this.sound = loadSound(path + category_path[this.category] + filenames[this.category][this.fileNumber]);
+    
+    // connect filter nodes
+    this.sound.disconnect();
+    this.lpFilter.disconnect();
+    this.lpFilter.connect(this.hpFilter);
+    this.sound.connect(this.lpFilter);
+    this.lpFilter.res(10);
+    this.hpFilter.res(10);
+    
     this.amp.setInput(this.sound);
     print(this.fileNumber + ': ' + filenames[this.fileNumber]);
   }
