@@ -28,22 +28,24 @@ function Player(x_, y_, c_) {
   this.next.setMode('CIRC');
   
   // botão Move
-  this.moveButtonPos = [this.size / 2 + 5, this.size / 2 + 20];
-  this.moveButton = new cHandler(this.x + this.moveButtonPos[0],this.y - this.moveButtonPos[1], 15);
-  this.moveButton.setLabel('move', 'move');
-  this.moveButton.setIcon('pics/move_icon.png');
-  this.moveButton.setIconOffset(-3.5, -4);
+  this.playButtonPos = [this.size / 2 + 5, this.size / 2 + 20];
+  this.playButton = new cHandler(this.x + this.playButtonPos[0],this.y - this.playButtonPos[1], 15);
+  //this.playButton.setLabel('move', 'move');
+  this.playButton.setIconOff('pics/stop_icon.png');
+  this.playButton.setIconOn('pics/play_icon.png');
+  this.playButton.setIconOffOffset(1.5, 1.5);
+  this.playButton.setIconOnOffset(2, 2);
   
   // botão Delete
   this.deleteButton = new cHandler(this.x + this.size / 2 + 10, this.y - 15 / 2, 15);
-  this.deleteButton.setLabel('delete', 'delete');
+  //this.deleteButton.setLabel('delete', 'delete');
   this.deleteButton.setIcon('pics/delete_icon.png');
   this.deleteButton.setIconOffset(0.6, 1.1);
   //circular handler and indicator - Filter
   this.filterControl = new cHandler(this.x, this.y, 15);
   this.filterControl.setValueY(0.5);
   this.filterControl.setValueX(0.2);
-  this.filterControl.setLabel('filter');
+  //this.filterControl.setLabel('filter');
   this.filterControl.setIcon('pics/filter_icon.png');
   this.filterControl.setIconOffset(-1.5, 1.5);
   
@@ -92,11 +94,14 @@ function Player(x_, y_, c_) {
     }
     
     //move object
+    /*
     if (this.moveButton.getValue()) {
       //Constrain movement to playAreaPos
       this.x = constrain(mouseX - this.moveButtonPos[0] - 5, playAreaPos[0]+this.size, playAreaPos[2]-this.size);
       this.y = constrain(mouseY + this.moveButtonPos[1] - 20, playAreaPos[1]+this.size, playAreaPos[3]-this.size/2);
     }
+    */
+    
     //detect mouse hover
     this.h_dist = int(dist(this.x, this.y, mouseX, mouseY));
     if (this.h_dist < this.size / 2) {
@@ -148,8 +153,8 @@ function Player(x_, y_, c_) {
     //this.next.display();
     
     //botão Move
-    this.moveButton.setPos(this.x + this.size / 2 + 10, this.y - this.deleteButton.size / 2);
-    this.moveButton.display();
+    this.playButton.setPos(this.x + this.size / 2 + 10, this.y - this.deleteButton.size / 2);
+    this.playButton.display();
     
     //botão Delete
     this.deleteButton.setPos(this.x + this.size / 2 + 3, this.y - this.size / 2 - 6);
@@ -274,11 +279,25 @@ function Player(x_, y_, c_) {
     }
     //botão Play
     //this.playToggle.clicked();
+    /*
     this.moveButton.clicked();
     if(this.moveButton.getValue()){
       this.x = this.moveButton.getValueX();
       this.y = this.moveButton.getValueY();
     }
+    */
+    
+    this.playButton.clicked();
+    if(this.playButton.toggle){
+      if(this.loop) this.sound.loop();
+        else this.sound.play();
+    }
+    else{
+      if (this.sound.isPlaying())
+      this.sound.stop();
+    }
+    
+    
     /*
     if (this.playToggle.getValue()) {
       this.sound.play();
@@ -308,7 +327,8 @@ function Player(x_, y_, c_) {
   this.released = function() {
     this.mouseLock = false;
     this.filterControl.released();
-    this.moveButton.released();
+    //this.moveButton.released();
+    this.playButton.released();
     this.deleteButton.released();
   }
 
