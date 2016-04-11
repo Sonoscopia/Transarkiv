@@ -23,7 +23,7 @@ function fileNames() {
   
   // Category #3 - Detail
   filenames[2][0] = '0001_AbdulRosso_CRA.mp3';
-  filenames[2][1] = '0002_TheoCeccaldi_MarceloReis_ValentinCeccaldi_LuisVicente_Improvisation#1_CUT.mp3';
+  filenames[2][1] = '0002_TheoCeccaldi_MarceloReis_ValentinCeccaldi_LuisVicente_Improvisation1.mp3';
   
   // Category #4 - Voice
   filenames[3][0] = '0001_Frogs.mp3';
