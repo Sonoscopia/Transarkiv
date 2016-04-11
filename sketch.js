@@ -1,5 +1,6 @@
 /************************* VARIABLES *************************/ 
 var filenames = [];
+var category_path = [];
 var files_count;
 var path = 'sounds/';
 var player_count = 4;
@@ -45,7 +46,7 @@ function setup() {
   fft = new p5.FFT();
   //criar os players
   for (var i = 0; i < player_count; i++) {
-    players[i] = new Player(i * (500 / player_count) + 100, random(100, 300)); //novo player
+    players[i] = new Player(i * (500 / player_count) + 100, random(100, 300), 0); //novo player
   }
   
   //TA: footer UI (fader buttons and spectroscope)
