@@ -1,5 +1,16 @@
-//
+// GLOBAL: This file holds global variables (similar to a stylesheet) and global functions
 
+// OBJECT PROPERTIES
+
+var menu, menu_x, menu_y, menu_leading = 40; 
+var menuWidth = 150, footerHeight = 100;
+var minWindowWidth = 640, minWindowHeight = 480;
+var playAreaPos;
+var spectrum_size, spectrum_init_x, spectrum_init_y;
+
+var debugZoneByColor = false; //TA: paint zones with basic colors so that we can clearly see them when developing
+
+// SOUND FILES 
 function fileNames() {
   category_path[0] = '01_Ambient/';
   category_path[1] = '02_Rhythmic/';

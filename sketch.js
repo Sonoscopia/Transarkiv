@@ -7,11 +7,11 @@ var player_count = 4;
 var players = []; //array de objetos da classe 'Player'
 var vol = 1;
 var masterFader, move_toggle, autoplay_toggle;
-var mixRecorder; 
-
+var mixRecorder;
 var waveform, spectrum, fft;
 var fft;
 
+<<<<<<< HEAD
 var menu, menu_x, menu_y, menu_leading = 40; 
 var menuWidth = 150, footerHeight = 100;
 var minWindowWidth = 640, minWindowHeight = 480;
@@ -19,6 +19,8 @@ var playAreaPos;
 var spectrum_size, spectrum_init_x, spectrum_init_y;
 
 var debugZoneByColor = false; //TA: paint zones with basic colors so that we can clearly see them when developing
+=======
+>>>>>>> tiago
 /************************* PRELOAD ***************************/ 
 function preload() {
   fileNames(); // array filenames[] (precisa de ser iniciado em preload)
