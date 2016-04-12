@@ -18,32 +18,7 @@ function Player(x_, y_, c_) {
   this.color_loading = color(33, 33, 33, 222);
   this.color_playing = color(233, 133);
   this.color_transport = color(255, 155);
-<<<<<<< HEAD
-  //botão Play
-  //this.playToggle = new Toggle(this.x + this.size / 2 + 5, this.y - this.size / 2, 15);
-  //this.playToggle.setMode('CIRC');
-  //this.playToggle.setLabel('Play', 'Play');
-  
-  //botão next random file
-  this.next = new Toggle(this.x + this.size / 2, this.y - this.size / 2, 15);
-  this.next.setMode('CIRC');
-  
-  // botão Move
-  this.moveButtonPos = [this.size / 2 + 5, this.size / 2 + 20];
-  this.moveButton = new cHandler(this.x + this.moveButtonPos[0],this.y - this.moveButtonPos[1], 15);
-  this.moveButton.setLabel('move', 'move');
-  this.moveButton.setIcon('pics/move_icon.png');
-  this.moveButton.setIconOffset(-3.5, -4);
-  
-  // botão Delete
-  this.deleteButton = new cHandler(this.x + this.size / 2 + 10, this.y - 15 / 2, 15);
-  this.deleteButton.setLabel('delete', 'delete');
-  this.deleteButton.setIcon('pics/delete_icon.png');
-  this.deleteButton.setIconOffset(0.6, 1.1);
-  //circular handler and indicator - Filter
-  this.filterControl = new cHandler(this.x, this.y, 15);
-=======
-  
+
   // botão Play
   this.playButtonOffset = [this.size / 2 + 10, - 15 / 2]; // 15 = this.button.size
   this.playButton = new cHandler(this.x + this.playButtonOffset[0],this.y + this.playButtonOffset[1], 15);
@@ -59,44 +34,30 @@ function Player(x_, y_, c_) {
   //this.deleteButton.setLabel('delete', 'delete');
   this.deleteButton.setIcon('pics/delete_icon.png');
   this.deleteButton.setIconOffset(0.6, 1.1);
-  
-  
+    
   //botão Filter
   this.filterControlOffset = [this.size / 2 + 3, this.size / 2 - 10];
   this.filterControl = new cHandler(this.x + this.filterControlOffset[0], this.y + this.filterControlOffset[1], 15);
->>>>>>> tiago
   this.filterControl.setValueY(0.5);
   this.filterControl.setValueX(0.2);
   //this.filterControl.setLabel('filter');
   this.filterControl.setIcon('pics/filter_icon.png');
   this.filterControl.setIconOffset(-1.5, 1.5);
-<<<<<<< HEAD
-  
-=======
   // filter circular fader
->>>>>>> tiago
   this.filterIndicator = new cRangeSlider(this.x - this.size, this.y, this.size + 30);
   this.filterIndicator.setRange(90);
   this.filterIndicator.setAngle(135);
   
-<<<<<<< HEAD
-  this.hpFilter = new p5.HighPass();
-  this.lpFilter = new p5.LowPass();
-=======
   this.constrainPos = [];
->>>>>>> tiago
   
   //sinal loading
   this.loading_x = this.x - this.size / 2;
   this.loading_y = this.y - this.size / 2;
-<<<<<<< HEAD
 
-=======
   // filters
   this.hpFilter = new p5.HighPass();
   this.lpFilter = new p5.LowPass();
   // sampler
->>>>>>> tiago
   this.fileNumber = int(random(filenames[this.category].length));
   this.fileName = filenames[this.category][this.fileNumber];
   //carregar o som - -  aqui devia dar para utilizar uma função callback para mostrar quando está a carregar
@@ -132,15 +93,6 @@ function Player(x_, y_, c_) {
       this.autoPlay_toggle = true
     }
     
-    //move object
-    /*
-    if (this.moveButton.getValue()) {
-      //Constrain movement to playAreaPos
-      this.x = constrain(mouseX - this.moveButtonPos[0] - 5, playAreaPos[0]+this.size, playAreaPos[2]-this.size);
-      this.y = constrain(mouseY + this.moveButtonPos[1] - 20, playAreaPos[1]+this.size, playAreaPos[3]-this.size/2);
-    }
-    */
-    
     if (this.mouseLock) {
       //Constrain movement to playAreaPos
       this.x = constrain(mouseX - 5, this.constrainPos[0], this.constrainPos[2]);
@@ -174,37 +126,12 @@ function Player(x_, y_, c_) {
     
     noStroke();
     ellipse(this.x, this.y, this.size + this.level, this.size + this.level);
-    
-<<<<<<< HEAD
-    //botão Play
-    //this.playToggle.setPos(this.x + this.size / 2 + 5, this.y - this.size / 2);
-    //this.playToggle.display();
-
-=======
->>>>>>> tiago
     //nome do ficheiro
     /*
     fill(166, 166, 166);
     textAlign('LEFT', 'CENTER');
     text(this.fileName.slice(0, this.fileName.length-4) , this.x - this.size / 2, this.y + this.size / 2 + 15);
     */
-    
-<<<<<<< HEAD
-    //botão next random file
-    //this.next.setPos(this.x+this.size/2+5, this.y - this.size / 2);
-    //this.next.display();
-    
-    //botão Move
-    this.moveButton.setPos(this.x + this.size / 2 + 3, this.y - this.size / 2 - 6);
-    this.moveButton.display();
-    
-    //botão Delete
-    this.deleteButton.setPos(this.x + this.size / 2 + 10, this.y - this.deleteButton.size / 2);
-    this.deleteButton.display();
-    
-    //botão Filter
-    this.filterControl.setPos(this.x + this.size / 2 + 3, this.y + this.size / 2 - 10);
-=======
     
     //botão Play
     this.playButton.setPos(this.x + this.playButtonOffset[0], this.y + this.playButtonOffset[1]);
@@ -216,7 +143,6 @@ function Player(x_, y_, c_) {
     
     //botão Filter
     this.filterControl.setPos(this.x + this.filterControlOffset[0], this.y + this.filterControlOffset[1]);
->>>>>>> tiago
     this.filterControl.display();
     
     //Indicador de volume
@@ -336,20 +262,7 @@ function Player(x_, y_, c_) {
     }
     if(this.playButton.getValue() && this.sound.isPlaying()){
       this.sound.stop();
-<<<<<<< HEAD
-    }*/
-    
-    this.deleteButton.clicked();
-    if(this.deleteButton.getValue()){
-        var i = players.indexOf(this);
-        if(i != -1) {
-          this.sound.stop();
-          players.splice(i, 1);
-        }
-        player_count --;
-=======
       this.playButton.setValue(false);
->>>>>>> tiago
     }
     
     this.filterControl.clicked();
@@ -373,10 +286,6 @@ function Player(x_, y_, c_) {
     //this.moveButton.released();
     this.playButton.released();
     this.filterControl.released();
-<<<<<<< HEAD
-    this.moveButton.released();
-=======
->>>>>>> tiago
     this.deleteButton.released();
   }
 
@@ -390,10 +299,6 @@ function Player(x_, y_, c_) {
     
     // connect filter nodes
     this.sound.disconnect();
-<<<<<<< HEAD
-    this.lpFilter.disconnect();
-=======
->>>>>>> tiago
     this.lpFilter.connect(this.hpFilter);
     this.sound.connect(this.lpFilter);
     this.lpFilter.res(10);
