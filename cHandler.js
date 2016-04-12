@@ -23,7 +23,7 @@ function cHandler(x_, y_, s_) {
   // icon Off offset
   this.iconOff_x = 0;
   this.iconOff_y = 0;
-  this.toggle = false; // toggle on off value
+  this.toggle = false; // toggle on off value: this variable can only be used for drawing purposes!!! DO NOT USE TO TRIGGER SOUNDS
   
   this.mouseLock = false;
   this.lastMouseY = 0;
