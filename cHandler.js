@@ -115,7 +115,14 @@ function cHandler(x_, y_, s_) {
   this.getValue = function(){
     return(this.mouseLock);
   }
-
+  this.getToggle = function(){
+    return(this.toggle);
+  }
+  
+  this.setValue = function(v_){
+    this.mouseLock = v_;
+  }
+  
   this.setValueX = function(val_) {
     this.value_x = val_;
     if (this.value_x > 1) {

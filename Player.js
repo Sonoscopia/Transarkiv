@@ -23,10 +23,10 @@ function Player(x_, y_, c_) {
   this.playButtonOffset = [this.size / 2 + 10, - 15 / 2]; // 15 = this.button.size
   this.playButton = new cHandler(this.x + this.playButtonOffset[0],this.y + this.playButtonOffset[1], 15);
   //this.playButton.setLabel('play', 'stop');
-  this.playButton.setIconOff('pics/stop_icon.png');
-  this.playButton.setIconOn('pics/play_icon.png');
-  this.playButton.setIconOffOffset(1.5, 1.5);
-  this.playButton.setIconOnOffset(2, 2);
+  this.playButton.setIconOff('pics/play_icon.png');
+  this.playButton.setIconOn('pics/stop_icon.png');
+  this.playButton.setIconOffOffset(2, 2);
+  this.playButton.setIconOnOffset(1.5, 1.5);
 
   // botão Delete
   this.deleteButtonOffset = [this.size / 2 + 3, - this.size / 2 - 6];
@@ -261,16 +261,22 @@ function Player(x_, y_, c_) {
     if (d < this.size / 2) {
       this.mouseLock = true;
     }
-  
-    this.playButton.clicked();
-    if(this.playButton.toggle){
-      if(this.loop) this.sound.loop();
-        else this.sound.play();
-    }
     else{
-      if (this.sound.isPlaying())
-      this.sound.stop();
+      this.mouseLock = false;
     }
+    
+    this.playButton.clicked();
+    if(this.playButton.getValue() && !this.sound.isPlaying()){
+      if(this.loop) this.sound.loop();
+      else this.sound.play();
+      this.playButton.setValue(false);
+    }
+    if(this.playButton.getValue() && this.sound.isPlaying()){
+      this.sound.stop();
+      this.playButton.setValue(false);
+    }
+    
+    this.filterControl.clicked();
     
     this.deleteButton.clicked();
     if(this.deleteButton.getValue()){
@@ -284,13 +290,13 @@ function Player(x_, y_, c_) {
         player_count --;
     }
     
-    this.filterControl.clicked();
+    
   }
   this.released = function() {
     this.mouseLock = false;
-    this.filterControl.released();
     //this.moveButton.released();
     this.playButton.released();
+    this.filterControl.released();
     this.deleteButton.released();
   }
 
@@ -304,13 +310,12 @@ function Player(x_, y_, c_) {
     
     // connect filter nodes
     this.sound.disconnect();
-    this.lpFilter.disconnect();
     this.lpFilter.connect(this.hpFilter);
     this.sound.connect(this.lpFilter);
     this.lpFilter.res(10);
     this.hpFilter.res(10);
     
     this.amp.setInput(this.sound);
-    print(this.fileNumber + ': ' + filenames[this.fileNumber]);
+    //print(this.fileNumber + ': ' + filenames[this.fileNumber]);
   }
 }
