@@ -6,12 +6,8 @@ function LeftMenu(x_, y_, l_) { // constructor: XY top left corner and spacing
   this.y = y_;
   this.leading = l_; // space between each category
   this.font;
-<<<<<<< HEAD
-  this.fontsize = 15; 
-=======
   this.fontsize = 12;
   this.textColor = color(255, 255, 255, 255);
->>>>>>> tiago
   this.buttons = []; 
   
   for(i = 0; i < category_path.length; i++){ // create 'Add' (+) buttons
@@ -25,24 +21,14 @@ function LeftMenu(x_, y_, l_) { // constructor: XY top left corner and spacing
   
   this.display = function() {
     push();
-<<<<<<< HEAD
-    fill(255);
-    if(this.font) textFont(this.font);
-    textSize(15); // Font size
-=======
     fill(this.textColor);
     if(this.font) textFont(this.font);
     textSize(this.fontsize); // Font size
->>>>>>> tiago
     textAlign(LEFT); // Text alignment (LEFT, CENTER, RIGHT)
     textStyle(BOLD); // Text style (NORMAL, BOLD, ITALIC)
     for(i = 0; i < category_path.length; i++){
       text(category_path[i].slice(3, category_path[i].length-1), this.x, this.y + i * this.leading);
-<<<<<<< HEAD
-      this.buttons[i].setPos(this.x+75, this.y + i * this.leading - 12); // offsetY of -12 found heuristically (note: find proper relation on future versions)
-=======
       this.buttons[i].setPos(this.x+75, this.y + i * this.leading - this.fontsize + 3); // offsetY of -12 found heuristically (note: find proper relation on future versions)
->>>>>>> tiago
       this.buttons[i].setIconOffset(0, -0.25);
       this.buttons[i].display();
     }
