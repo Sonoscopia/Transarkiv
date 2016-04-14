@@ -9,14 +9,17 @@ function Fader(x_, y_, w_, h_, value_) {
   this.knob_y = this.y;
   this.knobSize = 10;
   this.mode = 'V'; // MODE = V/H (vertical/horizontal)
-
+  this.label = '';
+  this.color = color(222, 222, 222, 111);
+  this.knobColor = color(222, 222, 222, 222);
+  
   this.mouseLock = false;
 
   this.display = function() {
     push();
     noStroke();
     //background
-    fill(222, 222, 222, 111);
+    fill(this.color);
     rect(this.x, this.y, this.size[0], this.size[1]);
     
     //knob
@@ -28,7 +31,7 @@ function Fader(x_, y_, w_, h_, value_) {
         this.setValue();
       }
       this.knob_y = map(this.value, 1, 0, this.y, this.y + this.size[1]-this.knobSize);
-      fill(222, 222, 222, 222);
+      fill(this.knobColor);
       rect(this.x, this.knob_y, this.size[0], this.knobSize);
     }
     if (this.mode === 'H'){
@@ -36,9 +39,13 @@ function Fader(x_, y_, w_, h_, value_) {
         this.setValue();
       }
       this.knob_x = map(this.value, 0, 1, this.x, this.x + this.size[0]-this.knobSize);
-      fill(222, 222, 222, 222);
+      fill(this.knobColor);
       rect(this.knob_x, this.y, this.knobSize, this.size[1]);
     }
+    // text
+    fill(this.color);
+    textAlign(LEFT, CENTER);
+    text(this.label, this.x+this.size[0]+5, this.y+this.size[1]/2);
     pop();
   }
 
