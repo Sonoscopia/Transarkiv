@@ -2,7 +2,7 @@
 var filenames = [];
 var category_path = [];
 var files_count;
-var path = 'ftp://sonoscopia@ftp.sonoscopia.pt/Transarkiv/';
+var path = 'ftp.sonoscopia.pt/Transarkiv/';
 var player_count = 4;
 var players = []; //array de objetos da classe 'Player'
 var vol = 1;
