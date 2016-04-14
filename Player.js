@@ -34,7 +34,7 @@ function Player(x_, y_, c_) {
   //this.deleteButton.setLabel('delete', 'delete');
   this.deleteButton.setIcon('pics/delete_icon.png');
   this.deleteButton.setIconOffset(0.6, 1.1);
-    
+
   //botão Filter
   this.filterControlOffset = [this.size / 2 + 3, this.size / 2 - 10];
   this.filterControl = new cHandler(this.x + this.filterControlOffset[0], this.y + this.filterControlOffset[1], 15);
@@ -61,7 +61,10 @@ function Player(x_, y_, c_) {
   this.fileNumber = int(random(filenames[this.category].length));
   this.fileName = filenames[this.category][this.fileNumber];
   //carregar o som - -  aqui devia dar para utilizar uma função callback para mostrar quando está a carregar
-  this.sound = loadSound(path + category_path[this.category] + filenames[this.category][this.fileNumber]);
+
+  //this.sound = loadSound(path + category_path[this.category] + filenames[this.category][this.fileNumber]);
+  this.sound = loadSound(path + filenames[this.category][this.fileNumber]);
+
   if (this.sound.isLoaded()) {
     print('sound is Loaded!!!!!!');
   }
@@ -93,6 +96,7 @@ function Player(x_, y_, c_) {
       this.autoPlay_toggle = true
     }
     
+
     if (this.mouseLock) {
       //Constrain movement to playAreaPos
       this.x = constrain(mouseX - 5, this.constrainPos[0], this.constrainPos[2]);
@@ -126,6 +130,7 @@ function Player(x_, y_, c_) {
     
     noStroke();
     ellipse(this.x, this.y, this.size + this.level, this.size + this.level);
+
     //nome do ficheiro
     /*
     fill(166, 166, 166);
@@ -295,7 +300,8 @@ function Player(x_, y_, c_) {
     }
     this.fileNumber = int(random(filenames[this.category].length));
     filenames[this.category][this.fileNumber];
-    this.sound = loadSound(path + category_path[this.category] + filenames[this.category][this.fileNumber]);
+
+    this.sound = loadSound(path + filenames[this.category][this.fileNumber]);
     
     // connect filter nodes
     this.sound.disconnect();
