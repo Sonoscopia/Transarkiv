@@ -12,7 +12,7 @@ function LeftMenu(x_, y_, l_) { // constructor: XY top left corner and spacing
   
   for(i = 0; i < category_path.length; i++){ // create 'Add' (+) buttons
     this.buttons[i] = new cHandler(this.x, this.y, 15);
-    this.buttons[i].setIcon('pics/add_icon.png');
+    this.buttons[i].setIcon('http://sonoscopia.pt/wp-content/uploads/2016/04/add_icon.png');
   }
   
   this.preload = function(f_){ // set font on preload (please!)
