@@ -189,101 +189,33 @@ function displayWave() {
 
 /****************** SOUND FILES *****************************/
 function fileNames() {
-  category_path[0] = '01_Field Recordings/';
-  category_path[1] = '02_Ambient/';
-  category_path[2] = '03_Textural/';
-  category_path[3] = '04_Rhythmic/';
-  category_path[4] = '05_Melodic/';
-  category_path[5] = '06_Performance/';
+  category_path[0] = '01_Ambient/';
+  category_path[1] = '02_Rhythmic/';
+  category_path[2] = '03_Detail/';
+  category_path[3] = '04_Voice/';
   
   //instantiate nested arrays
   filenames[0] = [];
   filenames[1] = [];
   filenames[2] = [];
-  filenames[3] = [];
-  filenames[4] = [];
-  filenames[5] = [];
+  filenames[3] = []; 
   
-  // Category #1 - Field Recordings
-  filenames[0][0] = 'Amolador de facas e gaivota.mp3';
-  filenames[0][1] = 'Beinham ajudar uma ceguinha.mp3';
-  filenames[0][2] = 'Ceguinha e homem das muletas a pedir.mp3';
-  filenames[0][3] = 'Debaixo da ponte do infante.mp3';
-  filenames[0][4] = 'Discussão à janela.mp3';
-  filenames[0][5] = 'Feira dos pássaros.mp3';
-  filenames[0][6] = 'Gina, histórias de vida.mp3';
-  filenames[0][7] = 'Homem imita cão.mp3';
-  filenames[0][8] = 'José acordeonista.mp3';
-  filenames[0][9] = 'Poupar na pensão.mp3';
-  filenames[0][10] = 'Pra tua informaçãoue.mp3';
-  filenames[0][11] = 'Troca do utensílio de queimar o creme.mp3';
-  filenames[0][12] = 'Túnel Ribeira.mp3';
-  filenames[0][13] = 'Velhinha borrachona e Gina.mp3';
-  filenames[0][14] = 'Vinho do porto a 190 euros.mp3';
+  // Category #1 - Ambient
+  filenames[0][0] = '0001_MagliocchiFilipeDuo.mp3';
+  filenames[0][1] = '0002_RM_MV336.mp3';
+  filenames[0][2] = '0003_CostaGuimaraesViegas.mp3';
 
-  // Category #2 - Ambient
-  filenames[1][0] = 'Classic synth.mp3';
-  filenames[1][1] = 'Granular springs.mp3';
-  filenames[1][2] = 'Heavy machinery.mp3';
-  filenames[1][3] = 'Light machinery.mp3';
-  filenames[1][4] = 'Piano ambient.mp3';
-  filenames[1][5] = 'Rumble drone.mp3';
-  filenames[1][6] = 'Rumble.mp3';
-  filenames[1][7] = 'Sine waves.mp3';
-  filenames[1][8] = 'Space synth.mp3';
-  filenames[1][9] = 'Springs.mp3';
-  filenames[1][10] = 'Synth drone.mp3';
+  // Category #2 - Rhythmic
+  filenames[1][0] = '0001_MV_3_34_GustavoC_HenriqueF_RAmado.mp3';
+  filenames[1][1] = '0002_MV334_Montagem_F.mp3';
   
-  // Category #3 - Textural
-  filenames[2][0] = 'Bass scratch.mp3';
-  filenames[2][1] = 'Col legno.mp3';
-  filenames[2][2] = 'Flipper.mp3';
-  filenames[2][3] = 'Forks.mp3';
-  filenames[2][4] = 'Granular laptop.mp3';
-  filenames[2][5] = 'Granular melodic.mp3';
-  filenames[2][6] = 'Granular piano.mp3';
-  filenames[2][7] = 'Granular textures.mp3';
-  filenames[2][8] = 'Rock.mp3';
-  filenames[2][9] = 'Scrubber.mp3';
-  filenames[2][10] = 'Small springs.mp3';
-  filenames[2][11] = 'Tom.mp3';
+  // Category #3 - Detail
+  filenames[2][0] = '0001_AbdulRosso_CRA.mp3';
+  filenames[2][1] = '0002_TheoCeccaldi_MarceloReis_ValentinCeccaldi_LuisVicente_Improvisation1.mp3';
   
-  // Category #4 - Rhythmic
-  filenames[3][0] = 'Granular machine.mp3';
-  filenames[3][1] = 'Low beat.mp3';
-  filenames[3][2] = 'Machines.mp3';
-  filenames[3][3] = 'Metal bars.mp3';
-  filenames[3][4] = 'Metal tubes.mp3';
-  filenames[3][5] = 'Old clock.mp3';
-  filenames[3][6] = 'Ping pong ball.mp3';
-  filenames[3][7] = 'Small bells.mp3';
-  filenames[3][8] = 'Small machine.mp3';
-  filenames[3][9] = 'Small medals.mp3';
-  
-  // Category #5 - Melodic
-  filenames[4][0] = 'Filtered clicks.mp3'
-  filenames[4][1] = 'Flute and delay.mp3'
-  filenames[4][2] = 'Glass and marbles.mp3'
-  filenames[4][3] = 'Granular violin.mp3'
-  filenames[4][4] = 'Harp and piano morphed.mp3'
-  filenames[4][5] = 'Piano delays transposed.mp3'
-  filenames[4][6] = 'Piano delays.mp3'
-  filenames[4][7] = 'Prepared piano.mp3'
-  filenames[4][8] = 'Processed prepared piano.mp3'
-  filenames[4][9] = 'Random notes.mp3'
-  filenames[4][10] = 'Resynthesised voices.mp3'
-  
-  // Category #6 - Performance
-  filenames[5][0] = '43 tone metalophone.mp3';
-  filenames[5][1] = 'Acoustic laptops.mp3';
-  filenames[5][2] = 'Bells.mp3';
-  filenames[5][3] = 'Clarinet mouthpiece.mp3';
-  filenames[5][4] = 'Clarinet, bass drum and cymbal.mp3';
-  filenames[5][5] = 'Gongs.mp3';
-  filenames[5][6] = 'Kalimba.mp3';
-  filenames[5][7] = 'Metal plates.mp3';
-  filenames[5][8] = 'Processed springs.mp3';
-  filenames[5][9] = 'Rock xylophone.mp3';
+  // Category #4 - Voice
+  filenames[3][0] = '0001_Frogs.mp3';
+  filenames[3][1] = '0002_Frogs.mp3';
   
   //print('filenames ready');
 }
