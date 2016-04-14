@@ -6,7 +6,8 @@ function LeftMenu(x_, y_, l_) { // constructor: XY top left corner and spacing
   this.y = y_;
   this.leading = l_; // space between each category
   this.font;
-  this.fontsize = 12; 
+  this.fontsize = 12;
+  this.textColor = color(255, 255, 255, 255);
   this.buttons = []; 
   
   for(i = 0; i < category_path.length; i++){ // create 'Add' (+) buttons
@@ -20,7 +21,7 @@ function LeftMenu(x_, y_, l_) { // constructor: XY top left corner and spacing
   
   this.display = function() {
     push();
-    fill(255);
+    fill(this.textColor);
     if(this.font) textFont(this.font);
     textSize(this.fontsize); // Font size
     textAlign(LEFT); // Text alignment (LEFT, CENTER, RIGHT)
