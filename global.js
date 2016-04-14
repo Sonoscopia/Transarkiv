@@ -11,6 +11,8 @@ var menuWidth = 160;
 // footer & header 
 var footerHeight = 60;
 var headerHeight = 60;
+var toggleSize = 20;
+var faderLength = 160; 
 // play area
 var playAreaPos = [];
 var playAreaRightMargin = 40;
@@ -20,6 +22,8 @@ var spectrum_size, spectrum_init_x, spectrum_init_y;
 /****************** LAYOUT COLOURS ***************************/
 var bkgColor = 12;
 var playAreaColor = 36;
+var titleColor = 222;
+var menuTextColor = 222;
 
 var debugZoneByColor = false; //TA: paint zones with basic colors so that we can clearly see them when developing
 
@@ -53,21 +57,36 @@ function layoutSetup(){
   }
   canvas.parent("p5canvas");
   
+  // play area
   setPlayAreaPos();
-  setMenuPos();
   
-  //TA: footer UI (fader buttons and spectroscope)
-  masterFader = new Fader(width - 190, height - 60, 150, 20, 0.8); //TA: hFader(x pos, y pos, width, height, value)
-  masterFader.mode = 'H';
-  mixRecorder = new mixRecorder(masterFader.x - 30 - 60, masterFader.y , 20); // TA: mixRecorder(x pos, y pos, size) 
-  move_toggle = new Toggle(mixRecorder.x - 20 - 70, masterFader.y, 20); // TA: Toggle(x pos, y pos, size) 
-  move_toggle.setLabel('AutoMove', 'AutoMove');
-  autoplay_toggle = new Toggle(move_toggle.x - 20 - 65, masterFader.y, 20); // TA: Toggle(x pos, y pos, size) 
-  autoplay_toggle.setLabel('AutoPlay', 'AutoPlay');
-  spectrum_size = [autoplay_toggle.x - 30, footerHeight];
-  spectrum_init_x = 5;
+  // menu 
+  setMenuPos();
+  menu.textColor = menuTextColor;
+  
+  // footer
+  spectrum_size = [width-menuWidth-playAreaRightMargin, footerHeight];
+  spectrum_init_x = menuWidth;
   spectrum_init_y = height - footerHeight;
-  // NOTE: UI positions are relative to the position of the masterFader
+  
+  // header
+  var toggle_y = footerHeight/2 - toggleSize/2;
+  
+  autoplay_toggle = new Toggle(menuWidth, toggle_y, toggleSize); // TA: Toggle(x pos, y pos, size) 
+  autoplay_toggle.setLabel('AutoPlay', 'AutoPlay');
+  
+  var toggle_x = autoplay_toggle.x + toggleSize + 70; // 70 = textWidth....PS: textWidth() wasn't working...  
+  move_toggle = new Toggle(toggle_x, toggle_y, toggleSize); // TA: Toggle(x pos, y pos, size) 
+  move_toggle.setLabel('AutoMove', 'AutoMove');
+  
+  toggle_x = move_toggle.x + toggleSize + 76;
+  mixRecorder = new mixRecorder(toggle_x, toggle_y, toggleSize); // TA: mixRecorder(x pos, y pos, size) 
+  
+  toggle_x = mixRecorder.x + toggleSize + 76;
+  masterFader = new Fader(toggle_x, toggle_y, faderLength, toggleSize, 0.8); //TA: hFader(x pos, y pos, width, height, value)
+  masterFader.mode = 'H';
+  masterFader.label = 'Volume';
+  // NOTE: UI positions are relative to the position of the AutoPlay toggle
 }
 
 /****************** RESIZE FUNCTIONS *************************/
@@ -75,10 +94,10 @@ function resizeX(){
   //TA: resize width
   if(windowWidth > minWindowWidth && windowHeight > minWindowHeight){ 
     resizeCanvas(windowWidth, height); //TA: reset canvas size
-    masterFader.x = width-190; //TA: reposition masterFader 
-    mixRecorder.x = masterFader.x - mixRecorder.size - 70; //TA: reposition rec button
-    move_toggle.x = mixRecorder.x - move_toggle.size - 70; //TA: reposition AutoMove button
-    autoplay_toggle.x = move_toggle.x - autoplay_toggle.size - 65; //TA: reposition AutoPlay button
+    //masterFader.x = width-190; //TA: reposition masterFader 
+    //mixRecorder.x = masterFader.x - mixRecorder.size - 70; //TA: reposition rec button
+    //move_toggle.x = mixRecorder.x - move_toggle.size - 70; //TA: reposition AutoMove button
+    //autoplay_toggle.x = move_toggle.x - autoplay_toggle.size - 65; //TA: reposition AutoPlay button
     spectrum_size[0] = autoplay_toggle.x - 30; //TA: reposition spectroscope
     setPlayAreaPos();
     setMenuPos();
@@ -88,10 +107,10 @@ function resizeY(){
     //TA: resize height
   if(windowHeight > minWindowHeight){
     resizeCanvas(width, windowHeight); //TA: reset canvas size
-    masterFader.y = height-60; //TA: reposition masterFader
-    mixRecorder.y = masterFader.y; //TA: reposition rec button
-    move_toggle.y = masterFader.y; //TA: reposition AutoMove button
-    autoplay_toggle.y = masterFader.y; //TA: reposition AutoPlay button
+    //masterFader.y = height-60; //TA: reposition masterFader
+    //mixRecorder.y = masterFader.y; //TA: reposition rec button
+    //move_toggle.y = masterFader.y; //TA: reposition AutoMove button
+    //autoplay_toggle.y = masterFader.y; //TA: reposition AutoPlay button
     spectrum_init_y = height - footerHeight; //TA: reposition spectroscope
     setPlayAreaPos();
     setMenuPos();
@@ -102,18 +121,19 @@ function resizeY(){
 
 /****************** DRAW FUNCTIONS ***************************/
 function drawHeader(){
+  // Draw Title (Transarkiv)
   push();
-  fill(255);
+  fill(titleColor);
   textSize(28); 
-  text("Transarkiv", 14, 40); 
+  text("Transarkiv", 14, toggleSize*2 - 1); 
   pop();
+  // Draw UI
+  autoplay_toggle.display();
+  move_toggle.display();
+  mixRecorder.run(); // TA: display mixRecorder button and run recorder function
   vol = masterFader.getValue();
   masterVolume(vol);
   masterFader.display();
-  move_toggle.display();
-  autoplay_toggle.display();
-  
-  mixRecorder.run(); // TA: display mixRecorder button and run recorder function
 }
 function drawFooter(){
   drawSpectrum();
