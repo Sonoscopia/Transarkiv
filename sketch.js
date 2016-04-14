@@ -2,7 +2,8 @@
 var filenames = [];
 var category_path = [];
 var files_count;
-var path = 'sounds/';
+//var path = 'ftp://sonoscopia@ftp.sonoscopia.pt/Transarkiv/';
+var path = 'http://sonoscopia.pt/wp-content/uploads/2016/04/'
 var player_count = 4;
 var players = []; //array de objetos da classe 'Player'
 var vol = 1;
@@ -18,6 +19,7 @@ function preload() {
 
 /************************* SETUP *****************************/ 
 function setup() {
+<<<<<<< HEAD
   var canvas;
   if(windowWidth > minWindowWidth){
     canvas = createCanvas(windowWidth, minWindowHeight);
@@ -35,6 +37,9 @@ function setup() {
 
   playAreaPos = [menuWidth, 0, width, height-footerHeight];
   
+=======
+  layoutSetup();
+>>>>>>> tiago
 
   fft = new p5.FFT();
   //criar os players
@@ -42,6 +47,7 @@ function setup() {
     players[i] = new Player(i * (500 / player_count) + 100, random(100, 300), int(random(4))); //novo player (x, y, categoria)
   }
   
+<<<<<<< HEAD
   //TA: left menu UI
   menu_x = menuWidth/4;
   menu_y = playAreaPos[3] / 2;
@@ -61,11 +67,14 @@ function setup() {
   spectrum_init_x = 5;
   spectrum_init_y = height - footerHeight;
   // NOTE: UI positions are relative to the position of the masterFader
+=======
+>>>>>>> tiago
   smooth(); // TA: added smooth 
 }
 
 /************************* RESIZE ****************************/ 
 function windowResized() {
+<<<<<<< HEAD
   //TA: resize width
   if(windowWidth > minWindowWidth && windowHeight > minWindowHeight){ 
     resizeCanvas(windowWidth, height); //TA: reset canvas size
@@ -92,18 +101,18 @@ function windowResized() {
   }
   //NOTE: width & height resizing must be separated !!!
   // for example: the window might have reached the minimum width but the height might still be resized
+=======
+  resizeX();
+  resizeY();
+>>>>>>> tiago
 }
 
 /************************* DRAW ******************************/ 
 function draw() {
-  background(33);
-  noStroke();
-  //stroke(0, 0, 255);
-  //fill(0, 111);
-  //rect(0, 0, playAreaPos[0], height);
-  
-  //TA: footer
+  // LAYOUT
+  background(bkgColor);
   push();
+<<<<<<< HEAD
   if(debugZoneByColor)
     fill(0, 0, 255);
   else
@@ -124,9 +133,16 @@ function draw() {
   else
     fill(36);
   rect(menuWidth, 0, width, height-footerHeight);
+=======
+  noStroke();
+  drawHeader();
+  drawFooter();
+  drawMenu();
+  drawPlayArea(); 
+>>>>>>> tiago
   pop();
 
-  
+  // PLAYERS
   for (var i = 0; i < player_count; i++) {
     players[i].display();
     if (move_toggle.getValue()) {
@@ -136,16 +152,6 @@ function draw() {
       players[i].autoPlay();
     }
   }
-  displaySpectrum();
-  //displayWave();
-
-  vol = masterFader.getValue();
-  masterVolume(vol);
-  masterFader.display();
-  move_toggle.display();
-  autoplay_toggle.display();
-  
-  mixRecorder.run(); // TA: display mixRecorder button and run recorder function
 }
 
 /************************* MOUSE UI **************************/ 
@@ -173,44 +179,4 @@ function detectMouse(_x, _y, _w, _h) {
   if (mouseX > _x && mouseX < _x + _w && mouseY > _y && mouseY < _y + _h) {
     return true;
   } else return false;
-}
-
-/************************* SCOPE *****************************/ 
-function displayWave() {
-  var wave_size = [400, 80];
-  var wave_init_x = width / 2 - wave_size[0] / 2;
-  var wave_init_y = height - 100;
-  var wavecolor = color(200, 255, 11);
-
-  var waveform = fft.waveform();
-  //print(waveform);
-  push();
-  noFill();
-  beginShape();
-  stroke(wavecolor);
-  strokeWeight(1);
-  for (var i = 0; i < waveform.length; i++) {
-    var wave_x = map(i, 0, waveform.length, wave_init_x, wave_init_x + wave_size[0]);
-    var wave_y = map(waveform[i], -1, 1, wave_init_y, wave_init_y + wave_size[1]);
-    vertex(wave_x, wave_y);
-  }
-  endShape();
-  pop();
-}
-
-/************************* SPECTRUM **************************/ 
-function displaySpectrum() {
-  var spectrum = fft.analyze();
-  
-  for (var i = 0; i < spectrum.length / 2; i++) {
-    var spectrum_x = map(i, 0, spectrum.length / 2, 0, spectrum_size[0]);
-    spectrum_x += spectrum_init_x;
-    var spectrum_h = map(-spectrum[i], 0, 255, 0, spectrum_size[1]);
-    spectrum_h += spectrum_init_y + spectrum_size[1];
-    push();
-    strokeWeight(1);
-    stroke(spectrum[i]);
-    line(spectrum_x, spectrum_init_y + spectrum_size[1], spectrum_x, spectrum_h);
-    pop();
-  }
 }

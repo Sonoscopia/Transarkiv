@@ -18,6 +18,7 @@ function Player(x_, y_, c_) {
   this.color_loading = color(33, 33, 33, 222);
   this.color_playing = color(233, 133);
   this.color_transport = color(255, 155);
+<<<<<<< HEAD
 
   // botão Play
   this.playButtonOffset = [this.size / 2 + 10, - 15 / 2]; // 15 = this.button.size
@@ -28,13 +29,30 @@ function Player(x_, y_, c_) {
   this.playButton.setIconOffOffset(2, 2);
   this.playButton.setIconOnOffset(1.5, 1.5);
 
+=======
+  
+  // botão Play
+  this.playButtonOffset = [this.size / 2 + 10, - 15 / 2]; // 15 = this.button.size
+  this.playButton = new cHandler(this.x + this.playButtonOffset[0],this.y + this.playButtonOffset[1], 15);
+  //this.playButton.setLabel('play', 'stop');
+  this.playButton.setIconOff('pics/play_icon.png');
+  this.playButton.setIconOn('pics/stop_icon.png');
+  this.playButton.setIconOffOffset(2, 2);
+  this.playButton.setIconOnOffset(1.5, 1.5);
+
+>>>>>>> tiago
   // botão Delete
   this.deleteButtonOffset = [this.size / 2 + 3, - this.size / 2 - 6];
   this.deleteButton = new cHandler(this.x + this.deleteButtonOffset[0], this.y + this.deleteButtonOffset[1], 15);
   //this.deleteButton.setLabel('delete', 'delete');
   this.deleteButton.setIcon('pics/delete_icon.png');
   this.deleteButton.setIconOffset(0.6, 1.1);
+<<<<<<< HEAD
     
+=======
+  
+  
+>>>>>>> tiago
   //botão Filter
   this.filterControlOffset = [this.size / 2 + 3, this.size / 2 - 10];
   this.filterControl = new cHandler(this.x + this.filterControlOffset[0], this.y + this.filterControlOffset[1], 15);
@@ -53,7 +71,10 @@ function Player(x_, y_, c_) {
   //sinal loading
   this.loading_x = this.x - this.size / 2;
   this.loading_y = this.y - this.size / 2;
+<<<<<<< HEAD
 
+=======
+>>>>>>> tiago
   // filters
   this.hpFilter = new p5.HighPass();
   this.lpFilter = new p5.LowPass();
@@ -61,7 +82,13 @@ function Player(x_, y_, c_) {
   this.fileNumber = int(random(filenames[this.category].length));
   this.fileName = filenames[this.category][this.fileNumber];
   //carregar o som - -  aqui devia dar para utilizar uma função callback para mostrar quando está a carregar
+<<<<<<< HEAD
   this.sound = loadSound(path + category_path[this.category] + filenames[this.category][this.fileNumber]);
+=======
+  //this.sound = loadSound(path + category_path[this.category] + filenames[this.category][this.fileNumber]);
+  this.sound = loadSound(path + filenames[this.category][this.fileNumber]);
+
+>>>>>>> tiago
   if (this.sound.isLoaded()) {
     print('sound is Loaded!!!!!!');
   }
@@ -92,6 +119,20 @@ function Player(x_, y_, c_) {
     if (this.time > 30) {
       this.autoPlay_toggle = true
     }
+    
+<<<<<<< HEAD
+    if (this.mouseLock) {
+=======
+    //move object
+    /*
+    if (this.moveButton.getValue()) {
+>>>>>>> tiago
+      //Constrain movement to playAreaPos
+      this.x = constrain(mouseX - 5, this.constrainPos[0], this.constrainPos[2]);
+      this.y = constrain(mouseY - 20, this.constrainPos[1], this.constrainPos[3]);
+
+    }
+    */
     
     if (this.mouseLock) {
       //Constrain movement to playAreaPos
@@ -126,6 +167,10 @@ function Player(x_, y_, c_) {
     
     noStroke();
     ellipse(this.x, this.y, this.size + this.level, this.size + this.level);
+<<<<<<< HEAD
+=======
+    
+>>>>>>> tiago
     //nome do ficheiro
     /*
     fill(166, 166, 166);
@@ -133,6 +178,10 @@ function Player(x_, y_, c_) {
     text(this.fileName.slice(0, this.fileName.length-4) , this.x - this.size / 2, this.y + this.size / 2 + 15);
     */
     
+<<<<<<< HEAD
+=======
+    
+>>>>>>> tiago
     //botão Play
     this.playButton.setPos(this.x + this.playButtonOffset[0], this.y + this.playButtonOffset[1]);
     this.playButton.display();
@@ -295,7 +344,11 @@ function Player(x_, y_, c_) {
     }
     this.fileNumber = int(random(filenames[this.category].length));
     filenames[this.category][this.fileNumber];
+<<<<<<< HEAD
     this.sound = loadSound(path + category_path[this.category] + filenames[this.category][this.fileNumber]);
+=======
+    this.sound = loadSound(path + filenames[this.category][this.fileNumber]);
+>>>>>>> tiago
     
     // connect filter nodes
     this.sound.disconnect();

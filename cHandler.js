@@ -44,7 +44,6 @@ function cHandler(x_, y_, s_) {
     textAlign(LEFT, CENTER);
     text(this.label, this.x+this.size+5, this.y+this.size/2);
     
-    fill(this.color);
     ellipseMode(CORNER);
     ellipse(this.x, this.y, this.size, this.size);
     if (this.icon){ // draw button icon
