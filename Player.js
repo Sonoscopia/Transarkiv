@@ -61,9 +61,7 @@ function Player(x_, y_, c_) {
   this.fileNumber = int(random(filenames[this.category].length));
   this.fileName = filenames[this.category][this.fileNumber];
   //carregar o som - -  aqui devia dar para utilizar uma função callback para mostrar quando está a carregar
-  //this.sound = loadSound(path + category_path[this.category] + filenames[this.category][this.fileNumber]);
-  this.sound = loadSound(path + filenames[this.category][this.fileNumber]);
-
+  this.sound = loadSound(path + category_path[this.category] + filenames[this.category][this.fileNumber]);
   if (this.sound.isLoaded()) {
     print('sound is Loaded!!!!!!');
   }
@@ -308,7 +306,7 @@ function Player(x_, y_, c_) {
     }
     this.fileNumber = int(random(filenames[this.category].length));
     filenames[this.category][this.fileNumber];
-    this.sound = loadSound(path + filenames[this.category][this.fileNumber]);
+    this.sound = loadSound(path + category_path[this.category] + filenames[this.category][this.fileNumber]);
     
     // connect filter nodes
     this.sound.disconnect();
