@@ -209,7 +209,7 @@ function fileNames() {
   filenames[0][1] = 'Beinham-ajudar-uma-ceguinha.mp3';
   filenames[0][2] = 'Ceguinha-e-homem-das-muletas-a-pedir.mp3';
   filenames[0][3] = 'Debaixo-da-ponte-do-infante.mp3';
-  filenames[0][4] = 'Discussão-a-janela.mp3';
+  filenames[0][4] = 'Discussão-a- janela.mp3';
   filenames[0][5] = 'Feira-dos-pássaros.mp3';
   filenames[0][6] = 'Gina-histórias-de-vidaa.mp3';
   filenames[0][7] = 'Homem-imita-cão.mp3';
