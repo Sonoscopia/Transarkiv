@@ -2,8 +2,7 @@
 var filenames = [];
 var category_path = [];
 var files_count;
-//var path = 'ftp://sonoscopia@ftp.sonoscopia.pt/Transarkiv/';
-var path = 'http://sonoscopia.pt/wp-content/uploads/2016/04/'
+var path = 'sounds/';
 var player_count = 4;
 var players = []; //array de objetos da classe 'Player'
 var vol = 1;
@@ -25,7 +24,7 @@ function setup() {
   fft = new p5.FFT();
   //criar os players
   for (var i = 0; i < player_count; i++) {
-    players[i] = new Player(i * (500 / player_count) + 100, random(100, 300), int(random(4))); //novo player (x, y, categoria)
+    players[i] = new Player( (i+1) * ( (constrainPos[2]-constrainPos[0]) / player_count), random(constrainPos[1], constrainPos[3]), int(random(category_path.length))); //novo player (x, y, categoria)
   }
   
   smooth(); // TA: added smooth 
@@ -58,6 +57,9 @@ function draw() {
     if (autoplay_toggle.getValue()) {
       players[i].autoPlay();
     }
+    else{
+      players[i].playFor = 10; // reset playFor value when turning AutoPlay OFF 
+    }
   }
 }
 
@@ -66,20 +68,44 @@ function mousePressed() {
   for (var i = 0; i < player_count; i++) {
     players[i].clicked();
   }
-
-  masterFader.clicked();
-  move_toggle.clicked();
+  
   autoplay_toggle.clicked();
-  mixRecorder.clicked(); // TA: user interaction
+  move_toggle.clicked();
+  stopAll_button.clicked();
+  deleteAll_button.clicked();
+  mixRecorder.clicked();
+  masterFader.clicked();
+  
   menu.clicked();
 }
 
 function mouseReleased() {
   masterFader.released();
+  menu.released();
+  
+  // players release
   for (var i = 0; i < player_count; i++) {
     players[i].released();
   }
-  menu.released();
+  // stop all release
+  if(stopAll_button.getValue()){
+    for (var j = 0; j < player_count; j++) {
+      if(players[j].sound.isPlaying()){ 
+        players[j].sound.stop();
+        players[j].playButton.toggle = false;
+      }
+    }
+    stopAll_button.setValue(false);
+  }
+  // delete all release
+  if(deleteAll_button.getValue()){
+    deleteAll_button.setValue(false);
+    for(var k = player_count -1; k > -1; k--){
+      if (players[k].sound.isPlaying()) players[k].sound.stop();
+      players.splice(k, 1);
+      player_count--;
+    }
+  }
 }
 
 function detectMouse(_x, _y, _w, _h) {
