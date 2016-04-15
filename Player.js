@@ -237,6 +237,8 @@ function Player(x_, y_, c_) {
             this.playButton.toggle = false; // set play/stop icon
             this.sound.stop();
             this.selectRandom();
+            this.filterControl.setValueY(random(0,1));
+            this.filterControl.setValueX(random(0,1));
           } 
           else {
             this.playButton.toggle = true; // set play/stop icon
