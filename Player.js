@@ -234,10 +234,14 @@ function Player(x_, y_, c_) {
       if (this.time_modulo > this.playFor - 2) {
         if (this.sound.isLoaded()) {
           if (this.sound.isPlaying()) {
+            this.playButton.toggle = false; // set play/stop icon
             this.sound.stop();
             this.selectRandom();
-          } else {
-            this.sound.play();
+          } 
+          else {
+            this.playButton.toggle = true; // set play/stop icon
+            if(this.loop) this.sound.loop();
+            else this.sound.play();
           }
           this.playFor = int(random(10, this.sound.duration() * 10));
         }

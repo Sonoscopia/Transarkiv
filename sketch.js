@@ -56,6 +56,9 @@ function draw() {
     if (autoplay_toggle.getValue()) {
       players[i].autoPlay();
     }
+    else{
+      players[i].playFor = 10; 
+    }
   }
 }
 
