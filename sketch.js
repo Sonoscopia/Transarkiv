@@ -70,7 +70,8 @@ function mousePressed() {
   
   autoplay_toggle.clicked();
   move_toggle.clicked();
-  stopAll_toggle.clicked();
+  stopAll_button.clicked();
+  deleteAll_button.clicked();
   mixRecorder.clicked();
   masterFader.clicked();
   
@@ -79,19 +80,30 @@ function mousePressed() {
 
 function mouseReleased() {
   masterFader.released();
+  menu.released();
+  
+  // players release
   for (var i = 0; i < player_count; i++) {
     players[i].released();
   }
-  menu.released();
-  
-  if(stopAll_toggle.getValue()){
+  // stop all release
+  if(stopAll_button.getValue()){
     for (var j = 0; j < player_count; j++) {
       if(players[j].sound.isPlaying()){ 
         players[j].sound.stop();
         players[j].playButton.toggle = false;
       }
     }
-    stopAll_toggle.setValue(false);
+    stopAll_button.setValue(false);
+  }
+  // delete all release
+  if(deleteAll_button.getValue()){
+    deleteAll_button.setValue(false);
+    for(var k = player_count -1; k > -1; k--){
+      if (players[k].sound.isPlaying()) players[k].sound.stop();
+      players.splice(k, 1);
+      player_count--;
+    }
   }
 }
 

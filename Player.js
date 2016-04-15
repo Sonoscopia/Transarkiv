@@ -277,7 +277,7 @@ function Player(x_, y_, c_) {
     this.deleteButton.clicked();
     if(this.deleteButton.getValue()){
         var i = players.indexOf(this);
-        if(i != -1) {
+        if(i !== -1) {
           if(this.sound.isPlaying()){
             this.sound.stop();
           }

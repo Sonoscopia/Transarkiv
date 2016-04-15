@@ -2,7 +2,7 @@
 
 /****************** LAYOUT VARIABLES *************************/
 var canvas;
-var minWindowWidth = 784, minWindowHeight = 480;
+var minWindowWidth = 840, minWindowHeight = 480;
 // menu
 var menu; // menu object (class LeftMenu.js)
 var menu_x, menu_y;
@@ -26,8 +26,8 @@ var bkgColor = 12;
 var playAreaColor = 36;
 var titleColor = 222;
 var menuTextColor = 222;
-
-var debugZoneByColor = false; //TA: paint zones with basic colors so that we can clearly see them when developing
+var toggleColor_On = [222, 222, 222, 222];
+var toggleColor_Off = [222, 222, 222, 111];
 
 /****************** LAYOUT SETUP *****************************/
 function setPlayAreaPos(){
@@ -73,26 +73,38 @@ function layoutSetup(){
   spectrum_init_y = height - footerHeight;
   
   // header
+  
   var toggle_y = footerHeight/2 - toggleSize/2;
   
   autoplay_toggle = new Toggle(menuWidth, toggle_y, toggleSize); // TA: Toggle(x pos, y pos, size) 
   autoplay_toggle.setLabel('AutoPlay', 'AutoPlay');
   autoplay_toggle.setValue(true); //default=ON
-  
+  autoplay_toggle.color_On = color(toggleColor_On[0], toggleColor_On[1], toggleColor_On[2], toggleColor_On[3]);
+  autoplay_toggle.color_Off = color(toggleColor_Off[0], toggleColor_Off[1], toggleColor_Off[2], toggleColor_Off[3]);
+
   var toggle_x = autoplay_toggle.x + toggleSize + 70; // 70 = textWidth....PS: textWidth() wasn't working...  
   move_toggle = new Toggle(toggle_x, toggle_y, toggleSize); // TA: Toggle(x pos, y pos, size) 
   move_toggle.setLabel('AutoMove', 'AutoMove');
   move_toggle.setValue(true); //default=ON
+  move_toggle.color_On = color(toggleColor_On[0], toggleColor_On[1], toggleColor_On[2], toggleColor_On[3]);
+  move_toggle.color_Off = color(toggleColor_Off[0], toggleColor_Off[1], toggleColor_Off[2], toggleColor_Off[3]);
   
   toggle_x = move_toggle.x + toggleSize + 76;
-  stopAll_toggle = new Toggle(toggle_x, toggle_y, toggleSize);
-  stopAll_toggle.setLabel('StopAll', 'StopAll');
+  stopAll_button = new Toggle(toggle_x, toggle_y, toggleSize);
+  stopAll_button.setLabel('StopAll', 'StopAll');
+  stopAll_button.color_On = color(toggleColor_On[0], toggleColor_On[1], toggleColor_On[2], toggleColor_On[3]);
+  stopAll_button.color_Off = color(toggleColor_Off[0], toggleColor_Off[1], toggleColor_Off[2], toggleColor_Off[3]);
   
+  toggle_x = stopAll_button.x + toggleSize + 56;
+  deleteAll_button = new cHandler(toggle_x, toggle_y, toggleSize);
+  deleteAll_button.label = 'DeleteAll';
+  deleteAll_button.color_On = color(toggleColor_On[0], toggleColor_On[1], toggleColor_On[2], toggleColor_On[3]);
+  deleteAll_button.color_Off = color(toggleColor_Off[0], toggleColor_Off[1], toggleColor_Off[2], toggleColor_Off[3]);
   
-  toggle_x = stopAll_toggle.x + toggleSize + 76;
+  toggle_x = deleteAll_button.x + toggleSize + 66;
   mixRecorder = new mixRecorder(toggle_x, toggle_y, toggleSize); // TA: mixRecorder(x pos, y pos, size) 
   
-  toggle_x = mixRecorder.x + toggleSize + 76;
+  toggle_x = mixRecorder.x + toggleSize + 56;
   masterFader = new Fader(toggle_x, toggle_y, faderLength, toggleSize, 0.8); //TA: hFader(x pos, y pos, width, height, value)
   masterFader.mode = 'H';
   masterFader.label = 'Volume';
@@ -140,7 +152,8 @@ function drawHeader(){
   // Draw UI
   autoplay_toggle.display();
   move_toggle.display();
-  stopAll_toggle.display();
+  stopAll_button.display();
+  deleteAll_button.display();
   mixRecorder.run(); // TA: display mixRecorder button and run recorder function
   vol = masterFader.getValue();
   masterVolume(vol);
