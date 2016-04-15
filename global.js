@@ -77,10 +77,12 @@ function layoutSetup(){
   
   autoplay_toggle = new Toggle(menuWidth, toggle_y, toggleSize); // TA: Toggle(x pos, y pos, size) 
   autoplay_toggle.setLabel('AutoPlay', 'AutoPlay');
+  autoplay_toggle.setValue(true); //default=ON
   
   var toggle_x = autoplay_toggle.x + toggleSize + 70; // 70 = textWidth....PS: textWidth() wasn't working...  
   move_toggle = new Toggle(toggle_x, toggle_y, toggleSize); // TA: Toggle(x pos, y pos, size) 
   move_toggle.setLabel('AutoMove', 'AutoMove');
+  move_toggle.setValue(true); //default=ON
   
   toggle_x = move_toggle.x + toggleSize + 76;
   mixRecorder = new mixRecorder(toggle_x, toggle_y, toggleSize); // TA: mixRecorder(x pos, y pos, size) 
