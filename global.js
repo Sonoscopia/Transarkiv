@@ -15,6 +15,8 @@ var toggleSize = 20;
 var faderLength = 160; 
 // play area
 var playAreaPos = [];
+var constrainPos = [];
+var playerSize = 55;
 var playAreaRightMargin = 40;
 // spectroscope
 var spectrum_size, spectrum_init_x, spectrum_init_y;
@@ -30,6 +32,7 @@ var debugZoneByColor = false; //TA: paint zones with basic colors so that we can
 /****************** LAYOUT SETUP *****************************/
 function setPlayAreaPos(){
   playAreaPos = [menuWidth, headerHeight, width-menuWidth-playAreaRightMargin, height-footerHeight-headerHeight];
+  constrainPos = [playAreaPos[0]+playerSize-5, playAreaPos[1]+playerSize/2+10, playAreaPos[2]-playerSize+playAreaPos[0]-2, playAreaPos[3]-playerSize/2 + playAreaPos[1] - 5];
 }
 function setMenuPos(){
   menu_x = menuWidth/4;

@@ -4,7 +4,7 @@ function Player(x_, y_, c_) {
   this.x = playAreaPos[0] + x_;
   this.y = y_;
   this.category = c_; 
-  this.size = 55;
+  this.size = playerSize;
   this.speed = [random(-0.2, 0.2), random(-0.2, 0.2)];
   this.time = 0;
   this.lapse = 50; //5 seconds
@@ -12,6 +12,7 @@ function Player(x_, y_, c_) {
   this.mouseLock = false;
   this.hover = false;
   this.loop = true; // by default loop is ON
+  this.pan, this.vol; 
 
   this.color_stopped = color(200, 111);
   this.color_hover = color(222, 222);
@@ -49,8 +50,6 @@ function Player(x_, y_, c_) {
   this.filterIndicator.setRange(90);
   this.filterIndicator.setAngle(135);
   
-  this.constrainPos = [];
-  
   //sinal loading
   this.loading_x = this.x - this.size / 2;
   this.loading_y = this.y - this.size / 2;
@@ -85,27 +84,16 @@ function Player(x_, y_, c_) {
 
 
   this.display = function() {
-    this.constrainPos = [playAreaPos[0]+this.size, playAreaPos[1]+this.size, playAreaPos[2]-this.size, playAreaPos[3]-this.size/2];
-
     push();
     this.time = int(millis() * 0.01);
     if (this.time > 30) {
       this.autoPlay_toggle = true
     }
-    
-    //move object
-    /*
-    if (this.moveButton.getValue()) {
-      //Constrain movement to playAreaPos
-      this.x = constrain(mouseX - this.moveButtonPos[0] - 5, playAreaPos[0]+this.size, playAreaPos[2]-this.size);
-      this.y = constrain(mouseY + this.moveButtonPos[1] - 20, playAreaPos[1]+this.size, playAreaPos[3]-this.size/2);
-    }
-    */
-    
+
     if (this.mouseLock) {
       //Constrain movement to playAreaPos
-      this.x = constrain(mouseX - 5, this.constrainPos[0], this.constrainPos[2]);
-      this.y = constrain(mouseY - 20, this.constrainPos[1], this.constrainPos[3]);
+      this.x = constrain(mouseX - 5, constrainPos[0], constrainPos[2]);
+      this.y = constrain(mouseY - 20, constrainPos[1], constrainPos[3]);
 
     }
     //detect mouse hover
@@ -117,11 +105,13 @@ function Player(x_, y_, c_) {
     }
     
     // TA: Amplitude
-    this.sound.setVolume(1.0 - (this.y+this.size/2)/(playAreaPos[3]-playAreaPos[1]));
+    this.vol = map(this.y, constrainPos[3], constrainPos[1], 0, 1);
+    this.sound.setVolume(this.vol);
     this.level = this.amp.getLevel();
     this.level = this.level * 50;
     // TA: Pan
-    this.sound.pan(this.x/(playAreaPos[2]-playAreaPos[0])*2-1);
+    this.pan = map(this.x, constrainPos[0], constrainPos[2], -1, 1);
+    this.sound.pan(this.pan);
     
     //botão principal
     if (this.sound.isPlaying()) { //this.playing) {
@@ -230,8 +220,8 @@ function Player(x_, y_, c_) {
       this.lapse = int(random(15)) + 15;
     }
     // Constrain movement to playAreaPos
-    this.x = constrain(this.x, this.constrainPos[0], this.constrainPos[2]);
-    this.y = constrain(this.y, this.constrainPos[1], this.constrainPos[3]);
+    this.x = constrain(this.x, constrainPos[0], constrainPos[2]);
+    this.y = constrain(this.y, constrainPos[1], constrainPos[3]);
 
   }
 
