@@ -179,18 +179,7 @@ function Player(x_, y_, c_) {
 
     //Texto informativo
     if (this.hover) {
-      noStroke();
-      var text_x = 160;
-      var text_y = height - 160;
-      var lineSpace = 15;
-      fill(0, 111);
-      //rect(text_x - 5, text_y - 15, 200, 300);
-      fill(188);
-      //text('PROJECT INFO', text_x, text_y);
-      //text('Info about the project here...', text_x, text_y + lineSpace);
-      text('FILE INFO', text_x, text_y + lineSpace * 1);
-      text('File: ' + filenames[this.category][this.fileNumber], text_x, text_y + lineSpace * 2);
-      text('Duration: ' + nf(this.sound.duration(), 3, 2) + 's', text_x, text_y + lineSpace * 3);
+      fileInfo(this.sound, this.category, this.fileNumber);
     }
 
     pop();

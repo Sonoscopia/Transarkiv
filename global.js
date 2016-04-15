@@ -5,7 +5,8 @@ var canvas;
 var minWindowWidth = 840, minWindowHeight = 480;
 // menu
 var menu; // menu object (class LeftMenu.js)
-var menu_x, menu_y;
+var menu_x = 20;
+var menu_y;
 var menu_leading = 40;// text leading (pixels)
 var menuWidth = 160; 
 // footer & header 
@@ -29,6 +30,7 @@ var titleColor = 222;
 var menuTextColor = 222;
 var toggleColor_On = [222, 222, 222, 222];
 var toggleColor_Off = [222, 222, 222, 111];
+var infoTextColor = 188;
 
 /****************** LAYOUT SETUP *****************************/
 function setPlayAreaPos(){
@@ -36,7 +38,6 @@ function setPlayAreaPos(){
   constrainPos = [playAreaPos[0]+playerSize-5, playAreaPos[1]+playerSize/2+10, playAreaPos[2]-playerSize+playAreaPos[0]-2, playAreaPos[3]-playerSize/2 + playAreaPos[1] - 5];
 }
 function setMenuPos(){
-  menu_x = menuWidth/4;
   menu_y = playAreaPos[3] / 2;
   menu = new LeftMenu(menu_x, menu_y, menu_leading);
   menu_y = playAreaPos[3] / 2 - (menu.fontsize + menu_leading) * 4 / 2;
@@ -209,6 +210,31 @@ function displayWave() {
     vertex(wave_x, wave_y);
   }
   endShape();
+  pop();
+}
+
+/****************** FILE INFO *******************************/
+function fileInfo(s_, c_, fn_){ // sound, category, filenumber
+  push();
+  noStroke();
+  var text_x = menu_x;
+  var text_y = height-footerHeight;
+  var lineSpace = 15;
+  //rect(text_x - 5, text_y - 15, 200, 300);
+  fill(infoTextColor);
+  //text('PROJECT INFO', text_x, text_y);
+  //text('Info about the project here...', text_x, text_y + lineSpace);
+  
+  var splitString = split(filenames[c_][fn_].slice(0, filenames[c_][fn_].length -4), "-"); // remove ".mp3" and split by "-"
+  println("splitString.length = "+splitString.length);
+  
+  for(var i = splitString.length-1; i !== -1; i--){
+    var _y = text_y - lineSpace * (splitString.length-i);
+    text(splitString[i], text_x, _y );
+  }
+  text('FILE INFO (' + nf(s_.duration(), 3, 2) + 's)', text_x, text_y - lineSpace * (splitString.length + 1));
+
+  
   pop();
 }
 /****************** SOUND FILES *****************************/
