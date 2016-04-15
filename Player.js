@@ -24,8 +24,8 @@ function Player(x_, y_, c_) {
   this.playButtonOffset = [this.size / 2 + 10, - 15 / 2]; // 15 = this.button.size
   this.playButton = new cHandler(this.x + this.playButtonOffset[0],this.y + this.playButtonOffset[1], 15);
   //this.playButton.setLabel('play', 'stop');
-  this.playButton.setIconOff('http://sonoscopia.pt/wp-content/uploads/2016/04/play_icon.png');
-  this.playButton.setIconOn('http://sonoscopia.pt/wp-content/uploads/2016/04/stop_icon.png');
+  this.playButton.setIconOff('pics/play_icon.png');
+  this.playButton.setIconOn('pics/stop_icon.png');
   this.playButton.setIconOffOffset(2, 2);
   this.playButton.setIconOnOffset(1.5, 1.5);
 
@@ -33,7 +33,7 @@ function Player(x_, y_, c_) {
   this.deleteButtonOffset = [this.size / 2 + 3, - this.size / 2 - 6];
   this.deleteButton = new cHandler(this.x + this.deleteButtonOffset[0], this.y + this.deleteButtonOffset[1], 15);
   //this.deleteButton.setLabel('delete', 'delete');
-  this.deleteButton.setIcon('http://sonoscopia.pt/wp-content/uploads/2016/04/delete_icon.png');
+  this.deleteButton.setIcon('pics/delete_icon.png');
   this.deleteButton.setIconOffset(0.6, 1.1);
 
   //botão Filter
@@ -42,7 +42,7 @@ function Player(x_, y_, c_) {
   this.filterControl.setValueY(random(0,1));
   this.filterControl.setValueX(random(0,1));
   //this.filterControl.setLabel('filter');
-  this.filterControl.setIcon('http://sonoscopia.pt/wp-content/uploads/2016/04/filter_icon.png');
+  this.filterControl.setIcon('pics/filter_icon.png');
   this.filterControl.setIconOffset(-1.5, 1.5);
   // filter circular fader
   this.filterIndicator = new cRangeSlider(this.x - this.size, this.y, this.size + 30);
