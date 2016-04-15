@@ -23,7 +23,7 @@ function setup() {
   fft = new p5.FFT();
   //criar os players
   for (var i = 0; i < player_count; i++) {
-    players[i] = new Player( (i+1) * ( (constrainPos[2]-constrainPos[0]) / player_count), random(constrainPos[1], constrainPos[3]), int(random(4))); //novo player (x, y, categoria)
+    players[i] = new Player( (i+1) * ( (constrainPos[2]-constrainPos[0]) / player_count), random(constrainPos[1], constrainPos[3]), int(random(category_path.length))); //novo player (x, y, categoria)
   }
   
   smooth(); // TA: added smooth 

@@ -18,6 +18,7 @@ var playAreaPos = [];
 var constrainPos = [];
 var playerSize = 55;
 var playAreaRightMargin = 40;
+var maxPlayers = 12;
 // spectroscope
 var spectrum_size, spectrum_init_x, spectrum_init_y;
 
@@ -210,7 +211,6 @@ function displayWave() {
   endShape();
   pop();
 }
-
 /****************** SOUND FILES *****************************/
 function fileNames() {
   category_path[0] = '01_Field Recordings/';
