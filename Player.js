@@ -40,8 +40,8 @@ function Player(x_, y_, c_) {
   //botão Filter
   this.filterControlOffset = [this.size / 2 + 3, this.size / 2 - 10];
   this.filterControl = new cHandler(this.x + this.filterControlOffset[0], this.y + this.filterControlOffset[1], 15);
-  this.filterControl.setValueY(0.5);
-  this.filterControl.setValueX(0.2);
+  this.filterControl.setValueY(random(0,1));
+  this.filterControl.setValueX(random(0,1));
   //this.filterControl.setLabel('filter');
   this.filterControl.setIcon('pics/filter_icon.png');
   this.filterControl.setIconOffset(-1.5, 1.5);
