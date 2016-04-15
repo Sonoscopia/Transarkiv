@@ -2,10 +2,11 @@
 
 /****************** LAYOUT VARIABLES *************************/
 var canvas;
-var minWindowWidth = 640, minWindowHeight = 480;
+var minWindowWidth = 840, minWindowHeight = 480;
 // menu
 var menu; // menu object (class LeftMenu.js)
-var menu_x, menu_y;
+var menu_x = 20;
+var menu_y;
 var menu_leading = 40;// text leading (pixels)
 var menuWidth = 160; 
 // footer & header 
@@ -15,7 +16,10 @@ var toggleSize = 20;
 var faderLength = 160; 
 // play area
 var playAreaPos = [];
+var constrainPos = [];
+var playerSize = 55;
 var playAreaRightMargin = 40;
+var maxPlayers = 12;
 // spectroscope
 var spectrum_size, spectrum_init_x, spectrum_init_y;
 
@@ -24,15 +28,27 @@ var bkgColor = 12;
 var playAreaColor = 36;
 var titleColor = 222;
 var menuTextColor = 222;
+var toggleColor_On = [222, 222, 222, 222];
+var toggleColor_Off = [222, 222, 222, 111];
+var infoTextColor = 188;
 
-var debugZoneByColor = false; //TA: paint zones with basic colors so that we can clearly see them when developing
+var category_colors = [];
+category_colors[0] = [182, 113, 112];
+category_colors[1] = [160, 129, 152];
+category_colors[2] = [111, 151, 162];
+category_colors[3] = [103, 164, 135];
+category_colors[4] = [155, 165, 104];
+category_colors[5] = [212, 153, 107];
+category_player_alpha = 150;
+category_text_alpha = 164;
+var playerStrokeWeight = 6; 
 
 /****************** LAYOUT SETUP *****************************/
 function setPlayAreaPos(){
   playAreaPos = [menuWidth, headerHeight, width-menuWidth-playAreaRightMargin, height-footerHeight-headerHeight];
+  constrainPos = [playAreaPos[0]+playerSize-5, playAreaPos[1]+playerSize/2+10, playAreaPos[2]-playerSize+playAreaPos[0]-2, playAreaPos[3]-playerSize/2 + playAreaPos[1] - 5];
 }
 function setMenuPos(){
-  menu_x = menuWidth/4;
   menu_y = playAreaPos[3] / 2;
   menu = new LeftMenu(menu_x, menu_y, menu_leading);
   menu_y = playAreaPos[3] / 2 - (menu.fontsize + menu_leading) * 4 / 2;
@@ -70,19 +86,38 @@ function layoutSetup(){
   spectrum_init_y = height - footerHeight;
   
   // header
+  
   var toggle_y = footerHeight/2 - toggleSize/2;
   
   autoplay_toggle = new Toggle(menuWidth, toggle_y, toggleSize); // TA: Toggle(x pos, y pos, size) 
   autoplay_toggle.setLabel('AutoPlay', 'AutoPlay');
-  
+  autoplay_toggle.setValue(true); //default=ON
+  autoplay_toggle.color_On = color(toggleColor_On[0], toggleColor_On[1], toggleColor_On[2], toggleColor_On[3]);
+  autoplay_toggle.color_Off = color(toggleColor_Off[0], toggleColor_Off[1], toggleColor_Off[2], toggleColor_Off[3]);
+
   var toggle_x = autoplay_toggle.x + toggleSize + 70; // 70 = textWidth....PS: textWidth() wasn't working...  
   move_toggle = new Toggle(toggle_x, toggle_y, toggleSize); // TA: Toggle(x pos, y pos, size) 
   move_toggle.setLabel('AutoMove', 'AutoMove');
+  move_toggle.setValue(true); //default=ON
+  move_toggle.color_On = color(toggleColor_On[0], toggleColor_On[1], toggleColor_On[2], toggleColor_On[3]);
+  move_toggle.color_Off = color(toggleColor_Off[0], toggleColor_Off[1], toggleColor_Off[2], toggleColor_Off[3]);
   
   toggle_x = move_toggle.x + toggleSize + 76;
+  stopAll_button = new Toggle(toggle_x, toggle_y, toggleSize);
+  stopAll_button.setLabel('StopAll', 'StopAll');
+  stopAll_button.color_On = color(toggleColor_On[0], toggleColor_On[1], toggleColor_On[2], toggleColor_On[3]);
+  stopAll_button.color_Off = color(toggleColor_Off[0], toggleColor_Off[1], toggleColor_Off[2], toggleColor_Off[3]);
+  
+  toggle_x = stopAll_button.x + toggleSize + 56;
+  deleteAll_button = new cHandler(toggle_x, toggle_y, toggleSize);
+  deleteAll_button.label = 'DeleteAll';
+  deleteAll_button.color_On = color(toggleColor_On[0], toggleColor_On[1], toggleColor_On[2], toggleColor_On[3]);
+  deleteAll_button.color_Off = color(toggleColor_Off[0], toggleColor_Off[1], toggleColor_Off[2], toggleColor_Off[3]);
+  
+  toggle_x = deleteAll_button.x + toggleSize + 66;
   mixRecorder = new mixRecorder(toggle_x, toggle_y, toggleSize); // TA: mixRecorder(x pos, y pos, size) 
   
-  toggle_x = mixRecorder.x + toggleSize + 76;
+  toggle_x = mixRecorder.x + toggleSize + 56;
   masterFader = new Fader(toggle_x, toggle_y, faderLength, toggleSize, 0.8); //TA: hFader(x pos, y pos, width, height, value)
   masterFader.mode = 'H';
   masterFader.label = 'Volume';
@@ -130,6 +165,8 @@ function drawHeader(){
   // Draw UI
   autoplay_toggle.display();
   move_toggle.display();
+  stopAll_button.display();
+  deleteAll_button.display();
   mixRecorder.run(); // TA: display mixRecorder button and run recorder function
   vol = masterFader.getValue();
   masterVolume(vol);
@@ -187,6 +224,30 @@ function displayWave() {
   pop();
 }
 
+/****************** FILE INFO *******************************/
+function fileInfo(s_, c_, fn_){ // sound, category, filenumber
+  push();
+  noStroke();
+  var text_x = menu_x;
+  var text_y = height-footerHeight;
+  var lineSpace = 15;
+  //rect(text_x - 5, text_y - 15, 200, 300);
+  fill(infoTextColor);
+  //text('PROJECT INFO', text_x, text_y);
+  //text('Info about the project here...', text_x, text_y + lineSpace);
+  
+  var splitString = split(filenames[c_][fn_].slice(0, filenames[c_][fn_].length -4), "-"); // remove ".mp3" and split by "-"
+  println("splitString.length = "+splitString.length);
+  
+  for(var i = splitString.length-1; i !== -1; i--){
+    var _y = text_y - lineSpace * (splitString.length-i);
+    text(splitString[i], text_x, _y );
+  }
+  text('FILE INFO (' + nf(s_.duration(), 3, 2) + 's)', text_x, text_y - lineSpace * (splitString.length + 1));
+
+  
+  pop();
+}
 /****************** SOUND FILES *****************************/
 function fileNames() {
   category_path[0] = '01_Field Recordings/';
@@ -207,83 +268,26 @@ function fileNames() {
   // Category #1 - Field Recordings
   filenames[0][0] = 'Amolador-de-facas-e-gaivota.mp3';
   filenames[0][1] = 'Beinham-ajudar-uma-ceguinha.mp3';
-  filenames[0][2] = 'Ceguinha-e-homem-das-muletas-a-pedir.mp3';
-  filenames[0][3] = 'Debaixo-da-ponte-do-infante.mp3';
-  filenames[0][4] = 'Discussão-a-janela.mp3';
-  filenames[0][5] = 'Feira-dos-pássaros.mp3';
-  filenames[0][6] = 'Gina-histórias-de-vidaa.mp3';
-  filenames[0][7] = 'Homem-imita-cão.mp3';
-  filenames[0][8] = 'José-acordeonista.mp3';
-  filenames[0][9] = 'Poupar-na-pensão.mp3';
-  filenames[0][10] = 'Pra-tua-informaçãoue.mp3';
-  filenames[0][11] = 'Troca-do-utensílio-de-queimar-o-creme.mp3';
-  filenames[0][12] = 'Túnel-Ribeira.mp3';
-  filenames[0][13] = 'Velhinha-borrachona-e-Gina.mp3';
-  filenames[0][14] = 'Vinho-do-porto-a-190-euros.mp3';
 
   // Category #2 - Ambient
   filenames[1][0] = 'Classic-synth.mp3';
   filenames[1][1] = 'Granular-springs.mp3';
-  filenames[1][2] = 'Heavy-machinery.mp3';
-  filenames[1][3] = 'Light-machinery.mp3';
-  filenames[1][4] = 'Piano-ambient.mp3';
-  filenames[1][5] = 'Rumble-drone.mp3';
-  filenames[1][6] = 'Rumble.mp3';
-  filenames[1][7] = 'Sine-waves.mp3';
-  filenames[1][8] = 'Space-synth.mp3';
-  filenames[1][9] = 'Springs.mp3';
-  filenames[1][10] = 'Synth-drone.mp3';
   
   // Category #3 - Textural
   filenames[2][0] = 'Bass-scratch.mp3';
   filenames[2][1] = 'Col-legno.mp3';
-  filenames[2][2] = 'Flipper.mp3';
-  filenames[2][3] = 'Forks.mp3';
-  filenames[2][4] = 'Granular-laptop.mp3';
-  filenames[2][5] = 'Granular-melodic.mp3';
-  filenames[2][6] = 'Granular-piano.mp3';
-  filenames[2][7] = 'Granular-textures.mp3';
-  filenames[2][8] = 'Rock.mp3';
-  filenames[2][9] = 'Scrubber.mp3';
-  filenames[2][10] = 'Small-springs.mp3';
-  filenames[2][11] = 'Tom.mp3';
   
   // Category #4 - Rhythmic
   filenames[3][0] = 'Granular-machine.mp3';
   filenames[3][1] = 'Low-beat.mp3';
-  filenames[3][2] = 'Machines.mp3';
-  filenames[3][3] = 'Metal-bars.mp3';
-  filenames[3][4] = 'Metal-tubes.mp3';
-  filenames[3][5] = 'Old clock.mp3';
-  filenames[3][6] = 'Ping-pong-ball.mp3';
-  filenames[3][7] = 'Small-bells.mp3';
-  filenames[3][8] = 'Small-machine.mp3';
-  filenames[3][9] = 'Small-medals.mp3';
   
   // Category #5 - Melodic
   filenames[4][0] = 'Filtered-clicks.mp3'
   filenames[4][1] = 'Flute-and-delay.mp3'
-  filenames[4][2] = 'Glass-and-marbles.mp3'
-  filenames[4][3] = 'Granular-violin.mp3'
-  filenames[4][4] = 'Harp-and-piano-morphed.mp3'
-  filenames[4][5] = 'Piano-delays-transposed.mp3'
-  filenames[4][6] = 'Piano-delays.mp3'
-  filenames[4][7] = 'Prepared-piano.mp3'
-  filenames[4][8] = 'Processed-prepared-piano.mp3'
-  filenames[4][9] = 'Random-notes.mp3'
-  filenames[4][10] = 'Resynthesised-voices.mp3'
   
   // Category #6 - Performance
   filenames[5][0] = '43-tone-metalophone.mp3';
   filenames[5][1] = 'Acoustic-laptops.mp3';
-  filenames[5][2] = 'Bells.mp3';
-  filenames[5][3] = 'Clarinet-mouthpiece.mp3';
-  filenames[5][4] = 'Clarinet-bass-drum-and-cymbal.mp3';
-  filenames[5][5] = 'Gongs.mp3';
-  filenames[5][6] = 'Kalimba.mp3';
-  filenames[5][7] = 'Metal-plates.mp3';
-  filenames[5][8] = 'Processed-springs.mp3';
-  filenames[5][9] = 'Rock-xylophone.mp3';
   
   //print('filenames ready');
 }

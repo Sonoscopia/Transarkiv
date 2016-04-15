@@ -4,7 +4,7 @@ function Player(x_, y_, c_) {
   this.x = playAreaPos[0] + x_;
   this.y = y_;
   this.category = c_; 
-  this.size = 55;
+  this.size = playerSize;
   this.speed = [random(-0.2, 0.2), random(-0.2, 0.2)];
   this.time = 0;
   this.lapse = 50; //5 seconds
@@ -12,6 +12,7 @@ function Player(x_, y_, c_) {
   this.mouseLock = false;
   this.hover = false;
   this.loop = true; // by default loop is ON
+  this.pan, this.vol; 
 
   this.color_stopped = color(200, 111);
   this.color_hover = color(222, 222);
@@ -38,8 +39,8 @@ function Player(x_, y_, c_) {
   //botão Filter
   this.filterControlOffset = [this.size / 2 + 3, this.size / 2 - 10];
   this.filterControl = new cHandler(this.x + this.filterControlOffset[0], this.y + this.filterControlOffset[1], 15);
-  this.filterControl.setValueY(0.5);
-  this.filterControl.setValueX(0.2);
+  this.filterControl.setValueY(random(0,1));
+  this.filterControl.setValueX(random(0,1));
   //this.filterControl.setLabel('filter');
   this.filterControl.setIcon('http://sonoscopia.pt/wp-content/uploads/2016/04/filter_icon.png');
   this.filterControl.setIconOffset(-1.5, 1.5);
@@ -47,8 +48,6 @@ function Player(x_, y_, c_) {
   this.filterIndicator = new cRangeSlider(this.x - this.size, this.y, this.size + 30);
   this.filterIndicator.setRange(90);
   this.filterIndicator.setAngle(135);
-  
-  this.constrainPos = [];
   
   //sinal loading
   this.loading_x = this.x - this.size / 2;
@@ -61,9 +60,7 @@ function Player(x_, y_, c_) {
   this.fileNumber = int(random(filenames[this.category].length));
   this.fileName = filenames[this.category][this.fileNumber];
   //carregar o som - -  aqui devia dar para utilizar uma função callback para mostrar quando está a carregar
-
-  //this.sound = loadSound(path + category_path[this.category] + filenames[this.category][this.fileNumber]);
-  this.sound = loadSound(path + filenames[this.category][this.fileNumber]);
+  this.sound = loadSound(path + category_path[this.category] + filenames[this.category][this.fileNumber]);
 
   if (this.sound.isLoaded()) {
     print('sound is Loaded!!!!!!');
@@ -88,19 +85,16 @@ function Player(x_, y_, c_) {
 
 
   this.display = function() {
-    this.constrainPos = [playAreaPos[0]+this.size, playAreaPos[1]+this.size, playAreaPos[2]-this.size, playAreaPos[3]-this.size/2];
-
     push();
     this.time = int(millis() * 0.01);
     if (this.time > 30) {
       this.autoPlay_toggle = true
     }
-    
 
     if (this.mouseLock) {
       //Constrain movement to playAreaPos
-      this.x = constrain(mouseX - 5, this.constrainPos[0], this.constrainPos[2]);
-      this.y = constrain(mouseY - 20, this.constrainPos[1], this.constrainPos[3]);
+      this.x = constrain(mouseX - 5, constrainPos[0], constrainPos[2]);
+      this.y = constrain(mouseY - 20, constrainPos[1], constrainPos[3]);
 
     }
     //detect mouse hover
@@ -112,11 +106,13 @@ function Player(x_, y_, c_) {
     }
     
     // TA: Amplitude
-    this.sound.setVolume(1.0 - (this.y+this.size/2)/(playAreaPos[3]-playAreaPos[1]));
+    this.vol = map(this.y, constrainPos[3], constrainPos[1], 0, 1);
+    this.sound.setVolume(this.vol);
     this.level = this.amp.getLevel();
     this.level = this.level * 50;
     // TA: Pan
-    this.sound.pan(this.x/(playAreaPos[2]-playAreaPos[0])*2-1);
+    this.pan = map(this.x, constrainPos[0], constrainPos[2], -1, 1);
+    this.sound.pan(this.pan);
     
     //botão principal
     if (this.sound.isPlaying()) { //this.playing) {
@@ -128,7 +124,9 @@ function Player(x_, y_, c_) {
       fill(this.color_hover);
     }
     
-    noStroke();
+    //noStroke();
+    strokeWeight(playerStrokeWeight);
+    stroke(category_colors[this.category][0], category_colors[this.category][1], category_colors[this.category][2], category_player_alpha);
     ellipse(this.x, this.y, this.size + this.level, this.size + this.level);
 
     //nome do ficheiro
@@ -183,18 +181,7 @@ function Player(x_, y_, c_) {
 
     //Texto informativo
     if (this.hover) {
-      noStroke();
-      var text_x = 160;
-      var text_y = height - 160;
-      var lineSpace = 15;
-      fill(0, 111);
-      //rect(text_x - 5, text_y - 15, 200, 300);
-      fill(188);
-      //text('PROJECT INFO', text_x, text_y);
-      //text('Info about the project here...', text_x, text_y + lineSpace);
-      text('FILE INFO', text_x, text_y + lineSpace * 1);
-      text('File: ' + filenames[this.category][this.fileNumber], text_x, text_y + lineSpace * 2);
-      text('Duration: ' + nf(this.sound.duration(), 3, 2) + 's', text_x, text_y + lineSpace * 3);
+      fileInfo(this.sound, this.category, this.fileNumber);
     }
 
     pop();
@@ -224,8 +211,8 @@ function Player(x_, y_, c_) {
       this.lapse = int(random(15)) + 15;
     }
     // Constrain movement to playAreaPos
-    this.x = constrain(this.x, this.constrainPos[0], this.constrainPos[2]);
-    this.y = constrain(this.y, this.constrainPos[1], this.constrainPos[3]);
+    this.x = constrain(this.x, constrainPos[0], constrainPos[2]);
+    this.y = constrain(this.y, constrainPos[1], constrainPos[3]);
 
   }
 
@@ -238,10 +225,16 @@ function Player(x_, y_, c_) {
       if (this.time_modulo > this.playFor - 2) {
         if (this.sound.isLoaded()) {
           if (this.sound.isPlaying()) {
+            this.playButton.toggle = false; // set play/stop icon
             this.sound.stop();
             this.selectRandom();
-          } else {
-            this.sound.play();
+            this.filterControl.setValueY(random(0,1));
+            this.filterControl.setValueX(random(0,1));
+          } 
+          else {
+            this.playButton.toggle = true; // set play/stop icon
+            if(this.loop) this.sound.loop();
+            else this.sound.play();
           }
           this.playFor = int(random(10, this.sound.duration() * 10));
         }
@@ -275,7 +268,7 @@ function Player(x_, y_, c_) {
     this.deleteButton.clicked();
     if(this.deleteButton.getValue()){
         var i = players.indexOf(this);
-        if(i != -1) {
+        if(i !== -1) {
           if(this.sound.isPlaying()){
             this.sound.stop();
           }
@@ -300,9 +293,7 @@ function Player(x_, y_, c_) {
     }
     this.fileNumber = int(random(filenames[this.category].length));
     filenames[this.category][this.fileNumber];
-
-    this.sound = loadSound(path + filenames[this.category][this.fileNumber]);
-    
+    this.sound = loadSound(path + category_path[this.category] + filenames[this.category][this.fileNumber]);
     // connect filter nodes
     this.sound.disconnect();
     this.lpFilter.connect(this.hpFilter);

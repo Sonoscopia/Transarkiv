@@ -81,6 +81,9 @@ function Toggle(x_, y_, s_) {
   this.getValue = function() {
     return this.on;
   }
+  this.setValue = function(v_) {
+    this.on = v_;
+  }
 
   this.setPos = function(x_, y_) {
     this.x = x_;
