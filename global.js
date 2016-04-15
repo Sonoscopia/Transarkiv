@@ -2,7 +2,7 @@
 
 /****************** LAYOUT VARIABLES *************************/
 var canvas;
-var minWindowWidth = 640, minWindowHeight = 480;
+var minWindowWidth = 784, minWindowHeight = 480;
 // menu
 var menu; // menu object (class LeftMenu.js)
 var menu_x, menu_y;
@@ -85,6 +85,11 @@ function layoutSetup(){
   move_toggle.setValue(true); //default=ON
   
   toggle_x = move_toggle.x + toggleSize + 76;
+  stopAll_toggle = new Toggle(toggle_x, toggle_y, toggleSize);
+  stopAll_toggle.setLabel('StopAll', 'StopAll');
+  
+  
+  toggle_x = stopAll_toggle.x + toggleSize + 76;
   mixRecorder = new mixRecorder(toggle_x, toggle_y, toggleSize); // TA: mixRecorder(x pos, y pos, size) 
   
   toggle_x = mixRecorder.x + toggleSize + 76;
@@ -135,6 +140,7 @@ function drawHeader(){
   // Draw UI
   autoplay_toggle.display();
   move_toggle.display();
+  stopAll_toggle.display();
   mixRecorder.run(); // TA: display mixRecorder button and run recorder function
   vol = masterFader.getValue();
   masterVolume(vol);

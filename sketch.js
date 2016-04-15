@@ -57,7 +57,7 @@ function draw() {
       players[i].autoPlay();
     }
     else{
-      players[i].playFor = 10; 
+      players[i].playFor = 10; // reset playFor value when turning AutoPlay OFF 
     }
   }
 }
@@ -67,11 +67,13 @@ function mousePressed() {
   for (var i = 0; i < player_count; i++) {
     players[i].clicked();
   }
-
-  masterFader.clicked();
-  move_toggle.clicked();
+  
   autoplay_toggle.clicked();
-  mixRecorder.clicked(); // TA: user interaction
+  move_toggle.clicked();
+  stopAll_toggle.clicked();
+  mixRecorder.clicked();
+  masterFader.clicked();
+  
   menu.clicked();
 }
 
@@ -81,6 +83,16 @@ function mouseReleased() {
     players[i].released();
   }
   menu.released();
+  
+  if(stopAll_toggle.getValue()){
+    for (var j = 0; j < player_count; j++) {
+      if(players[j].sound.isPlaying()){ 
+        players[j].sound.stop();
+        players[j].playButton.toggle = false;
+      }
+    }
+    stopAll_toggle.setValue(false);
+  }
 }
 
 function detectMouse(_x, _y, _w, _h) {
