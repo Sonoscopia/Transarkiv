@@ -123,7 +123,9 @@ function Player(x_, y_, c_) {
       fill(this.color_hover);
     }
     
-    noStroke();
+    //noStroke();
+    strokeWeight(playerStrokeWeight);
+    stroke(category_colors[this.category][0], category_colors[this.category][1], category_colors[this.category][2], category_player_alpha);
     ellipse(this.x, this.y, this.size + this.level, this.size + this.level);
     
     //nome do ficheiro

@@ -32,6 +32,17 @@ var toggleColor_On = [222, 222, 222, 222];
 var toggleColor_Off = [222, 222, 222, 111];
 var infoTextColor = 188;
 
+var category_colors = [];
+category_colors[0] = [182, 113, 112];
+category_colors[1] = [160, 129, 152];
+category_colors[2] = [111, 151, 162];
+category_colors[3] = [103, 164, 135];
+category_colors[4] = [155, 165, 104];
+category_colors[5] = [212, 153, 107];
+category_player_alpha = 150;
+category_text_alpha = 164;
+var playerStrokeWeight = 6; 
+
 /****************** LAYOUT SETUP *****************************/
 function setPlayAreaPos(){
   playAreaPos = [menuWidth, headerHeight, width-menuWidth-playAreaRightMargin, height-footerHeight-headerHeight];
