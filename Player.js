@@ -24,8 +24,8 @@ function Player(x_, y_, c_) {
   this.playButtonOffset = [this.size / 2 + 10, - 15 / 2]; // 15 = this.button.size
   this.playButton = new cHandler(this.x + this.playButtonOffset[0],this.y + this.playButtonOffset[1], 15);
   //this.playButton.setLabel('play', 'stop');
-  this.playButton.setIconOff('pics/play_icon.png');
-  this.playButton.setIconOn('pics/stop_icon.png');
+  this.playButton.setIconOff(path+'play_icon.png');
+  this.playButton.setIconOn(path+'stop_icon.png');
   this.playButton.setIconOffOffset(2, 2);
   this.playButton.setIconOnOffset(1.5, 1.5);
 
@@ -33,7 +33,7 @@ function Player(x_, y_, c_) {
   this.deleteButtonOffset = [this.size / 2 + 3, - this.size / 2 - 6];
   this.deleteButton = new cHandler(this.x + this.deleteButtonOffset[0], this.y + this.deleteButtonOffset[1], 15);
   //this.deleteButton.setLabel('delete', 'delete');
-  this.deleteButton.setIcon('pics/delete_icon.png');
+  this.deleteButton.setIcon(path+'delete_icon.png');
   this.deleteButton.setIconOffset(0.6, 1.1);
 
   //botão Filter
@@ -42,7 +42,7 @@ function Player(x_, y_, c_) {
   this.filterControl.setValueY(random(0,1));
   this.filterControl.setValueX(random(0,1));
   //this.filterControl.setLabel('filter');
-  this.filterControl.setIcon('pics/filter_icon.png');
+  this.filterControl.setIcon(path+'filter_icon.png');
   this.filterControl.setIconOffset(-1.5, 1.5);
   // filter circular fader
   this.filterIndicator = new cRangeSlider(this.x - this.size, this.y, this.size + 30);
@@ -60,7 +60,7 @@ function Player(x_, y_, c_) {
   this.fileNumber = int(random(filenames[this.category].length));
   this.fileName = filenames[this.category][this.fileNumber];
   //carregar o som - -  aqui devia dar para utilizar uma função callback para mostrar quando está a carregar
-  this.sound = loadSound(path + category_path[this.category] + filenames[this.category][this.fileNumber]);
+  this.sound = loadSound(path + filenames[this.category][this.fileNumber]);
 
   if (this.sound.isLoaded()) {
     print('sound is Loaded!!!!!!');
@@ -293,7 +293,7 @@ function Player(x_, y_, c_) {
     }
     this.fileNumber = int(random(filenames[this.category].length));
     filenames[this.category][this.fileNumber];
-    this.sound = loadSound(path + category_path[this.category] + filenames[this.category][this.fileNumber]);
+    this.sound = loadSound(path + filenames[this.category][this.fileNumber]);
     // connect filter nodes
     this.sound.disconnect();
     this.lpFilter.connect(this.hpFilter);

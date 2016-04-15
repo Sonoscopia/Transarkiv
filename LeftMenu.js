@@ -12,7 +12,7 @@ function LeftMenu(x_, y_, l_) { // constructor: XY top left corner and spacing
   
   for(i = 0; i < category_path.length; i++){ // create 'Add' (+) buttons
     this.buttons[i] = new cHandler(this.x, this.y, 15);
-    this.buttons[i].setIcon('pics/add_icon.png');
+    this.buttons[i].setIcon(path + 'add_icon.png');
     this.buttons[i].color_off = color(category_colors[i][0], category_colors[i][1], category_colors[i][2], category_text_alpha);
   }
   
